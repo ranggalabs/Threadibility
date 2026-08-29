@@ -1,0 +1,156 @@
+.tb-badge-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  vertical-align: middle;
+  cursor: help;
+}
+
+.tb-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.tb-badge-hoax {
+  background-color: rgba(255, 180, 171, 0.15);
+  color: #ffb4ab;
+  border: 1px solid rgba(255, 180, 171, 0.3);
+}
+
+.tb-badge-verified {
+  background-color: rgba(66, 238, 127, 0.15);
+  color: #42ee7f;
+  border: 1px solid rgba(66, 238, 127, 0.3);
+}
+
+/* Tooltip Card Styling */
+.tb-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  width: 280px;
+  background-color: #201f1f;
+  color: #e5e2e1;
+  border: 1px solid #3b4a47;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  padding: 12px;
+  display: none;
+  z-index: 10000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  text-align: left;
+}
+
+.tb-badge-container:hover .tb-tooltip {
+  display: block;
+}
+
+.tb-tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #353534;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.tb-tooltip-logo {
+  background-color: #46eedd;
+  color: #00201d;
+  font-weight: 800;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.tb-tooltip-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e5e2e1;
+}
+
+.tb-tooltip-body {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.tb-tooltip-verdict {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.tb-text-hoax {
+  color: #ffb4ab;
+}
+
+.tb-text-verified {
+  color: #42ee7f;
+}
+
+.tb-tooltip-confidence {
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.tb-tooltip-reason {
+  color: #bacac6;
+  margin-bottom: 8px;
+  font-size: 11px;
+}
+
+.tb-tooltip-sources {
+  border-top: 1px dashed #353534;
+  padding-top: 6px;
+  margin-top: 6px;
+}
+
+.tb-tooltip-sources strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10px;
+  color: #e5e2e1;
+}
+
+.tb-tooltip-sources ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tb-tooltip-sources li {
+  margin-bottom: 4px;
+}
+
+.tb-tooltip-sources a {
+  color: #46eedd;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tb-tooltip-sources a:hover {
+  text-decoration: underline;
+}
+
+.tb-badge-verdict {
+  font-size: 9px;
+  padding: 1px 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  color: #e5e2e1;
+}

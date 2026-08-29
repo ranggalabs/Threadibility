@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Threadibility Popup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "on-tertiary-fixed": "#410005",
+                        "background": "#131313",
+                        "on-secondary-fixed-variant": "#005224",
+                        "surface-dim": "#131313",
+                        "primary-fixed": "#57fae9",
+                        "surface-container": "#201f1f",
+                        "tertiary-fixed": "#ffdad7",
+                        "surface-container-low": "#1c1b1b",
+                        "surface": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary": "#46eedd",
+                        "on-tertiary-fixed-variant": "#930018",
+                        "on-primary-container": "#00544d",
+                        "tertiary-container": "#ffa29e",
+                        "secondary-fixed-dim": "#30e375",
+                        "on-tertiary-container": "#9a001a",
+                        "on-primary-fixed": "#00201d",
+                        "on-secondary": "#003917",
+                        "tertiary": "#ffcac7",
+                        "on-primary-fixed-variant": "#005049",
+                        "on-secondary-container": "#005324",
+                        "on-background": "#e5e2e1",
+                        "secondary-fixed": "#64ff92",
+                        "on-error-container": "#ffdad6",
+                        "secondary-container": "#01d166",
+                        "surface-container-highest": "#353534",
+                        "secondary": "#42ee7f",
+                        "on-primary": "#003732",
+                        "error-container": "#93000a",
+                        "primary-container": "#00d1c1",
+                        "on-surface-variant": "#bacac6",
+                        "on-surface": "#e5e2e1",
+                        "outline": "#859491",
+                        "surface-tint": "#2addcd",
+                        "inverse-primary": "#006a62",
+                        "primary-fixed-dim": "#2addcd",
+                        "surface-variant": "#353534",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#2a2a2a",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary-fixed": "#00210b",
+                        "on-tertiary": "#68000e",
+                        "surface-bright": "#3a3939",
+                        "inverse-on-surface": "#313030",
+                        "outline-variant": "#3b4a47"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            width: 400px;
+            height: 600px;
+            margin: 0;
+            overflow: hidden;
+            background-color: #131313;
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1c1b1b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #353534;
+            border-radius: 10px;
+        }
+        .status-badge {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background selection:bg-primary/30">
+<!-- Header Section -->
+<header class="flex items-center justify-between px-4 py-3 border-b border-outline-variant bg-surface">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg overflow-hidden bg-primary-container/20 flex items-center justify-center border border-primary/20">
+<img class="w-6 h-6 object-contain" data-alt="A sophisticated minimalist logo for a tech brand named Threadibility, featuring an abstract geometric woven pattern. The colors are deep blacks and vibrant teal accents, reflecting a high-tech, secure, and modern aesthetic. The lighting is cinematic with subtle glows on the teal edges, set against a dark, professional background suitable for a premium software interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzYIsaBCqxSxcgSU0CgiK8Kt1YxIQ02b1XkDOEqxWL6O3dx8uBuIvIPYnUslswzT_tWVeewb0HgP2rgRwylB44kolyQX0GZOIoKJVQDBebk1z6erj0OX8NzX0WEmlOloRyQQQBkLIQ5wV5LM1R-ObxsCKMbcv-qsolTLZHZZ9pgoPbCbgnoehSC_BmqzFu6Rw1NTZQpoqbFTy8Xw3QtQsVsw-IG95I6jK5tykVo8eIZ24DaN858mHr"/>
+</div>
+<h1 class="text-headline-md text-on-surface">Threadibility</h1>
+</div>
+<button class="p-2 rounded-full hover:bg-surface-container-highest transition-colors" id="themeToggle">
+<span class="material-symbols-outlined text-primary" data-icon="dark_mode">dark_mode</span>
+</button>
+</header>
+<!-- Main Content Area (Scrollable) -->
+<main class="h-[calc(600px-56px)] overflow-y-auto custom-scrollbar p-4 space-y-6">
+<!-- Stats 2x2 Grid -->
+<section class="grid grid-cols-2 gap-3">
+<!-- Total Analyzed -->
+<div class="bg-surface-container rounded-xl p-4 border border-outline-variant/30 flex flex-col gap-1">
+<span class="text-label-caps text-on-surface-variant">TOTAL ANALYZED</span>
+<span class="text-2xl font-bold text-primary">1,284</span>
+</div>
+<!-- Hoax Detected -->
+<div class="bg-surface-container rounded-xl p-4 border border-error/20 flex flex-col gap-1">
+<span class="text-label-caps text-on-surface-variant">HOAX DETECTED</span>
+<span class="text-2xl font-bold text-error">42</span>
+</div>
+<!-- Verified True -->
+<div class="bg-surface-container rounded-xl p-4 border border-secondary/20 flex flex-col gap-1">
+<span class="text-label-caps text-on-surface-variant">VERIFIED TRUE</span>
+<span class="text-2xl font-bold text-secondary">891</span>
+</div>
+<!-- Accuracy Rate -->
+<div class="bg-surface-container rounded-xl p-4 border border-outline-variant/30 flex flex-col gap-1">
+<span class="text-label-caps text-on-surface-variant">ACCURACY RATE</span>
+<span class="text-2xl font-bold text-primary">98.2%</span>
+</div>
+</section>
+<!-- Recent Analyses List -->
+<section class="space-y-3">
+<div class="flex items-center justify-between px-1">
+<h2 class="text-label-bold text-on-surface uppercase tracking-wider">Recent Analyses</h2>
+<span class="text-[10px] text-primary cursor-pointer hover:underline">VIEW ALL</span>
+</div>
+<!-- List Items -->
+<div class="space-y-2">
+<!-- Item 1: Hoax -->
+<div class="bg-surface-container-low p-3 rounded-lg border border-outline-variant/20 hover:bg-surface-container transition-colors cursor-default group">
+<div class="flex justify-between items-start mb-1">
+<span class="status-badge bg-error/10 text-error border border-error/20">Hoax</span>
+<span class="text-[10px] text-on-surface-variant">2m ago</span>
+</div>
+<p class="text-body-sm text-on-surface line-clamp-1 mb-1">"The moon landing was filmed in a Hollywood basement by Kubrick..."</p>
+<p class="text-[11px] text-on-surface-variant">@conspiracy_bot • 4.2k interactions</p>
+</div>
+<!-- Item 2: Verified -->
+<div class="bg-surface-container-low p-3 rounded-lg border border-outline-variant/20 hover:bg-surface-container transition-colors cursor-default group">
+<div class="flex justify-between items-start mb-1">
+<span class="status-badge bg-secondary/10 text-secondary border border-secondary/20">Verified</span>
+<span class="text-[10px] text-on-surface-variant">15m ago</span>
+</div>
+<p class="text-body-sm text-on-surface line-clamp-1 mb-1">New climate data suggests Arctic ice thinning faster than 2020 projections...</p>
+<p class="text-[11px] text-on-surface-variant">@nature_sci • 12k interactions</p>
+</div>
+<!-- Item 3: Verified -->
+<div class="bg-surface-container-low p-3 rounded-lg border border-outline-variant/20 hover:bg-surface-container transition-colors cursor-default group">
+<div class="flex justify-between items-start mb-1">
+<span class="status-badge bg-secondary/10 text-secondary border border-secondary/20">Verified</span>
+<span class="text-[10px] text-on-surface-variant">1h ago</span>
+</div>
+<p class="text-body-sm text-on-surface line-clamp-1 mb-1">Stock market indicators show a bullish trend for tech exports in Q3...</p>
+<p class="text-[11px] text-on-surface-variant">@finance_daily • 800 interactions</p>
+</div>
+</div>
+</section>
+<!-- Empty State / Footer Illustration -->
+<section class="pt-4 pb-8 flex flex-col items-center text-center">
+<div class="w-32 h-32 opacity-40 mb-3 grayscale hover:grayscale-0 transition-all duration-500">
+<img class="w-full h-full object-contain" data-alt="A minimalist 3D illustration of an empty digital data archive or a quiet workspace. The scene features clean floating panels, subtle teal neon light streaks, and a deep charcoal background. The composition is airy and modern, conveying a sense of organized potential and calm, using a dark mode color palette with glowing accents that match the Threadibility brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAarm_UPzd9rYlsFQyodmPnG8Rw7tdVTEpNp3OS8aKSkJLkHVpfq2gRlAiCyb6Aqm6iaU19uGE6riVMty9p7YKc9Gkq0llrdCDjWZw6wqva3UuoWmN49CQEvGc1NnZofzd-2xBmBvQ1DHjNhD1JcjW_TWrURsnhvnTWNRUnFblSi-ZkABwurVX9zIBvJST7CH4h6xWgwlBtVJxl4deky-vYavBGv37ok6FAAPMofPV8LUpGTKbQFjMt"/>
+</div>
+<p class="text-label-bold text-on-surface-variant">End of recent history</p>
+<p class="text-[11px] text-outline mt-1">Start a new thread analysis in your browser.</p>
+</section>
+</main>
+<!-- Quick Action Bar -->
+<div class="absolute bottom-0 left-0 right-0 h-12 bg-surface-container-highest flex items-center justify-around border-t border-outline-variant">
+<button class="flex flex-col items-center text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[9px] font-bold">DASHBOARD</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="history">history</span>
+<span class="text-[9px] font-bold">HISTORY</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+<span class="text-[9px] font-bold">CONFIG</span>
+</button>
+</div>
+<script>
+        // Micro-interaction for theme toggle placeholder
+        const themeBtn = document.getElementById('themeToggle');
+        const themeIcon = themeBtn.querySelector('.material-symbols-outlined');
+        let isDark = true;
+
+        themeBtn.addEventListener('click', () => {
+            isDark = !isDark;
+            document.documentElement.classList.toggle('dark');
+            themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
+            themeIcon.setAttribute('data-icon', isDark ? 'dark_mode' : 'light_mode');
+        });
+
+        // Add hover tilt effect to stats cards
+        document.querySelectorAll('.grid > div').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+            });
+            card.style.transition = 'transform 0.1s ease-out';
+        });
+    </script>
+</body></html>
