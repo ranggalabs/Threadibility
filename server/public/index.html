@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Threadibility — Konsol Evaluasi Model AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <span class="brand-name">Threadibility</span>
+        <span class="brand-divider">/</span>
+        <span class="brand-sub">Evaluasi Model Komparatif</span>
+      </div>
+      <div class="header-meta">
+        <div class="server-status">
+          <span class="status-dot"></span>
+          <span>Server lokal aktif (:5000)</span>
+        </div>
+        <div class="active-model-indicator">
+          <span class="indicator-label">Model aktif ekstensi:</span>
+          <span class="indicator-value" id="headerActiveModel">GPT-5.2</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Notification Banner / Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <main class="page-container">
+    <!-- SECTION 1: 3 AGENT MODELS CONFIGURATION -->
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Konfigurasi Model & Kunci API</h2>
+          <p class="panel-subtitle">Kelola token untuk 3 model agent yang dibandingkan pada skripsi. Tentukan model mana yang aktif melayani ekstensi Chrome Threads.</p>
+        </div>
+        <button id="saveConfigBtn" class="btn btn-primary">Simpan konfigurasi</button>
+      </div>
+
+      <div class="model-cards-grid">
+        <!-- Model 1: GPT-5.2 -->
+        <article class="model-card" id="cardOpenai">
+          <div class="model-card-header">
+            <div class="model-info">
+              <span class="model-provider">OpenAI</span>
+              <h3 class="model-title">GPT-5.2</h3>
+            </div>
+            <span class="key-status" id="openaiStatusBadge">Belum diatur</span>
+          </div>
+
+          <div class="field-group">
+            <label for="openaiKeyInput">Kunci API OpenAI</label>
+            <div class="input-with-action">
+              <input type="password" id="openaiKeyInput" placeholder="sk-..." spellcheck="false" autocomplete="off">
+              <button type="button" class="btn-toggle-vis" data-target="openaiKeyInput">Lihat</button>
+            </div>
+            <span class="field-hint">Token disimpan secara lokal di mesin Anda.</span>
+          </div>
+
+          <div class="model-card-footer">
+            <button type="button" class="btn-select-model" data-provider="openai">
+              <span class="selection-indicator"></span>
+              <span class="selection-text">Jadikan model aktif</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Model 2: Gemini 3.1 Pro -->
+        <article class="model-card" id="cardGemini">
+          <div class="model-card-header">
+            <div class="model-info">
+              <span class="model-provider">Google</span>
+              <h3 class="model-title">Gemini 3.1 Pro</h3>
+            </div>
+            <span class="key-status" id="geminiStatusBadge">Belum diatur</span>
+          </div>
+
+          <div class="field-group">
+            <label for="geminiKeyInput">Kunci API Google Gemini</label>
+            <div class="input-with-action">
+              <input type="password" id="geminiKeyInput" placeholder="AIzaSy..." spellcheck="false" autocomplete="off">
+              <button type="button" class="btn-toggle-vis" data-target="geminiKeyInput">Lihat</button>
+            </div>
+            <span class="field-hint">Token disimpan secara lokal di mesin Anda.</span>
+          </div>
+
+          <div class="model-card-footer">
+            <button type="button" class="btn-select-model" data-provider="gemini">
+              <span class="selection-indicator"></span>
+              <span class="selection-text">Jadikan model aktif</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Model 3: Claude Sonnet 4.6 -->
+        <article class="model-card" id="cardClaude">
+          <div class="model-card-header">
+            <div class="model-info">
+              <span class="model-provider">Anthropic</span>
+              <h3 class="model-title">Claude Sonnet 4.6</h3>
+            </div>
+            <span class="key-status" id="claudeStatusBadge">Belum diatur</span>
+          </div>
+
+          <div class="field-group">
+            <label for="claudeKeyInput">Kunci API Anthropic Claude</label>
+            <div class="input-with-action">
+              <input type="password" id="claudeKeyInput" placeholder="sk-ant-..." spellcheck="false" autocomplete="off">
+              <button type="button" class="btn-toggle-vis" data-target="claudeKeyInput">Lihat</button>
+            </div>
+            <span class="field-hint">Token disimpan secara lokal di mesin Anda.</span>
+          </div>
+
+          <div class="model-card-footer">
+            <button type="button" class="btn-select-model" data-provider="claude">
+              <span class="selection-indicator"></span>
+              <span class="selection-text">Jadikan model aktif</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Model 4: 9Router (OpenCode Local Gateway) -->
+        <article class="model-card" id="cardNineRouter">
+          <div class="model-card-header">
+            <div class="model-info">
+              <span class="model-provider">Local Gateway</span>
+              <h3 class="model-title">9Router (OpenCode)</h3>
+            </div>
+            <span class="key-status" id="nineRouterStatusBadge">Belum diatur</span>
+          </div>
+
+          <div class="field-group">
+            <label for="nineRouterKeyInput">Kunci API 9Router</label>
+            <div class="input-with-action">
+              <input type="password" id="nineRouterKeyInput" placeholder="sk-e528..." spellcheck="false" autocomplete="off">
+              <button type="button" class="btn-toggle-vis" data-target="nineRouterKeyInput">Lihat</button>
+            </div>
+            <span class="field-hint">Token klien 9Router di port 20128.</span>
+          </div>
+
+          <div class="field-group">
+            <label for="nineRouterModelInput">Model 9Router / OpenCode</label>
+            <input type="text" id="nineRouterModelInput" list="opencodeModelsList" placeholder="muse-spark-1.3-contributor-free" value="muse-spark-1.3-contributor-free">
+            <datalist id="opencodeModelsList">
+              <option value="muse-spark-1.3-contributor-free">
+              <option value="oc/muse-spark-1.3-contributor-free">
+              <option value="opencode-go/glm-5.2">
+              <option value="opencode-go/deepseek-v4-flash">
+              <option value="opencode-go/deepseek-v4-pro">
+              <option value="opencode-go/kimi-k2.7-code">
+              <option value="opencode-go/qwen3.7-plus">
+            </datalist>
+          </div>
+
+          <div class="field-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+              <label for="nineRouterBaseUrlInput" style="margin-bottom: 0;">Base URL</label>
+              <button type="button" class="btn-text-action" id="btnTestNineRouter" style="font-size: 11px; font-weight: 600;">⚡ Uji Koneksi</button>
+            </div>
+            <input type="text" id="nineRouterBaseUrlInput" placeholder="http://localhost:20128/v1" value="http://localhost:20128/v1">
+            <div id="nineRouterTestStatus" class="test-feedback" style="display: none; margin-top: 6px; padding: 6px 8px; border-radius: 4px; font-size: 11px; line-height: 1.4;"></div>
+          </div>
+
+          <div class="model-card-footer">
+            <button type="button" class="btn-select-model" data-provider="nineRouter">
+              <span class="selection-indicator"></span>
+              <span class="selection-text">Jadikan model aktif</span>
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECTION 2: 3-MODEL BENCHMARK & COMPARISON -->
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Pengujian Komparasi Model</h2>
+          <p class="panel-subtitle">Evaluasi postingan secara bersamaan ke ketiga model untuk membandingkan vonis klasifikasi, tingkat keyakinan, dan waktu latensi.</p>
+        </div>
+        <div class="sample-actions">
+          <span class="sample-label">Contoh teks:</span>
+          <button type="button" class="btn-text-action" id="sampleHoaxBtn">Sampel hoaks</button>
+          <span class="text-separator">•</span>
+          <button type="button" class="btn-text-action" id="sampleFactBtn">Sampel fakta</button>
+        </div>
+      </div>
+
+      <div class="benchmark-form">
+        <div class="field-group">
+          <label for="testPostText">Teks postingan Threads yang diuji</label>
+          <textarea id="testPostText" rows="3" placeholder="Tempel atau ketik teks postingan di sini..."></textarea>
+        </div>
+
+        <div class="meta-fields-row">
+          <div class="field-group">
+            <label for="testUsername">Nama akun pembuat (opsional)</label>
+            <input type="text" id="testUsername" placeholder="@username">
+          </div>
+          <div class="field-group">
+            <label for="testPostUrl">Tautan postingan (opsional)</label>
+            <input type="text" id="testPostUrl" placeholder="https://www.threads.com/@username/post/...">
+          </div>
+          <div class="field-group action-align">
+            <button id="runComparisonBtn" class="btn btn-secondary">
+              Bandingkan 3 model
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparison Results Presentation -->
+      <div id="comparisonResultArea" class="comparison-results-wrapper hidden">
+        <div class="consensus-row" id="consensusBanner">
+          <span class="consensus-tag" id="consensusBadge">Konsensus</span>
+          <div class="consensus-detail">
+            <strong id="consensusTitle">Hasil perbandingan</strong>
+            <span id="consensusDesc">Memuat evaluasi model...</span>
+          </div>
+        </div>
+
+        <div class="comparison-cards-grid">
+          <!-- Result: GPT-5.2 -->
+          <div class="result-card" id="cmpCardOpenai">
+            <div class="result-header">
+              <div>
+                <span class="result-provider">OpenAI</span>
+                <h4 class="result-model-name">GPT-5.2</h4>
+              </div>
+              <span class="result-latency" id="cmpLatencyOpenai">- ms</span>
+            </div>
+            <div class="verdict-tag" id="cmpVerdictOpenai">-</div>
+            <div class="result-content">
+              <div class="stat-line">
+                <span class="stat-name">Tingkat keyakinan:</span>
+                <span class="stat-val" id="cmpConfidenceOpenai">-</span>
+              </div>
+              <div class="meter-bar">
+                <div class="meter-fill" id="cmpBarOpenai" style="width: 0%"></div>
+              </div>
+
+              <div class="result-section">
+                <span class="section-heading">Klaim:</span>
+                <p class="claim-body" id="cmpClaimOpenai">-</p>
+              </div>
+
+              <div class="result-section">
+                <span class="section-heading">Argumen analisis:</span>
+                <p class="reason-body" id="cmpReasonOpenai">-</p>
+              </div>
+
+              <div id="cmpSourcesOpenai" class="sources-container"></div>
+            </div>
+          </div>
+
+          <!-- Result: Gemini 3.1 Pro -->
+          <div class="result-card" id="cmpCardGemini">
+            <div class="result-header">
+              <div>
+                <span class="result-provider">Google</span>
+                <h4 class="result-model-name">Gemini 3.1 Pro</h4>
+              </div>
+              <span class="result-latency" id="cmpLatencyGemini">- ms</span>
+            </div>
+            <div class="verdict-tag" id="cmpVerdictGemini">-</div>
+            <div class="result-content">
+              <div class="stat-line">
+                <span class="stat-name">Tingkat keyakinan:</span>
+                <span class="stat-val" id="cmpConfidenceGemini">-</span>
+              </div>
+              <div class="meter-bar">
+                <div class="meter-fill" id="cmpBarGemini" style="width: 0%"></div>
+              </div>
+
+              <div class="result-section">
+                <span class="section-heading">Klaim:</span>
+                <p class="claim-body" id="cmpClaimGemini">-</p>
+              </div>
+
+              <div class="result-section">
+                <span class="section-heading">Argumen analisis:</span>
+                <p class="reason-body" id="cmpReasonGemini">-</p>
+              </div>
+
+              <div id="cmpSourcesGemini" class="sources-container"></div>
+            </div>
+          </div>
+
+          <!-- Result: Claude Sonnet 4.6 -->
+          <div class="result-card" id="cmpCardClaude">
+            <div class="result-header">
+              <div>
+                <span class="result-provider">Anthropic</span>
+                <h4 class="result-model-name">Claude Sonnet 4.6</h4>
+              </div>
+              <span class="result-latency" id="cmpLatencyClaude">- ms</span>
+            </div>
+            <div class="verdict-tag" id="cmpVerdictClaude">-</div>
+            <div class="result-content">
+              <div class="stat-line">
+                <span class="stat-name">Tingkat keyakinan:</span>
+                <span class="stat-val" id="cmpConfidenceClaude">-</span>
+              </div>
+              <div class="meter-bar">
+                <div class="meter-fill" id="cmpBarClaude" style="width: 0%"></div>
+              </div>
+
+              <div class="result-section">
+                <span class="section-heading">Klaim:</span>
+                <p class="claim-body" id="cmpClaimClaude">-</p>
+              </div>
+
+              <div class="result-section">
+                <span class="section-heading">Argumen analisis:</span>
+                <p class="reason-body" id="cmpReasonClaude">-</p>
+              </div>
+
+              <div id="cmpSourcesClaude" class="sources-container"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: LOGS & THESIS DATA EXPORT -->
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Riwayat Pengujian & Dataset</h2>
+          <p class="panel-subtitle">Catatan setiap analisis yang diproses oleh ekstensi Chrome atau pengujian komparatif.</p>
+        </div>
+        <div class="panel-actions">
+          <a href="/api/export" class="btn btn-outline" download>Unduh dataset CSV</a>
+          <button id="clearHistoryBtn" class="btn btn-text-danger">Bersihkan riwayat</button>
+        </div>
+      </div>
+
+      <!-- Stats Summary Strip -->
+      <div class="summary-strip">
+        <div class="summary-item">
+          <span class="summary-value" id="statTotalAnalyzed">0</span>
+          <span class="summary-label">Total diuji</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-value text-danger" id="statHoaxCount">0</span>
+          <span class="summary-label">Terindikasi hoaks</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-value text-success" id="statVerifiedCount">0</span>
+          <span class="summary-label">Terverifikasi</span>
+        </div>
+        <div class="summary-item">
+          <div class="latency-list">
+            <span>GPT-5.2: <b id="statLatOpenai">- ms</b></span>
+            <span>Gemini 3.1 Pro: <b id="statLatGemini">- ms</b></span>
+            <span>Claude Sonnet 4.6: <b id="statLatClaude">- ms</b></span>
+          </div>
+          <span class="summary-label">Rata-rata latensi</span>
+        </div>
+      </div>
+
+      <!-- Table View -->
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Waktu</th>
+              <th>Model</th>
+              <th>Penulis</th>
+              <th>Kutipan teks</th>
+              <th>Hasil</th>
+              <th>Keyakinan</th>
+              <th>Latensi</th>
+            </tr>
+          </thead>
+          <tbody id="historyTableBody">
+            <tr>
+              <td colspan="7" class="table-empty">Belum ada data pengujian yang tercatat.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <span>Threadibility • Deteksi Hoaks & Verifikasi Kredibilitas Threads</span>
+      <span class="footer-dim">Endpoint API: <code>POST http://localhost:5000/api/analyze</code></span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

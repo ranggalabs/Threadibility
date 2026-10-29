@@ -51,7 +51,8 @@ async function handleAnalysis(tabId: number, tempId: string, post: ExtractedPost
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(post)
+      body: JSON.stringify(post),
+      signal: AbortSignal.timeout(70000)
     })
 
     if (!response.ok) {

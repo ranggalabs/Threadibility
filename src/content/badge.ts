@@ -104,6 +104,14 @@ export function injectErrorBadge(container: HTMLElement, errorText = '⚠️ Gag
   }, 3000)
 }
 
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
 /**
  * Injects a verification badge (Hoax or Verified) next to the Threads username
  * and attaches a custom detailed tooltip explaining the reason and sources.
@@ -144,7 +152,9 @@ export function injectBadge(container: HTMLElement, analysis: AnalysisResult) {
                (src) => `
              <li>
                <a href="${src.sourceUrl}" target="_blank" rel="noopener noreferrer">
-                 ${src.publisher} <span class="tb-badge-verdict">${src.verdict}</span>
+                                   ${src.title ? `<span class="tb-source-title">${escapeHtml(src.title)}</span>` : ''}
+                  <span class="tb-source-meta">${escapeHtml(src.publisher)}${src.reviewDate ? ` · ${escapeHtml(String(src.reviewDate))}` : ''}</span>
+                  <span class="tb-badge-verdict">${escapeHtml(src.verdict)}</span>
                </a>
              </li>
            `

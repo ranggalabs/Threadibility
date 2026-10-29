@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build:dev": "tsc && vite build --mode development"
+    "build:dev": "tsc && vite build --mode development",
+    "server": "npm --prefix server run dev",
+    "server:build": "npm --prefix server run build",
+    "server:start": "npm --prefix server run start"
   },
   "dependencies": {
     "react": "^18.3.1",

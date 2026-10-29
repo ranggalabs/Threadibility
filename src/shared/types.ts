@@ -1,5 +1,6 @@
 export interface FactCheckSource {
   publisher: string;
+  title?: string;
   verdict: string;
   reviewDate: string | null;
   sourceUrl: string;

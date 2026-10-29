@@ -131,6 +131,18 @@ Threadibility/
 ├── public/
 │   └── threadibility.png      # Aset ikon ekstensi (128x128 px)
 ├── dist/                      # [Generated] Direktori hasil kompilasi untuk dimuat di browser
+├── server/                    # 🚀 [Backend & Dashboard Lab Riset AI Skripsi]
+│   ├── package.json           # Dependensi Express + TypeScript + tsx
+│   ├── public/                # Antarmuka Dashboard Web (http://localhost:5000)
+│   │   ├── index.html         # Form 3 Token AI, Model Switcher, Benchmark Playground
+│   │   ├── style.css          # Desain Modern Dark Mode + Glassmorphism
+│   │   └── app.js             # Client Script untuk API call & live sync
+│   └── src/
+│       ├── index.ts           # Express REST API (POST /api/analyze, /api/compare, dll)
+│       ├── config.ts          # Penyimpan & penyamar (masking) API Key lokal
+│       ├── storage.ts         # Riwayat analisis, metrik latensi, & export CSV
+│       ├── prompts.ts         # Prompting spesialis Fact-Checking Indonesia
+│       └── services/          # Integrasi OpenAI (GPT), Gemini, & Claude 3.5
 └── src/
     ├── manifest.config.ts     # Konfigurasi skema Manifest V3 Chrome Extension
     ├── vite-env.d.ts          # Definisi tipe client Vite
@@ -256,6 +268,26 @@ Setelah proses selesai, direktori `dist/` akan terbentuk dengan struktur berkas 
 4. Klik tombol **Load unpacked** (Muat yang belum dibongkar) di pojok kiri atas.
 5. Pilih folder **`dist`** yang berada di dalam direktori proyek `Threadibility`.
 6. Ekstensi **Threadibility** kini telah aktif dan terpasang pada browser Anda.
+
+---
+
+### 5. Menjalankan Backend & Dashboard Riset AI (Port 5000)
+
+Jalankan server backend Express + TypeScript:
+```bash
+# Dari root direktori Threadibility:
+npm run server
+```
+
+Server backend akan berjalan di **`http://localhost:5000`**.
+1. Buka browser dan akses **`http://localhost:5000`** untuk membuka **AI Research Lab & Benchmark Dashboard**.
+2. Masukkan 3 Token API Anda:
+   - **OpenAI API Key** (`gpt-4o-mini` / `gpt-4o`)
+   - **Google Gemini API Key** (`gemini-1.5-flash` / `gemini-2.0-flash`)
+   - **Anthropic Claude API Key** (`claude-3-5-haiku` / `claude-3-5-sonnet`)
+3. Pilih **Model Aktif** yang akan melayani permintaan ekstensi Chrome.
+4. Klik **💾 Simpan Konfigurasi**.
+5. Gunakan fitur **🧪 Uji Coba & Komparasi 3 Model AI Sekaligus** untuk membandingkan performa ketiga model secara berdampingan (*side-by-side*) lengkap dengan latensi (ms), tingkat keyakinan, dan ekspor dataset ke format CSV untuk analisis skripsi.
 
 ---
 

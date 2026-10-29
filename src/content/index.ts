@@ -67,14 +67,14 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       console.log('[Threadibility] Calling injectLoadingBadge for container:', lastClickedContainer, 'tempId:', tempId)
       injectLoadingBadge(lastClickedContainer)
 
-      // Start 15 seconds timeout safeguard
+      // Start 75 seconds timeout safeguard (web search + AI reasoning can be slow)
       const timerId = window.setTimeout(() => {
         console.warn(`Threadibility: Analysis timeout for ID ${tempId}`)
         triggerErrorCleanup(tempId, '⚠️ Gagal, coba lagi')
         if (currentActiveTempId === tempId) {
           currentActiveTempId = null
         }
-      }, 15000)
+      }, 75000)
 
       activeTimeouts.set(tempId, timerId)
 

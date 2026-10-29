@@ -114,8 +114,11 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ record, isExpanded, onToggleE
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <span>{source.publisher}</span>
-                      <span className="source-verdict">{source.verdict}</span>
+                      <span>{source.title || source.publisher}</span>
+                      <span className="source-verdict">
+                        {source.title ? `${source.publisher} · ` : ''}
+                        {source.verdict}
+                      </span>
                     </a>
                   </li>
                 ))}

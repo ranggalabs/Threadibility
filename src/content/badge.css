@@ -36,7 +36,7 @@
   top: 100%;
   left: 0;
   margin-top: 8px;
-  width: 280px;
+  width: 340px;
   background-color: #201f1f;
   color: #e5e2e1;
   border: 1px solid #3b4a47;
@@ -132,15 +132,28 @@
 }
 
 .tb-tooltip-sources li {
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
 .tb-tooltip-sources a {
   color: #46eedd;
   text-decoration: none;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.tb-source-title {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #46eedd;
+}
+
+.tb-source-meta {
+  font-size: 10px;
+  color: #bacac6;
 }
 
 .tb-tooltip-sources a:hover {

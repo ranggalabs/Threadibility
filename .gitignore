@@ -2,3 +2,10 @@ node_modules/
 dist/
 .env.development
 .env.production
+.env
+server/node_modules/
+server/dist/
+server/.env
+server/data/
+.agents/
+
