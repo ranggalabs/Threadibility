@@ -94,11 +94,12 @@ export async function fetchGoogleAiOverview(claimText: string): Promise<GoogleAi
       let summaryText = '';
       const allDivs = document.querySelectorAll('div, h2, span');
       for (const el of allDivs) {
-        const txt = el.innerText?.trim();
+        const htmlEl = el as HTMLElement;
+        const txt = htmlEl.innerText?.trim() || htmlEl.textContent?.trim();
         if (txt === 'Ringkasan AI' || txt === 'AI Overview') {
-          const container = el.closest('div[jscontroller], div[data-attrid], div[class*="MjjYud"]');
+          const container = el.closest('div[jscontroller], div[data-attrid], div[class*="MjjYud"]') as HTMLElement | null;
           if (container) {
-            summaryText = container.innerText.trim();
+            summaryText = container.innerText?.trim() || container.textContent?.trim() || '';
             break;
           }
         }
@@ -129,7 +130,7 @@ export async function fetchGoogleAiOverview(claimText: string): Promise<GoogleAi
           publisher = cite.split('›')[0].trim();
         }
         if (!publisher && parent.innerText) {
-          const lines = parent.innerText.split('\n').map(l => l.trim()).filter(Boolean);
+          const lines = parent.innerText.split('\n').map((l: string) => l.trim()).filter(Boolean);
           if (lines.length >= 2 && lines[1].length < 40 && !lines[1].startsWith('http')) {
             publisher = lines[1];
           }

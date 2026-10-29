@@ -157,8 +157,8 @@ export async function compareAllModels(post: ExtractedPost): Promise<{
 }> {
   const config = getConfig();
 
-  // Execute all three models in parallel (with mock fallback if key not configured)
-  const [openaiRes, geminiRes, claudeRes] = await Promise.all([
+  // Execute all models in parallel (with mock fallback if key not configured)
+  const [openaiRes, geminiRes, claudeRes, nineRouterRes] = await Promise.all([
     config.openaiApiKey?.trim()
       ? analyzeWithOpenAI(post, config.openaiApiKey, config.openaiModel, config.temperature)
       : Promise.resolve<ModelBenchmarkResult>({
@@ -185,17 +185,33 @@ export async function compareAllModels(post: ExtractedPost): Promise<{
           latencyMs: 420,
           success: true,
           analysis: generateMockAnalysis(post, 'claude')
+        }),
+    config.nineRouterApiKey?.trim()
+      ? analyzeWithNineRouter(
+          post,
+          config.nineRouterApiKey,
+          config.nineRouterModel || 'opencode-go/glm-5.2',
+          config.temperature,
+          config.nineRouterBaseUrl || 'http://localhost:20128/v1'
+        )
+      : Promise.resolve<ModelBenchmarkResult>({
+          provider: 'nineRouter',
+          modelName: `${config.nineRouterModel || 'opencode-go/glm-5.2'} (Simulasi)`,
+          latencyMs: 320,
+          success: true,
+          analysis: generateMockAnalysis(post, '9Router / OpenCode')
         })
   ]);
 
-  for (const r of [openaiRes, geminiRes, claudeRes]) {
+  for (const r of [openaiRes, geminiRes, claudeRes, nineRouterRes]) {
     if (r.analysis) r.analysis = await attachSearchedSources(post, r.analysis);
   }
 
   const results: Record<ModelProvider, ModelBenchmarkResult> = {
     openai: openaiRes,
     gemini: geminiRes,
-    claude: claudeRes
+    claude: claudeRes,
+    nineRouter: nineRouterRes
   };
 
   const logRecord = {
