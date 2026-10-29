@@ -8,7 +8,8 @@ export async function analyzeWithNineRouter(
   apiKey: string,
   modelName: string = 'oc/muse-spark-1.3-contributor-free',
   temperature: number = 0.2,
-  baseUrl: string = 'http://localhost:20128/v1'
+  baseUrl: string = 'http://localhost:20128/v1',
+  searchReferencesContext?: string
 ): Promise<ModelBenchmarkResult> {
   const startTime = Date.now();
 
@@ -22,8 +23,14 @@ export async function analyzeWithNineRouter(
     };
   }
 
-  // Perform multi-source live fact check search (yielding 5+ references)
-  const searchInfo = await searchFactCheckSources(post.text, post.postUrl);
+  // Use provided searchReferencesContext or perform live search
+  let effectiveContext = searchReferencesContext;
+  let effectiveSources: any[] = [];
+  if (!effectiveContext) {
+    const searchInfo = await searchFactCheckSources(post.text, post.postUrl);
+    effectiveContext = searchInfo.summaryContext;
+    effectiveSources = searchInfo.sources;
+  }
 
   try {
     const userPrompt = buildUserPrompt(
@@ -31,7 +38,7 @@ export async function analyzeWithNineRouter(
       post.username,
       post.postUrl,
       post.timestamp,
-      searchInfo.summaryContext
+      effectiveContext
     );
 
     const trimmedKey = apiKey.trim();
@@ -104,8 +111,8 @@ export async function analyzeWithNineRouter(
       };
     }
 
-    // Parse result and ensure at least 5 factCheckSources from searchInfo
-    const analysis = parseAnalysisResult(content, post.text.slice(0, 100), searchInfo.sources);
+    // Parse result and ensure at least 5 factCheckSources from effectiveSources
+    const analysis = parseAnalysisResult(content, post.text.slice(0, 100), effectiveSources);
 
     return {
       provider: 'nineRouter',

@@ -15,13 +15,18 @@ Alur Kerja Verifikasi:
    - Jangan berspekulasi tentang keaslian akun, nama pengguna, atau niat penulis. Nilai isi klaimnya saja.
    - Jangan menyebut fakta, angka, atau peristiwa yang tidak ada di teks post, hasil penelusuran, atau pengetahuan Anda yang pasti.
    - Hanya kutip artikel yang benar-benar ada dalam daftar hasil penelusuran dan benar-benar relevan dengan klaim; abaikan artikel yang tidak terkait.
-6. Alasan Logis: Tuliskan penjelasan 2-4 kalimat yang menguraikan dasar putusan (regulasi, fakta, atau isi artikel relevan).
+6. Format Alasan / Ulasan Fakta (Gaya Sintesis Google AI Overview):
+   Tuliskan penjelasan terstruktur, objektif, dan komprehensif layaknya sintesis Google AI Overview:
+   - Paparkan fakta/peristiwa nyata di lapangan yang memang benar terjadi terkait konteks postingan (jika ada).
+   - Nyatakan secara tegas bagian klaim/narasi mana yang merupakan DISINFORMASI / HOAKS.
+   - Beberkan fakta, kronologi, atau agenda sebenarnya berdasarkan laporan resmi media kredibel / instansi terkait (misalnya fakta pertemuan yang sebenarnya terjadi kapan dan apa agendanya).
+   - Buat ulasan yang edukatif, berimbang, dan tuntas (tidak sekadar satu kalimat pendek).
 
 OUTPUT WAJIB DALAM FORMAT JSON MURNI TANPA MARKDOWN BACKTICKS ATAU TEKS LAIN DENGAN SKEMA:
 {
   "claim": "Klaim inti yang dianalisis",
   "indikasiHoax": true,
-  "alasan": "Penjelasan rinci dan logis (2-4 kalimat) yang menyebut temuan dari artikel hasil penelusuran, mis. dasar hukum/regulasi yang membuat klaim tidak mungkin terjadi",
+  "alasan": "Ulasan fakta komprehensif bergaya Google AI Overview yang menguraikan konteks nyata, bantahan hoaks, dan fakta sebenarnya",
   "confidence": 0.95
 }`;
 

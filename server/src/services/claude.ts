@@ -7,7 +7,8 @@ export async function analyzeWithClaude(
   apiKey: string,
   modelName: string = 'claude-sonnet-4.6',
   temperature: number = 0.2,
-  baseUrl?: string
+  baseUrl?: string,
+  searchReferencesContext?: string
 ): Promise<ModelBenchmarkResult> {
   const startTime = Date.now();
 
@@ -22,7 +23,13 @@ export async function analyzeWithClaude(
   }
 
   try {
-    const userPrompt = buildUserPrompt(post.text, post.username, post.postUrl, post.timestamp);
+    const userPrompt = buildUserPrompt(
+      post.text,
+      post.username,
+      post.postUrl,
+      post.timestamp,
+      searchReferencesContext
+    );
     const trimmedKey = apiKey.trim();
 
     // Auto-detect 9Router (local proxy on port 20128) vs MAIA Router vs Anthropic

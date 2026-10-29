@@ -7,7 +7,8 @@ export async function analyzeWithOpenAI(
   apiKey: string,
   modelName: string = 'gpt-5.2',
   temperature: number = 0.2,
-  baseUrl?: string
+  baseUrl?: string,
+  searchReferencesContext?: string
 ): Promise<ModelBenchmarkResult> {
   const startTime = Date.now();
 
@@ -22,7 +23,13 @@ export async function analyzeWithOpenAI(
   }
 
   try {
-    const userPrompt = buildUserPrompt(post.text, post.username, post.postUrl, post.timestamp);
+    const userPrompt = buildUserPrompt(
+      post.text,
+      post.username,
+      post.postUrl,
+      post.timestamp,
+      searchReferencesContext
+    );
     const trimmedKey = apiKey.trim();
 
     // Detect 9Router vs MAIA Router vs official OpenAI

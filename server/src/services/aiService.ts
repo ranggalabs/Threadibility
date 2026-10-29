@@ -33,6 +33,11 @@ export async function analyzeActiveModel(post: ExtractedPost): Promise<{
   const config = getConfig();
   const activeProvider = config.activeModel;
 
+  // 1. Penelusuran Google AI Overview & Berita Cek Fakta Nyata TERLEBIH DAHULU
+  const searchResult = await searchFactCheckSources(post.text, post.postUrl);
+  const searchContext = searchResult.summaryContext;
+  const sources = searchResult.sources;
+
   let benchmarkResult: ModelBenchmarkResult;
 
   switch (activeProvider) {
@@ -43,14 +48,16 @@ export async function analyzeActiveModel(post: ExtractedPost): Promise<{
           modelName: `${config.openaiModel} (Simulasi)`,
           latencyMs: 380,
           success: true,
-          analysis: generateMockAnalysis(post, 'openai')
+          analysis: generateMockAnalysis(post, 'openai', searchContext, sources)
         };
       } else {
         benchmarkResult = await analyzeWithOpenAI(
           post,
           config.openaiApiKey,
           config.openaiModel,
-          config.temperature
+          config.temperature,
+          config.openaiBaseUrl,
+          searchContext
         );
       }
       break;
@@ -61,14 +68,16 @@ export async function analyzeActiveModel(post: ExtractedPost): Promise<{
           modelName: `${config.geminiModel} (Simulasi)`,
           latencyMs: 290,
           success: true,
-          analysis: generateMockAnalysis(post, 'gemini')
+          analysis: generateMockAnalysis(post, 'gemini', searchContext, sources)
         };
       } else {
         benchmarkResult = await analyzeWithGemini(
           post,
           config.geminiApiKey,
           config.geminiModel,
-          config.temperature
+          config.temperature,
+          config.geminiBaseUrl,
+          searchContext
         );
       }
       break;
@@ -79,7 +88,7 @@ export async function analyzeActiveModel(post: ExtractedPost): Promise<{
           modelName: `${config.claudeModel} (Simulasi)`,
           latencyMs: 420,
           success: true,
-          analysis: generateMockAnalysis(post, 'claude')
+          analysis: generateMockAnalysis(post, 'claude', searchContext, sources)
         };
       } else {
         benchmarkResult = await analyzeWithClaude(
@@ -87,7 +96,8 @@ export async function analyzeActiveModel(post: ExtractedPost): Promise<{
           config.claudeApiKey,
           config.claudeModel,
           config.temperature,
-          config.claudeBaseUrl
+          config.claudeBaseUrl,
+          searchContext
         );
       }
       break;
@@ -98,7 +108,7 @@ export async function analyzeActiveModel(post: ExtractedPost): Promise<{
           modelName: `${config.nineRouterModel || 'opencode-go/glm-5.2'} (Simulasi)`,
           latencyMs: 320,
           success: true,
-          analysis: generateMockAnalysis(post, '9Router / OpenCode')
+          analysis: generateMockAnalysis(post, '9Router / OpenCode', searchContext, sources)
         };
       } else {
         benchmarkResult = await analyzeWithNineRouter(
@@ -106,7 +116,8 @@ export async function analyzeActiveModel(post: ExtractedPost): Promise<{
           config.nineRouterApiKey,
           config.nineRouterModel || 'opencode-go/glm-5.2',
           config.temperature,
-          config.nineRouterBaseUrl || 'http://localhost:20128/v1'
+          config.nineRouterBaseUrl || 'http://localhost:20128/v1',
+          searchContext
         );
       }
       break;
@@ -121,14 +132,17 @@ export async function analyzeActiveModel(post: ExtractedPost): Promise<{
       modelName: `${benchmarkResult.modelName || activeProvider} (Cadangan)`,
       latencyMs: benchmarkResult.latencyMs || 400,
       success: true,
-      analysis: generateMockAnalysis(post, activeProvider)
+      analysis: generateMockAnalysis(post, activeProvider, searchContext, sources)
     };
   }
 
-  const analysis = await attachSearchedSources(
-    post,
-    benchmarkResult.analysis || generateMockAnalysis(post, activeProvider)
-  );
+  const fallbackAnalysis = generateMockAnalysis(post, activeProvider, searchContext, sources);
+  const baseAnalysis: AnalysisResult = benchmarkResult.analysis || fallbackAnalysis;
+
+  const analysis: AnalysisResult = {
+    ...baseAnalysis,
+    factCheckSources: sources.length >= 3 ? sources : (baseAnalysis.factCheckSources || sources)
+  };
 
   // Save to history storage
   saveAnalysisLog({

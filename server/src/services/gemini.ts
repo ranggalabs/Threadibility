@@ -7,7 +7,8 @@ export async function analyzeWithGemini(
   apiKey: string,
   modelName: string = 'gemini-3.1-pro',
   temperature: number = 0.2,
-  baseUrl?: string
+  baseUrl?: string,
+  searchReferencesContext?: string
 ): Promise<ModelBenchmarkResult> {
   const startTime = Date.now();
 
@@ -22,7 +23,13 @@ export async function analyzeWithGemini(
   }
 
   try {
-    const userPrompt = buildUserPrompt(post.text, post.username, post.postUrl, post.timestamp);
+    const userPrompt = buildUserPrompt(
+      post.text,
+      post.username,
+      post.postUrl,
+      post.timestamp,
+      searchReferencesContext
+    );
     const trimmedKey = apiKey.trim();
 
     // If key starts with sk- (router key), route via OpenAI-compatible endpoint

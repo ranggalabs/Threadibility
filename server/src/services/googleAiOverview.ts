@@ -73,18 +73,24 @@ function cleanPublisher(raw: string, cite: string, url: string): string {
         return match[1].replace(/^www\./, '');
       }
       const part = cite.split('›')[0].trim();
-      if (part && !/\d+\s*(suka|like|komentar|minggu|hari|jam|bulan)/i.test(part)) {
+      if (part && !/^\d+([:.]\d+)?(\s*(suka|like|komentar|minggu|hari|jam|bulan))?$/i.test(part)) {
         return part.replace(/^www\./, '');
       }
     } catch {}
   }
 
-  // 3. Fallback teks publisher jika tidak menyerupai komentar / tanggal
-  if (raw && raw.length < 40 && !raw.startsWith('http') && !/\d+\s*(suka|like|komentar|minggu|hari|jam)/i.test(raw)) {
+  // 3. Fallback teks publisher jika tidak menyerupai angka/komentar/durasi
+  if (
+    raw &&
+    raw.length < 40 &&
+    !raw.startsWith('http') &&
+    !/^\d+([:.]\d+)?$/i.test(raw) &&
+    !/\d+\s*(suka|like|komentar|minggu|hari|jam)/i.test(raw)
+  ) {
     return raw.replace(/https?:\/\//, '').split('›')[0].trim();
   }
 
-  return 'Sumber Berita';
+  return 'Rujukan Cek Fakta';
 }
 
 /**
@@ -145,46 +151,68 @@ export async function fetchGoogleAiOverview(claimText: string): Promise<GoogleAi
         }
       }
 
+      // Bersihkan teks Ringkasan AI dari tombol navigasi/footer Google
+      if (summaryText) {
+        summaryText = summaryText
+          .replace(/^Ringkasan AI\s*/i, '')
+          .replace(/\nTampilkan semua[\s\S]*$/i, '')
+          .replace(/\nBeri masukan[\s\S]*$/i, '')
+          .trim();
+      }
+
       // 2. Extract article sources
       const rawList: { title: string; publisher: string; url: string; cite: string }[] = [];
-      const IGNORE_PATTERNS = /google\.|penerbangan|kebijakan privasi|persyaratan|masuk|login|terjemahkan|bantuan|alat penelusuran|setelan|threads\.net|threads\.com|instagram\.com|tiktok\.com|facebook\.com|twitter\.com|x\.com|youtube\.com\/shorts|reddit\.com/i;
+      const IGNORE_PATTERNS = /google\.com\/(search|travel|maps|intl|setprefs|preferences|policies)|penerbangan|kebijakan privasi|persyaratan|masuk|login|terjemahkan|bantuan|alat penelusuran|setelan/i;
 
-      // Kumpulkan link: prioritaskan link di dalam AI Overview container jika ada
-      const targetScope = overviewContainer || document;
-      const headings = targetScope.querySelectorAll('h3, a[href*="http"]');
+      // 2a. Ekstrak kartu rujukan Google AI Overview (link goto atau link kartu di dalam AI overview)
+      if (overviewContainer) {
+        const aioLinks = overviewContainer.querySelectorAll('a[href*="/goto"], a[href*="http"]');
+        for (const a of aioLinks) {
+          const url = (a as HTMLAnchorElement).href;
+          if (!url || IGNORE_PATTERNS.test(url) || url.includes('google.com/search')) continue;
 
-      for (const item of headings) {
-        const a = item.tagName === 'A' ? (item as HTMLAnchorElement) : item.closest('a');
-        if (!a || !a.href) continue;
+          const parent = a.closest('div') || a;
+          const parentTxt = (parent as HTMLElement).innerText?.trim() || '';
+          const lines = parentTxt.split('\n').map(l => l.trim()).filter(Boolean);
 
-        let url = a.href;
-        if (url.includes('google.com/url?q=')) {
-          try {
-            const parsed = new URL(url);
-            url = parsed.searchParams.get('q') || url;
-          } catch {}
+          let title = (a as HTMLElement).innerText?.trim() || lines[0] || '';
+          let publisher = '';
+          if (lines.length >= 2) {
+            publisher = lines[lines.length - 1].replace(/^[·•+]\s*/, '').trim();
+          }
+
+          if (title.length >= 5) {
+            rawList.push({
+              title: title.slice(0, 100),
+              publisher: publisher || 'Rujukan Google AI',
+              url,
+              cite: ''
+            });
+          }
         }
+      }
 
-        if (IGNORE_PATTERNS.test(url) || url.includes('google.com/search')) {
-          continue;
-        }
-
-        const title = (item.textContent || a.textContent || '').trim();
+      // 2b. Ekstrak rujukan berita organik Google (heading h3)
+      const headings = document.querySelectorAll('h3');
+      for (const h3 of headings) {
+        const title = h3.innerText?.trim();
         if (!title || title.length < 8 || IGNORE_PATTERNS.test(title)) continue;
 
+        const a = h3.closest('a');
+        if (!a || !a.href || IGNORE_PATTERNS.test(a.href) || a.href.includes('google.com/search')) continue;
+
+        let publisher = '';
         const parent = a.parentElement || a;
         const citeEl = parent.querySelector('cite') || parent.parentElement?.querySelector('cite');
         const cite = citeEl?.innerText?.trim() || '';
-
-        let publisher = '';
         if (cite) {
           publisher = cite.split('›')[0].trim();
         }
 
         rawList.push({
           title,
-          publisher,
-          url,
+          publisher: publisher || 'Portal Berita',
+          url: a.href,
           cite
         });
       }
@@ -200,7 +228,7 @@ export async function fetchGoogleAiOverview(claimText: string): Promise<GoogleAi
     for (const item of data.rawList) {
       const cleanTitle = item.title.replace(/\s+/g, ' ').trim();
       const normTitle = cleanTitle.toLowerCase().replace(/[^\w]/g, '');
-      if (seenTitles.has(normTitle) || seenUrls.has(item.url) || normTitle.length < 6) continue;
+      if (seenTitles.has(normTitle) || seenUrls.has(item.url) || normTitle.length < 5) continue;
       seenTitles.add(normTitle);
       seenUrls.add(item.url);
 
@@ -218,13 +246,13 @@ export async function fetchGoogleAiOverview(claimText: string): Promise<GoogleAi
       if (sources.length >= 7) break;
     }
 
-    // Google AI Overview HANYA dianggap sukses jika ringkasan AI benar-benar ada!
-    const hasAiSummary = Boolean(data.summaryText && data.summaryText.length >= 35);
+    // Google AI Overview dianggap sukses jika ringkasan AI benar-benar ada!
+    const hasAiSummary = Boolean(data.summaryText && data.summaryText.length >= 40);
 
     return {
       summaryText: data.summaryText,
       sources,
-      success: hasAiSummary && sources.length >= 2
+      success: hasAiSummary
     };
   } catch (error) {
     console.warn('[Google AI Overview] Gagal mengekstrak AI Overview:', error);
