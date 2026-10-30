@@ -13,7 +13,6 @@ import {
 } from './storage.js';
 import { ExtractedPost, ModelProvider } from './types.js';
 import { generateMockAnalysis } from './services/mockFallback.js';
-import { testNineRouterConnection } from './services/nineRouter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -153,26 +152,6 @@ app.post('/api/config', (req, res) => {
   } catch (error: any) {
     return res.status(500).json({
       error: error.message || 'Gagal menyimpan konfigurasi.'
-    });
-  }
-});
-
-// ==========================================
-// 3b. Diagnostic Test for 9Router
-// ==========================================
-app.post('/api/test-9router', async (req, res) => {
-  try {
-    const config = getConfig();
-    const apiKey = req.body.apiKey || config.nineRouterApiKey || 'sk-e5284dbf7511360f-bqw0y2-8f0a1d4f';
-    const baseUrl = req.body.baseUrl || config.nineRouterBaseUrl || 'http://localhost:20128/v1';
-    const modelName = req.body.modelName || config.nineRouterModel || 'opencode-go/glm-5.2';
-
-    const result = await testNineRouterConnection(apiKey, baseUrl, modelName);
-    return res.json(result);
-  } catch (error: any) {
-    return res.status(500).json({
-      success: false,
-      message: `Error saat pengujian 9Router: ${error.message}`
     });
   }
 });

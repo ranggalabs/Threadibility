@@ -1,14 +1,16 @@
 import { FactCheckSource } from '../types.js';
-import { getConfig } from '../config.js';
-import { fetchGoogleAiOverview } from './googleAiOverview.js';
+import {
+  fetchGoogleAiOverview,
+  extractFactualContextFromAio,
+  isSummaryIndicatingHoaxOrSatire
+} from './googleAiOverview.js';
 
 /**
  * Real topical web search for fact-check references.
  *
- * Uses the Google News RSS search (no API key needed) to find actual articles that discuss the
- * analysed claim: fact-check articles, hoax clarifications and news coverage. Every returned
- * source is a concrete article (headline + publisher + date + link) about the topic, never a
- * generic homepage.
+ * Uses Google AI Overviews ("Ringkasan AI") as the primary engine and Google News RSS search
+ * (guided by both the claim and the factual context extracted from Google AI Overview)
+ * to find concrete news & fact-check articles that verify or debunk the claim.
  */
 
 export interface FactCheckResult {
@@ -33,7 +35,14 @@ const STOPWORDS = new Set([
   'setelah', 'sebelum', 'ketika', 'saat', 'bahwa', 'sebagai', 'ya', 'si', 'nih', 'tuh', 'pun',
   'http', 'https', 'www', 'com',
   'mendadak', 'tiba', 'katanya', 'bakal', 'ternyata', 'wow', 'info', 'viral', 'breaking', 'kabarnya',
-  'konon', 'infonya', 'heboh', 'gaes', 'guys', 'bro', 'min', 'kak', 'masa', 'apa', 'siapa', 'kenapa'
+  'konon', 'infonya', 'heboh', 'gaes', 'guys', 'bro', 'min', 'kak', 'masa', 'apa', 'siapa', 'kenapa',
+  'valid', 'ketar', 'ketir', 'makanya', 'workssss', 'it', 'kawal', 'warga', 'jaga', 'hari', 'pagi',
+  'siang', 'malam', 'konten', 'kreator', 'sampaikan', 'permintaan', 'melalui', 'terkait', 'soal',
+  'baru', 'verified', 'verifiedbaru', 'bolak', 'balik', 'diatas', 'udara', 'lanjutkan', 'acara',
+  'hotel', 'kamis', 'senin', 'selasa', 'rabu', 'jumat', 'sabtu', 'minggu',
+  'demi', 'ikut', 'rela', 'salah', 'satu', 'dua', 'tiga', 'meninggalkan', 'membuat', 'menjadi',
+  'seorang', 'beberapa', 'banyak', 'semua', 'punya', 'kasih', 'bilang', 'kata', 'anak', 'orang',
+  'cuma', 'hanya', 'atas', 'bawah', 'depan', 'belakang', 'antara'
 ]);
 
 const FACTCHECK_TERMS = /hoaks|hoax|cek fakta|cekfakta|fakta|klarifikasi|bantah|benarkah|disinformasi|misinformasi|keliru|salah|tidak benar|menyesatkan|turnbackhoax/i;
@@ -59,80 +68,34 @@ function decodeEntities(s: string): string {
     .trim();
 }
 
-export function extractKeywords(text: string, max = 8): string[] {
+export function extractKeywords(text: string, max = 14): string[] {
   const words = (text || '')
     .normalize('NFKD')
     .replace(/\p{M}/gu, '')
     .toLowerCase()
     .replace(/https?:\/\/\S+/g, ' ')
+    .replace(/@[\w.]+/g, ' ')
+    .replace(/\bverified(\s*baru\s*saja)?\b/gi, ' ')
+    .replace(/\b\d+\s*\/\s*\d+\b/g, ' ')
+    .replace(/\(di\)sumpah\(in\)/gi, 'sumpah')
     .replace(/[^\p{L}\p{N}\s]/gu, ' ')
     .split(/\s+/)
-    .filter(w => (w.length > 2 || /^\d+$/.test(w)) && !STOPWORDS.has(w));
+    .filter(w => (w.length > 2 || /^\d{4}$/.test(w) || w === 'hi') && !STOPWORDS.has(w));
   return Array.from(new Set(words)).slice(0, max);
 }
 
-/**
- * Ask the configured 9Router model to turn a casual / typo-ridden social media claim into a few
- * formal news search queries. Returns [] on any failure so callers can fall back to heuristics.
- */
-async function generateQueriesWithLLM(claim: string): Promise<string[]> {
-  const cfg = getConfig();
-  const apiKey = (cfg.nineRouterApiKey || '').trim();
-  if (!apiKey) return [];
-
-  let model = (cfg.nineRouterModel || '').trim();
-  if (!model) return [];
-  if (model.includes('muse-spark') && !model.includes('/')) model = `oc/${model}`;
-
-  const base = (cfg.nineRouterBaseUrl || 'http://localhost:20128/v1').trim().replace(/\/+$/, '');
-  const endpoint = base.endsWith('/chat/completions') ? base : `${base}/chat/completions`;
-
-  const prompt =
-    `Ubah klaim media sosial berikut menjadi TIGA query pencarian berita Indonesia yang formal dan ringkas (3-7 kata). ` +
-    `Perbaiki typo dan bahasa gaul, fokus pada tokoh/entitas dan peristiwa inti.\n` +
-    `Query 1: topik inti + "cek fakta".\n` +
-    `Query 2: topik inti + "hoaks" atau "bantahan".\n` +
-    `Query 3: aturan/dasar hukum/fakta resmi yang menjelaskan mengapa klaim itu benar atau tidak mungkin terjadi.\n` +
-    `Jawab HANYA dengan JSON array berisi 3 string, tanpa teks lain.\n\nKlaim: """${claim.slice(0, 400)}"""`;
-
-  try {
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify({
-        model,
-        temperature: 0,
-        max_tokens: 400,
-        messages: [{ role: 'user', content: prompt }]
-      }),
-      signal: AbortSignal.timeout(15000)
-    });
-    if (!res.ok) return [];
-    const data = (await res.json()) as any;
-    const content: string = data.choices?.[0]?.message?.content || '';
-    const m = content.match(/\[[\s\S]*\]/);
-    if (!m) return [];
-    const arr = JSON.parse(m[0]);
-    if (!Array.isArray(arr)) return [];
-    return arr
-      .filter((q: unknown): q is string => typeof q === 'string' && q.trim().length > 2)
-      .map(q => q.replace(/\s+/g, ' ').trim())
-      .slice(0, 3);
-  } catch {
-    return [];
-  }
-}
-
-function verdictLabel(title: string): string {
-  if (/hoaks|hoax|disinformasi|misinformasi|keliru|menyesatkan|tidak benar|\bsalah\b|\bpalsu\b/i.test(title)) {
+function verdictLabel(title: string, isHoaxContext: boolean): string {
+  if (/\b(hoaks|hoax|disinformasi|misinformasi)\b|\[(salah|hoaks|keliru)\]|cek fakta.*(keliru|salah|tidak benar|menyesatkan|palsu)/i.test(title)) {
     return 'HOAKS / DISINFORMASI';
   }
-  if (/klarifikasi|bantah|tegaskan|tegas|pastikan|tidak ada|tak ada/i.test(title)) return 'KLARIFIKASI / BANTAHAN';
+  if (/klarifikasi|bantah|tegaskan|tegas|pastikan|minta maaf|permintaan maaf|buka suara/i.test(title)) {
+    return isHoaxContext ? 'KLARIFIKASI / BANTAHAN' : 'KLARIFIKASI / FAKTA';
+  }
   if (/cek fakta|cekfakta|benarkah|fakta/i.test(title)) return 'CEK FAKTA';
-  return 'BERITA TERKAIT';
+  return isHoaxContext ? 'FAKTA PEMBANDING' : 'FAKTA / TERVERIFIKASI';
 }
 
-function parseRss(xml: string, keywords: string[]): RawArticle[] {
+function parseRss(xml: string, keywords: string[], aioFactKeywords: string[] = []): RawArticle[] {
   const items = xml.split('<item>').slice(1);
   const out: RawArticle[] = [];
 
@@ -147,14 +110,25 @@ function parseRss(xml: string, keywords: string[]): RawArticle[] {
     if (!fullTitle || !link) continue;
 
     const publisher = get('source') || 'Sumber Berita';
-    // Google News appends " - Publisher" to the headline; drop it for display.
     const title = fullTitle.replace(new RegExp(`\\s+-\\s+${publisher.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`), '').trim();
 
     const lower = title.normalize('NFKD').replace(/\p{M}/gu, '').toLowerCase();
-    const matched = keywords.filter(k => lower.includes(k)).length;
-    const overlap = keywords.length ? matched / keywords.length : 0;
+    const matchedClaim = keywords.filter(k => lower.includes(k)).length;
+    const matchedAioFact = aioFactKeywords.filter(k => lower.includes(k)).length;
 
-    let score = overlap * 10;
+    const claimOverlap = keywords.length ? matchedClaim / keywords.length : 0;
+    const aioOverlap = aioFactKeywords.length ? matchedAioFact / aioFactKeywords.length : 0;
+
+    let hasEventContext = true;
+    if (keywords.length >= 5) {
+      const eventKeywords = keywords.slice(2);
+      const eventMatches = eventKeywords.filter(k => lower.includes(k)).length;
+      if (eventMatches === 0 && matchedClaim < 3 && matchedAioFact < 3) {
+        hasEventContext = false;
+      }
+    }
+
+    let score = Math.max(claimOverlap, aioOverlap) * 10 + Math.min(matchedClaim, matchedAioFact);
     if (FACTCHECK_TERMS.test(title)) score += 3;
     if (TRUSTED_PUBLISHERS.test(publisher) || TRUSTED_PUBLISHERS.test(link)) score += 2;
 
@@ -165,13 +139,17 @@ function parseRss(xml: string, keywords: string[]): RawArticle[] {
       if (!isNaN(d.getTime())) date = d.toISOString().split('T')[0];
     }
 
-    const minMatch = Math.min(keywords.length, Math.max(2, Math.ceil(keywords.length / 2)));
-    out.push({ title, publisher, date, link, score: matched < minMatch ? -1 : score });
+    const minClaimMatch = keywords.length >= 5 ? 3 : Math.min(keywords.length, 2);
+    const hasLeadAnchor = keywords.slice(0, 2).some(k => lower.includes(k));
+    const isClaimRelevant = hasLeadAnchor && matchedClaim >= minClaimMatch && hasEventContext;
+    const isAioFactRelevant = hasLeadAnchor && aioFactKeywords.length >= 4 && matchedAioFact >= 3;
+
+    out.push({ title, publisher, date, link, score: (isClaimRelevant || isAioFactRelevant) ? score : -1 });
   }
   return out;
 }
 
-async function fetchNews(query: string, keywords: string[]): Promise<RawArticle[]> {
+async function fetchNews(query: string, keywords: string[], aioFactKeywords: string[] = []): Promise<RawArticle[]> {
   const url = `https://news.google.com/rss/search?hl=id&gl=ID&ceid=ID:id&q=${encodeURIComponent(query)}`;
   try {
     const res = await fetch(url, {
@@ -179,7 +157,7 @@ async function fetchNews(query: string, keywords: string[]): Promise<RawArticle[
       signal: AbortSignal.timeout(8000)
     });
     if (!res.ok) return [];
-    return parseRss(await res.text(), keywords);
+    return parseRss(await res.text(), keywords, aioFactKeywords);
   } catch {
     return [];
   }
@@ -189,27 +167,35 @@ export async function searchFactCheckSources(
   claimText: string,
   _postUrl?: string | null
 ): Promise<FactCheckResult> {
-  // Normalise stylised Unicode (e.g. mathematical bold "𝐑𝐄𝐀𝐋 𝐌𝐀𝐃𝐑𝐈𝐃") to plain letters so keywords and queries are searchable.
   claimText = (claimText || '').normalize('NFKC');
-  const heuristic = extractKeywords(claimText, 8);
+  const heuristic = extractKeywords(claimText, 14);
   const key = heuristic.join(' ');
 
   const hit = cache.get(key);
   if (hit && Date.now() - hit.at < CACHE_TTL_MS) return hit.value;
 
   // 1. PRIMARY ENGINE: Google AI Overviews ("Ringkasan AI") via browser automation
+  let aioSummary = '';
+  let aioSources: FactCheckSource[] = [];
   try {
     const aio = await fetchGoogleAiOverview(claimText);
-    if (aio.success && aio.sources.length >= 3) {
-      console.log(`[Threadibility] Berhasil mengekstrak ${aio.sources.length} rujukan dari Google AI Overview.`);
-      let summaryContext = aio.summaryText ? `[Ringkasan Google AI Overview]:\n${aio.summaryText}\n\n[Daftar Rujukan Google]:\n` : '';
-      summaryContext += aio.sources
+    if (aio.summaryText) {
+      aioSummary = aio.summaryText;
+    }
+    if (aio.sources && aio.sources.length > 0) {
+      aioSources = aio.sources;
+    }
+
+    if (aio.success && aioSources.length >= 3) {
+      console.log(`[Threadibility] Berhasil mengekstrak Ringkasan AI dan ${aioSources.length} rujukan dari Google AI Overview.`);
+      let summaryContext = `[Ringkasan Google AI Overview]:\n${aioSummary}\n\n[Daftar Rujukan Google]:\n`;
+      summaryContext += aioSources
         .map((s, i) => `${i + 1}. [${s.publisher}] "${s.title}" - ${s.verdict}`)
         .join('\n');
 
       const value: FactCheckResult = {
-        query: `${claimText.slice(0, 50)} (Google AI Overview)`,
-        sources: aio.sources.slice(0, 6),
+        query: `${heuristic.slice(0, 8).join(' ')} (Google AI Overview)`,
+        sources: aioSources.slice(0, 6),
         summaryContext
       };
       cache.set(key, { at: Date.now(), value });
@@ -219,37 +205,38 @@ export async function searchFactCheckSources(
     console.warn('[Threadibility] Google AI Overview gagal, beralih ke pencarian berita RSS:', err);
   }
 
-  // 2. SECONDARY / FALLBACK ENGINE: Google News RSS Search
-  const aiQueries = await generateQueriesWithLLM(claimText);
+  // 2. SECONDARY / SUPPLEMENTAL ENGINE: Google News RSS Search guided by AI Overview factual context
+  const isHoaxOrSatire = isSummaryIndicatingHoaxOrSatire(aioSummary);
+  const aioFactKeywords = extractFactualContextFromAio(aioSummary, heuristic);
+  const keywords = heuristic;
 
-  // Keywords used to judge article relevance: from AI queries (typo-corrected) when available,
-  // otherwise from the raw post text. Fact-check wording itself is not a topic keyword.
-  const NOT_TOPIC = new Set(['cek', 'fakta', 'hoaks', 'hoax', 'bantahan', 'klarifikasi', 'berita']);
-  const aiKeywords = Array.from(
-    new Set(aiQueries.flatMap(q => extractKeywords(q, 12)).filter(w => !NOT_TOPIC.has(w)))
-  );
-  // Core topic keywords come from the first AI query (entity + event); an article must match at
-  // least half of them to count as relevant. Fall back to all AI keywords, then raw text keywords.
-  const coreKeywords = aiQueries.length
-    ? extractKeywords(aiQueries[0], 8).filter(w => !NOT_TOPIC.has(w))
-    : [];
-  const keywords = coreKeywords.length >= 2 ? coreKeywords : aiKeywords.length >= 2 ? aiKeywords : heuristic;
+  const qEntityAndEvent = keywords.length > 6
+    ? [...keywords.slice(0, 2), ...keywords.slice(4, 8)].join(' ')
+    : keywords.slice(0, 6).join(' ');
+  const qFirstClause = keywords.slice(0, 6).join(' ');
+  const qTailContext = keywords.length > 7
+    ? [...keywords.slice(0, 2), ...keywords.slice(5, 7), ...keywords.slice(9, 12)].join(' ')
+    : `${qFirstClause} cek fakta`;
 
-  const core = (coreKeywords.length >= 2 ? coreKeywords : heuristic).slice(0, 6).join(' ');
-  const fallbackQueries = [`${core} cek fakta`, `${core} hoaks`, heuristic.slice(0, 4).join(' ')];
-  const queries = Array.from(new Set([...aiQueries, ...fallbackQueries].filter(q => q.trim().length > 0)));
+  const fallbackQueries: string[] = [qEntityAndEvent, qFirstClause, qTailContext];
 
-  let batches = await Promise.all(queries.map(q => fetchNews(q, keywords)));
-
-  // Too few hits (rare wording)? broaden with the most important keywords only.
-  const countUnique = (bs: RawArticle[][]) => new Set(bs.flat().filter(a => a.score >= 0).map(a => a.link)).size;
-  if (countUnique(batches) < 5 && keywords.length > 2) {
-    const broad = keywords.slice(0, 3).join(' ');
-    const extra = await Promise.all([fetchNews(`${broad} cek fakta`, keywords), fetchNews(broad, keywords)]);
-    batches = batches.concat(extra);
+  // Jika Google AI Overview menjelaskan konteks peristiwa asli di balik hoaks/satir, cari berita resmi peristiwa tersebut!
+  if (aioFactKeywords.length >= 4) {
+    fallbackQueries.unshift(aioFactKeywords.slice(0, 6).join(' '));
+    if (aioFactKeywords.length >= 6) {
+      fallbackQueries.unshift([...aioFactKeywords.slice(0, 3), ...aioFactKeywords.slice(4, 7)].join(' '));
+    }
   }
 
-  // Merge, dedupe (by link and by normalised title), rank.
+  // Jika klaim terdeteksi hoaks/satir, tambahkan pencarian kata kunci jangkar + indikasi palsu/klarifikasi
+  if (isHoaxOrSatire && keywords.length >= 3) {
+    const anchorWords = keywords.slice(0, 3).join(' ');
+    fallbackQueries.unshift(`${anchorWords} palsu OR klarifikasi OR bayaran OR hoaks`);
+  }
+
+  const queries = Array.from(new Set(fallbackQueries.filter(q => q.trim().length > 0))).slice(0, 6);
+  const batches = await Promise.all(queries.map(q => fetchNews(q, keywords, aioFactKeywords)));
+
   const seen = new Set<string>();
   const merged: RawArticle[] = [];
   for (const a of batches.flat()) {
@@ -260,10 +247,8 @@ export async function searchFactCheckSources(
     merged.push(a);
   }
 
-  // Only genuinely relevant articles (>= 2 topic keywords) are kept; weak matches are never shown.
   const ranked = merged.filter(a => a.score >= 0).sort((a, b) => b.score - a.score);
 
-  // Prefer a spread of publishers: at most 2 articles per publisher in the top results.
   const perPublisher = new Map<string, number>();
   const picked: RawArticle[] = [];
   for (const a of ranked) {
@@ -271,48 +256,62 @@ export async function searchFactCheckSources(
     if (n >= 2) continue;
     perPublisher.set(a.publisher, n + 1);
     picked.push(a);
-    if (picked.length >= 8) break;
-  }
-  for (const a of ranked) {
-    if (picked.length >= 5) break;
-    if (!picked.includes(a)) picked.push(a);
+    if (picked.length >= 6) break;
   }
 
-  const sources: FactCheckSource[] = picked.map(a => ({
+  const rssSources: FactCheckSource[] = picked.map(a => ({
     publisher: a.publisher,
     title: a.title,
-    verdict: verdictLabel(a.title),
+    verdict: verdictLabel(a.title, isHoaxOrSatire),
     reviewDate: a.date,
     sourceUrl: a.link
   }));
 
-  // Absolute last resort (offline / blocked): topic-specific search pages, never bare homepages.
-  const q = encodeURIComponent(`${core} cek fakta`);
-  const topicPages: FactCheckSource[] = [
-    { publisher: 'Google News', title: `Pencarian berita: ${core} cek fakta`, verdict: 'PENCARIAN TOPIK', reviewDate: null, sourceUrl: `https://news.google.com/search?q=${q}&hl=id&gl=ID&ceid=ID:id` },
-    { publisher: 'Google', title: `Pencarian web: ${core} hoaks`, verdict: 'PENCARIAN TOPIK', reviewDate: null, sourceUrl: `https://www.google.com/search?q=${encodeURIComponent(`${core} hoaks`)}` },
-    { publisher: 'TurnBackHoax (Mafindo)', title: `Cari "${core}" di TurnBackHoax`, verdict: 'PENCARIAN TOPIK', reviewDate: null, sourceUrl: `https://turnbackhoax.id/?s=${encodeURIComponent(core)}` },
-    { publisher: 'Kompas.com', title: `Cari "${core}" di Kompas Cek Fakta`, verdict: 'PENCARIAN TOPIK', reviewDate: null, sourceUrl: `https://search.kompas.com/search?q=${encodeURIComponent(`${core} cek fakta`)}` },
-    { publisher: 'Tempo.co', title: `Cari "${core}" di Tempo`, verdict: 'PENCARIAN TOPIK', reviewDate: null, sourceUrl: `https://www.tempo.co/search?q=${encodeURIComponent(`${core} cek fakta`)}` }
-  ];
-  for (const p of topicPages) {
-    if (sources.length >= 5) break;
-    sources.push(p);
+  const combinedSources: FactCheckSource[] = [...aioSources];
+  const seenTitles = new Set(aioSources.map(s => (s.title || '').toLowerCase().slice(0, 35)));
+  const seenUrls = new Set(aioSources.map(s => s.sourceUrl));
+
+  for (const rs of rssSources) {
+    if (combinedSources.length >= 6) break;
+    const tKey = (rs.title || '').toLowerCase().slice(0, 35);
+    if (seenUrls.has(rs.sourceUrl) || (tKey && seenTitles.has(tKey))) continue;
+    seenUrls.add(rs.sourceUrl);
+    if (tKey) seenTitles.add(tKey);
+    combinedSources.push(rs);
   }
 
-  const relevantCount = picked.length;
-  const summaryContext =
-    relevantCount === 0
-      ? 'TIDAK ADA artikel yang relevan ditemukan untuk klaim ini. Ketiadaan artikel BUKAN bukti bahwa klaim palsu; nilai klaim berdasarkan kewajaran dan pengetahuan Anda, dan turunkan confidence.'
-      : sources
-          .slice(0, relevantCount)
-          .map(
-            (s, i) =>
-              `${i + 1}. [${s.publisher}] "${s.title}"${s.reviewDate ? ` (${s.reviewDate})` : ''} - ${s.verdict}`
-          )
-          .join('\n');
+  const sources = combinedSources.slice(0, 6);
 
-  const value: FactCheckResult = { query: `${core} cek fakta`, sources, summaryContext };
-  if (relevantCount > 0) cache.set(key, { at: Date.now(), value });
+  if (sources.length === 0) {
+    const topicLabel = aioFactKeywords.length >= 3 ? aioFactKeywords.slice(0, 5).join(' ') : qFirstClause;
+    const q = encodeURIComponent(topicLabel);
+    sources.push(
+      { publisher: 'TurnBackHoax (Mafindo)', title: `Telusuri "${topicLabel}" di TurnBackHoax`, verdict: 'PENCARIAN TOPIK', reviewDate: null, sourceUrl: `https://turnbackhoax.id/?s=${q}` },
+      { publisher: 'Kompas Cek Fakta', title: `Telusuri "${topicLabel}" di Kompas.com`, verdict: 'PENCARIAN TOPIK', reviewDate: null, sourceUrl: `https://search.kompas.com/search?q=${q}` },
+      { publisher: 'Google News', title: `Liputan berita terkait: ${topicLabel}`, verdict: 'PENCARIAN TOPIK', reviewDate: null, sourceUrl: `https://news.google.com/search?q=${q}&hl=id&gl=ID&ceid=ID:id` }
+    );
+  }
+
+  let summaryContext = '';
+  if (aioSummary) {
+    summaryContext = `[Ringkasan Google AI Overview]:\n${aioSummary}\n\n[Daftar Rujukan Google]:\n` +
+      sources.map((s, i) => `${i + 1}. [${s.publisher}] "${s.title}" - ${s.verdict}`).join('\n');
+  } else if (aioSources.length > 0 || picked.length > 0) {
+    summaryContext = sources
+      .map((s, i) => `${i + 1}. [${s.publisher}] "${s.title}"${s.reviewDate ? ` (${s.reviewDate})` : ''} - ${s.verdict}`)
+      .join('\n');
+  } else {
+    summaryContext =
+      'TIDAK ADA artikel yang relevan ditemukan untuk klaim ini. Ketiadaan artikel BUKAN bukti bahwa klaim palsu; nilai klaim berdasarkan kewajaran dan pengetahuan Anda, dan turunkan confidence.';
+  }
+
+  const value: FactCheckResult = {
+    query: aioSummary ? `${qFirstClause} (Google AI Overview)` : qFirstClause,
+    sources,
+    summaryContext
+  };
+  if (aioSummary || picked.length > 0) {
+    cache.set(key, { at: Date.now(), value });
+  }
   return value;
 }

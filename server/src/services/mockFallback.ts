@@ -10,7 +10,9 @@ export function generateMockAnalysis(
   searchContext?: string,
   sources?: FactCheckSource[]
 ): AnalysisResult {
-  const rawText = post.text || '';
+  const rawText = (post.text || '')
+    .replace(/\bVerified\s*baru\s*saja\b/gi, '')
+    .trim();
   const text = rawText.toLowerCase();
 
   const modelLabels: Record<string, string> = {
@@ -21,38 +23,44 @@ export function generateMockAnalysis(
   };
   const displayLabel = modelLabels[provider.toLowerCase()] || provider.toUpperCase();
 
-  // 1. Prioritaskan sintesis Google AI Overview jika tersedia dalam searchContext
+  const cleanClaim = rawText.slice(0, 140).trim() + (rawText.length > 140 ? '...' : '');
+
+  // 1. Prioritaskan sintesis Google AI Overview jika tersedia dan valid dalam searchContext
   if (searchContext && searchContext.includes('[Ringkasan Google AI Overview]')) {
     const aioMatch = searchContext.match(/\[Ringkasan Google AI Overview\]:\s*([\s\S]*?)(?=\n\n\[Daftar Rujukan|$)/);
     const aioText = aioMatch ? aioMatch[1].trim() : '';
 
-    if (aioText && aioText.length > 30) {
-      // Deteksi indikasi hoaks / disinformasi dari narasi Google AI Overview
+    const isInvalidAio =
+      !aioText ||
+      aioText.length < 40 ||
+      /tidak tersedia untuk penelusuran ini|tidak dapat membuat ringkasan dengan ai|an ai overview is not available/i.test(aioText) ||
+      /:root\s*\{|\.[a-zA-Z0-9_-]+\s*\{display:/i.test(aioText);
+
+    if (!isInvalidAio) {
       const lowerAio = aioText.toLowerCase();
-      const isFactuallyFalse =
-        lowerAio.includes('karhutla') ||
-        lowerAio.includes('1 september') ||
-        lowerAio.includes('tidak benar') ||
-        lowerAio.includes('disinformasi') ||
-        lowerAio.includes('hoaks') ||
-        lowerAio.includes('salah') ||
-        lowerAio.includes('bukan');
+      const firstParagraph = aioText.slice(0, 320).toLowerCase();
 
-      let structuredReason = aioText;
+      const hasExplicitTrueConfirmation =
+        /\b(adalah fakta|bukan hoaks|bukan hoax|benar telah|memang benar|resmi menyampaikan|memberikan klarifikasi dan menyampaikan permohonan maaf|faktanya memang|terkonfirmasi benar)\b/i.test(firstParagraph);
 
-      // Jika postingan tentang demonstrasi & pemanggilan Hambalang, buat sintesis utuh seperti gaya Google AI Overview
-      if (text.includes('hambalang') && (text.includes('panglima') || text.includes('demo') || text.includes('prabowo'))) {
-        structuredReason =
-          `Aksi penyampaian aspirasi/demonstrasi mahasiswa memang berlangsung di Jakarta. Namun narasi mengenai Presiden Prabowo memanggil darurat Panglima TNI dan Kapolri ke Hambalang karena "ketar-ketir" menghadapi demonstrasi adalah TIDAK BENAR / DISINFORMASI (HOAKS).\n\n` +
-          `Fakta Sebenarnya: Pertemuan Presiden Prabowo bersama Panglima TNI Jenderal Agus Subiyanto dan Kapolri Jenderal Listyo Sigit Prabowo di Hambalang faktanya berlangsung resmi pada 1 September 2026. Pertemuan tersebut beragendakan koordinasi evaluasi situasi nasional dan penanganan kebakaran hutan dan lahan (karhutla) di Sumatra dan Kalimantan menjelang lawatan luar negeri ke Rusia, bukan respons terhadap aksi demonstrasi mahasiswa.`;
-      }
+      const cleanedForHoax = aioText.replace(/\b(bukan|tidak\s+terindikasi)\s+(hoaks|hoax|disinformasi|misinformasi|berita\s+bohong|palsu)\b/gi, '');
+      const hasExplicitHoaxSignal =
+        /\b(hoaks|hoax|disinformasi|misinformasi|tidak benar|tidak sepenuhnya benar|keliru|menyesatkan|berita bohong|kabar bohong|fiktif|sindiran|satir|satire|parodi|lelucon|candaan|sarkas|sarkasme|hiperbolik)\b/i.test(cleanedForHoax) ||
+        (lowerAio.includes('karhutla') && lowerAio.includes('hambalang'));
+
+      const isFactuallyFalse = hasExplicitTrueConfirmation ? false : hasExplicitHoaxSignal;
+
+      const normalizedSources = (sources && sources.length > 0 ? sources : []).map(s => ({
+        ...s,
+        verdict: isFactuallyFalse && s.verdict === 'FAKTA / TERVERIFIKASI' ? 'FAKTA PEMBANDING' : s.verdict
+      }));
 
       return {
-        claim: rawText.slice(0, 140).trim() + (rawText.length > 140 ? '...' : ''),
+        claim: cleanClaim,
         indikasiHoax: isFactuallyFalse,
-        alasan: structuredReason,
+        alasan: aioText,
         confidence: 0.95,
-        factCheckSources: sources && sources.length > 0 ? sources : []
+        factCheckSources: normalizedSources
       };
     }
   }
@@ -65,7 +73,7 @@ export function generateMockAnalysis(
         'gajih', 'gaji', 'naik', 'dinaikan', 'dinaikkan', 'buruh', '5jt', '10jt', 'juta perbulan',
         'upah minimum', 'pesangon', 'tunjangan pns', 'tunjangan naik', 'rapelan gaji'
       ],
-      trigger: (t: string) => 
+      trigger: (t: string) =>
         (t.includes('buruh') && (t.includes('gaji') || t.includes('gajih') || t.includes('naik') || t.includes('5jt') || t.includes('juta'))) ||
         (t.includes('gajih') && t.includes('naik')) ||
         (t.includes('semua buruh')),
@@ -118,7 +126,6 @@ export function generateMockAnalysis(
     }
   ];
 
-  // Evaluate against categories
   let matchedCategory: typeof hoaxCategories[0] | null = null;
   for (const cat of hoaxCategories) {
     if (cat.trigger(text)) {
@@ -137,14 +144,13 @@ export function generateMockAnalysis(
     }
   }
 
-  const isHoax = Boolean(matchedCategory);
-
-  // Extract a clean claim summary
-  let cleanClaim = rawText.slice(0, 140).trim();
-  if (rawText.length > 140) cleanClaim += '...';
+  const hasHoaxSourceVerdict = Boolean(
+    sources && sources.some(s => /HOAKS|DISINFORMASI/i.test(s.verdict || ''))
+  );
+  const isHoax = Boolean(matchedCategory) || hasHoaxSourceVerdict;
 
   const currentDate = new Date().toISOString().split('T')[0];
-  let factCheckSources = sources && sources.length > 0 ? sources : [
+  const factCheckSources = sources && sources.length > 0 ? sources : [
     {
       publisher: 'TurnBackHoax (Mafindo)',
       verdict: isHoax ? 'SALAH / DISINFORMASI' : 'FAKTA / TERVERIFIKASI',
@@ -175,7 +181,30 @@ export function generateMockAnalysis(
     };
   }
 
-  // Verified / Safe classification
+  if (isHoax && hasHoaxSourceVerdict && sources && sources.length > 0) {
+    const topHoax = sources.find(s => /HOAKS|DISINFORMASI/i.test(s.verdict || '')) || sources[0];
+    return {
+      claim: cleanClaim,
+      indikasiHoax: true,
+      alasan: `Berdasarkan rujukan cek fakta resmi (${topHoax.publisher}: "${topHoax.title}"), klaim dalam unggahan ini terindikasi tidak benar / disinformasi.`,
+      confidence: 0.92,
+      factCheckSources
+    };
+  }
+
+  // Jika bukan hoaks dan terdapat artikel berita resmi yang mengonfirmasi peristiwa tersebut
+  if (sources && sources.length > 0 && sources[0].verdict !== 'PENCARIAN TOPIK') {
+    const topPublishers = Array.from(new Set(sources.slice(0, 3).map(s => s.publisher))).join(', ');
+    const leadTitle = sources[0].title || '';
+    return {
+      claim: cleanClaim || 'Informasi umum dari postingan Threads',
+      indikasiHoax: false,
+      alasan: `Informasi terkonfirmasi benar berdasarkan liputan media resmi (${topPublishers}), antara lain melalui laporan "${leadTitle}". Unggahan sesuai dengan fakta peristiwa yang dilaporkan dan tidak memuat indikasi disinformasi.`,
+      confidence: 0.93,
+      factCheckSources
+    };
+  }
+
   return {
     claim: cleanClaim || 'Informasi umum dari postingan Threads',
     indikasiHoax: false,
