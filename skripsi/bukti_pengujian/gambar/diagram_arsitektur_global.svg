@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 390" width="100%" style="max-width:720px;display:block;margin:6pt auto;font-family:'Times New Roman',serif;">
+  <defs>
+    <marker id="arrA" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#1e293b"/>
+    </marker>
+  </defs>
+  <rect x="2" y="2" width="816" height="386" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.2"/>
+
+  <!-- Group 1: Client Side -->
+  <rect x="16" y="18" width="245" height="354" rx="6" fill="#f8fafc" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="138" y="38" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#1e3a8a">SISI KLIEN (CHROME EXTENSION MV3)</text>
+
+  <rect x="32" y="54" width="213" height="62" rx="4" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.2"/>
+  <text x="138" y="72" font-size="10.5" font-weight="bold" text-anchor="middle">Halaman Web Threads</text>
+  <text x="138" y="86" font-size="9.5" text-anchor="middle">(threads.com / threads.net)</text>
+  <text x="138" y="100" font-size="9" text-anchor="middle" fill="#334155">DOM Post + Badge &amp; Tooltip Hasil</text>
+
+  <rect x="32" y="136" width="213" height="68" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.2"/>
+  <text x="138" y="154" font-size="10.5" font-weight="bold" text-anchor="middle">Content Script (src/content/)</text>
+  <text x="138" y="168" font-size="9.2" text-anchor="middle">• postExtractor.ts (findPost, extract)</text>
+  <text x="138" y="181" font-size="9.2" text-anchor="middle">• badge.ts (injectLoading/Result/Error)</text>
+  <text x="138" y="194" font-size="9.2" text-anchor="middle">• index.ts (contextmenu listener)</text>
+
+  <rect x="32" y="224" width="213" height="66" rx="4" fill="#dcfce7" stroke="#15803d" stroke-width="1.2"/>
+  <text x="138" y="242" font-size="10.5" font-weight="bold" text-anchor="middle">Background Service Worker</text>
+  <text x="138" y="256" font-size="9.2" text-anchor="middle">• Menu Klik Kanan (contextMenus)</text>
+  <text x="138" y="269" font-size="9.2" text-anchor="middle">• Fetch POST /api/analyze (timeout 70s)</text>
+  <text x="138" y="282" font-size="9.2" text-anchor="middle">• Simpan Riwayat (chrome.storage.local)</text>
+
+  <rect x="32" y="306" width="213" height="52" rx="4" fill="#fef3c7" stroke="#b45309" stroke-width="1.2"/>
+  <text x="138" y="324" font-size="10.5" font-weight="bold" text-anchor="middle">React Popup UI (src/popup/)</text>
+  <text x="138" y="338" font-size="9.2" text-anchor="middle">Dashboard • Riwayat • Pengaturan Tema</text>
+
+  <path d="M138,116 L138,136" fill="none" stroke="#1e293b" stroke-width="1.2" marker-end="url(#arrA)"/>
+  <path d="M138,204 L138,224" fill="none" stroke="#1e293b" stroke-width="1.2" marker-end="url(#arrA)"/>
+  <path d="M138,290 L138,306" fill="none" stroke="#1e293b" stroke-width="1.2" marker-end="url(#arrA)"/>
+
+  <!-- Group 2: Backend Server -->
+  <rect x="295" y="18" width="255" height="354" rx="6" fill="#f8fafc" stroke="#15803d" stroke-width="1.5"/>
+  <text x="422" y="38" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#14532d">SISI SERVER (EXPRESS.JS BACKEND :5000)</text>
+
+  <rect x="311" y="54" width="223" height="58" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="422" y="72" font-size="10.5" font-weight="bold" text-anchor="middle">REST API Controller (server/src/index.ts)</text>
+  <text x="422" y="86" font-size="9.2" text-anchor="middle">• POST /api/analyze (Normalisasi NFKC)</text>
+  <text x="422" y="99" font-size="9.2" text-anchor="middle">• GET /api/history, /stats, /export (CSV)</text>
+
+  <rect x="311" y="128" width="223" height="78" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.2"/>
+  <text x="422" y="146" font-size="10.5" font-weight="bold" text-anchor="middle">Orchestrator Penelusuran (webSearch.ts)</text>
+  <text x="422" y="160" font-size="9.2" text-anchor="middle">• In-Memory Cache (TTL 15 Menit)</text>
+  <text x="422" y="173" font-size="9.2" text-anchor="middle">• Ekstraksi 14 Kata Kunci Klaim</text>
+  <text x="422" y="186" font-size="9.2" text-anchor="middle">• Penggabungan &amp; Deduplikasi Sumber</text>
+
+  <rect x="311" y="222" width="223" height="72" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
+  <text x="422" y="240" font-size="10.5" font-weight="bold" text-anchor="middle">Sintesis Putusan (mockFallback.ts)</text>
+  <text x="422" y="254" font-size="9.2" text-anchor="middle">• Evaluasi Sinyal Hoaks/Satire vs Konfirmasi</text>
+  <text x="422" y="267" font-size="9.2" text-anchor="middle">• Penyelarasan Label Verdict Sumber</text>
+  <text x="422" y="280" font-size="9.2" text-anchor="middle">• Pembentukan Objek AnalysisResult</text>
+
+  <rect x="311" y="308" width="223" height="48" rx="4" fill="#f3e8ff" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="422" y="326" font-size="10.5" font-weight="bold" text-anchor="middle">Penyimpanan Lokal (storage.ts)</text>
+  <text x="422" y="340" font-size="9.2" text-anchor="middle">server/data/analysis_history.json</text>
+
+  <path d="M422,112 L422,128" fill="none" stroke="#1e293b" stroke-width="1.2" marker-end="url(#arrA)"/>
+  <path d="M422,206 L422,222" fill="none" stroke="#1e293b" stroke-width="1.2" marker-end="url(#arrA)"/>
+  <path d="M422,294 L422,308" fill="none" stroke="#1e293b" stroke-width="1.2" marker-end="url(#arrA)"/>
+
+  <!-- Group 3: External Services -->
+  <rect x="582" y="18" width="222" height="354" rx="6" fill="#f8fafc" stroke="#b45309" stroke-width="1.5"/>
+  <text x="693" y="38" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#78350f">SUMBER EKSTERNAL (REAL-TIME)</text>
+
+  <rect x="596" y="60" width="194" height="106" rx="4" fill="#ffedd5" stroke="#ea580c" stroke-width="1.2"/>
+  <text x="693" y="78" font-size="10.5" font-weight="bold" text-anchor="middle">Jalur Utama: Google AI Overview</text>
+  <text x="693" y="92" font-size="9.2" text-anchor="middle">(googleAiOverview.ts + Playwright)</text>
+  <text x="693" y="107" font-size="9" text-anchor="middle">1. Kueri utuh + "hoaks fakta"</text>
+  <text x="693" y="120" font-size="9" text-anchor="middle">2. Ekstraksi &amp; sanitasi Ringkasan AI</text>
+  <text x="693" y="133" font-size="9" text-anchor="middle">3. Resolusi URL google.com/goto</text>
+  <text x="693" y="146" font-size="9" text-anchor="middle">4. Filter relevansi konteks klaim</text>
+
+  <rect x="596" y="186" width="194" height="86" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.2"/>
+  <text x="693" y="204" font-size="10.5" font-weight="bold" text-anchor="middle">Jalur Cadangan: Google News RSS</text>
+  <text x="693" y="218" font-size="9.2" text-anchor="middle">(news.google.com/rss/search)</text>
+  <text x="693" y="233" font-size="9" text-anchor="middle">• Skor tumpang-tindih kata kunci (×10)</text>
+  <text x="693" y="246" font-size="9" text-anchor="middle">• Bonus istilah cek fakta (+3)</text>
+  <text x="693" y="259" font-size="9" text-anchor="middle">• Bonus penerbit tepercaya (+2)</text>
+
+  <rect x="596" y="292" width="194" height="64" rx="4" fill="#f1f5f9" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <text x="693" y="310" font-size="10" font-weight="bold" text-anchor="middle" fill="#334155">LLM Cadangan Opsional</text>
+  <text x="693" y="324" font-size="9" text-anchor="middle" fill="#475569">(Gemini / OpenAI / Claude)</text>
+  <text x="693" y="338" font-size="8.5" text-anchor="middle" fill="#475569">Hanya aktif bila AI Overview kosong</text>
+  <text x="693" y="349" font-size="8.5" text-anchor="middle" fill="#475569">&amp; API key dikonfigurasi</text>
+
+  <!-- Cross-group arrows -->
+  <path d="M245,250 L295,82" fill="none" stroke="#1d4ed8" stroke-width="1.4" marker-end="url(#arrA)"/>
+  <text x="270" y="155" font-size="8.5" text-anchor="middle" fill="#1e3a8a" transform="rotate(-68 270 155)">HTTP POST / JSON</text>
+  <path d="M534,155 L596,115" fill="none" stroke="#ea580c" stroke-width="1.4" marker-end="url(#arrA)"/>
+  <path d="M534,175 L596,225" fill="none" stroke="#ca8a04" stroke-width="1.4" marker-end="url(#arrA)"/>
+</svg>

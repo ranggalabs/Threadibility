@@ -1,0 +1,103 @@
+{
+  "runAt": "2026-10-31T07:52:26.919Z",
+  "results": [
+    {
+      "id": "A01",
+      "nama": "POST /api/analyze dengan teks kosong",
+      "expected": "HTTP 400",
+      "actual": "HTTP 400",
+      "pass": true
+    },
+    {
+      "id": "A02",
+      "nama": "POST /api/analyze dengan teks hanya spasi",
+      "expected": "HTTP 400",
+      "actual": "HTTP 400",
+      "pass": true
+    },
+    {
+      "id": "A03",
+      "nama": "POST /api/analyze tanpa field text",
+      "expected": "HTTP 400",
+      "actual": "HTTP 400",
+      "pass": true
+    },
+    {
+      "id": "A04",
+      "nama": "Skema respons AnalysisResult lengkap",
+      "expected": "claim, indikasiHoax, alasan, confidence, factCheckSources",
+      "actual": "claim, indikasiHoax, alasan, confidence, factCheckSources",
+      "pass": true
+    },
+    {
+      "id": "A05",
+      "nama": "Setiap sumber memuat publisher, verdict, dan sourceUrl http(s)",
+      "expected": "true",
+      "actual": "true",
+      "pass": true
+    },
+    {
+      "id": "A06",
+      "nama": "Alasan tidak memuat sisa CSS/JS atau pesan \"Ringkasan AI tidak tersedia\"",
+      "expected": "bersih",
+      "actual": "bersih",
+      "pass": true
+    },
+    {
+      "id": "A07",
+      "nama": "Tidak ada tautan google.com/goto yang belum diselesaikan",
+      "expected": "true",
+      "actual": "true",
+      "pass": true
+    },
+    {
+      "id": "A08",
+      "nama": "Permintaan berulang memanfaatkan cache (15 menit)",
+      "expected": "< 2000 ms (pertama 7 ms)",
+      "actual": "10 ms",
+      "pass": true
+    },
+    {
+      "id": "A09",
+      "nama": "Teks Unicode bergaya (math bold) dinormalisasi NFKC sehingga tetap terproses",
+      "expected": "HTTP 200 + sumber ≥ 1",
+      "actual": "HTTP 200, sumber 5",
+      "pass": true
+    },
+    {
+      "id": "A10",
+      "nama": "GET /api/history mengembalikan daftar riwayat",
+      "expected": "array ≤ 5 butir",
+      "actual": "HTTP 200, 5 butir",
+      "pass": true
+    },
+    {
+      "id": "A11",
+      "nama": "GET /api/stats memuat total, hoax, verified",
+      "expected": "total = hoax + verified",
+      "actual": "{\"total\":111,\"hoax\":44,\"verified\":67}",
+      "pass": true
+    },
+    {
+      "id": "A12",
+      "nama": "GET /api/export menghasilkan CSV dengan header",
+      "expected": "Content-Type text/csv + baris header",
+      "actual": "text/csv; charset=utf-8 | ID,Timestamp,Provider,ModelName,Username,PostText,Claim,Indi",
+      "pass": true
+    },
+    {
+      "id": "A13",
+      "nama": "CORS preflight dari origin ekstensi",
+      "expected": "access-control-allow-origin ada",
+      "actual": "204 | *",
+      "pass": true
+    },
+    {
+      "id": "A14",
+      "nama": "Endpoint 9Router sudah dihapus",
+      "expected": "bukan endpoint API aktif (tidak mengembalikan JSON hasil uji)",
+      "actual": "HTTP 404, text/html; charset=utf-8",
+      "pass": true
+    }
+  ]
+}

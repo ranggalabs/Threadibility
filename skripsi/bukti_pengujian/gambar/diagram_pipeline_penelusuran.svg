@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 470" width="100%" style="max-width:700px;display:block;margin:6pt auto;font-family:'Times New Roman',serif;">
+  <defs>
+    <marker id="arrP" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#1e293b"/>
+    </marker>
+  </defs>
+  <rect x="2" y="2" width="776" height="466" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.2"/>
+
+  <!-- Node 1 -->
+  <rect x="230" y="14" width="320" height="40" rx="4" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.3"/>
+  <text x="390" y="31" font-size="10.5" font-weight="bold" text-anchor="middle">1. Input Teks Post Threads (POST /api/analyze)</text>
+  <text x="390" y="45" font-size="9" text-anchor="middle">Normalisasi Unicode NFKC &amp; Pemeriksaan Cache 15 Menit</text>
+  <path d="M390,54 L390,72" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrP)"/>
+
+  <!-- Node 2 -->
+  <rect x="210" y="72" width="360" height="44" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
+  <text x="390" y="89" font-size="10.5" font-weight="bold" text-anchor="middle">2. Pra-pemrosesan &amp; Penyusunan Kueri (webSearch.ts)</text>
+  <text x="390" y="103" font-size="9" text-anchor="middle">Kueri Utama: Kalimat utuh (≤220 kar) + "hoaks fakta" | Ekstraksi ≤14 Kata Kunci</text>
+  <path d="M390,116 L390,134" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrP)"/>
+
+  <!-- Node 3 -->
+  <rect x="195" y="134" width="390" height="50" rx="4" fill="#ffedd5" stroke="#ea580c" stroke-width="1.3"/>
+  <text x="390" y="151" font-size="10.5" font-weight="bold" text-anchor="middle">3. Otomasi Pencarian Google (googleAiOverview.ts + Playwright)</text>
+  <text x="390" y="165" font-size="9" text-anchor="middle">Buka google.com/search?hl=id&amp;gl=id → Tunggu teks Ringkasan AI stabil</text>
+  <text x="390" y="177" font-size="9" text-anchor="middle">Klik tombol "Tampilkan semua" → Ekstrak teks innerText &amp; kartu rujukan</text>
+  <path d="M390,184 L390,204" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrP)"/>
+
+  <!-- Decision Diamond -->
+  <polygon points="390,204 515,234 390,264 265,234" fill="#fef3c7" stroke="#b45309" stroke-width="1.3"/>
+  <text x="390" y="231" font-size="9.8" font-weight="bold" text-anchor="middle">Ringkasan AI ditemukan</text>
+  <text x="390" y="244" font-size="9.5" text-anchor="middle">&amp; rujukan ≥ 3?</text>
+
+  <!-- Left Branch: AI Overview Processing -->
+  <path d="M265,234 L185,234 L185,274" fill="none" stroke="#15803d" stroke-width="1.3" marker-end="url(#arrP)"/>
+  <text x="225" y="227" font-size="9" font-weight="bold" text-anchor="middle" fill="#15803d">Ya (Jalur Utama)</text>
+  <rect x="30" y="274" width="310" height="68" rx="4" fill="#dcfce7" stroke="#15803d" stroke-width="1.3"/>
+  <text x="185" y="291" font-size="10" font-weight="bold" text-anchor="middle">4a. Pembersihan &amp; Filter Kontekstual</text>
+  <text x="185" y="305" font-size="8.8" text-anchor="middle">• Buang CSS/JS, sitasi, &amp; kalimat penutup AI</text>
+  <text x="185" y="318" font-size="8.8" text-anchor="middle">• Resolusi redirect google.com/goto → URL asli</text>
+  <text x="185" y="331" font-size="8.8" text-anchor="middle">• Filter isRelevantToClaim (klaim + konteks AI)</text>
+
+  <!-- Right Branch: Google News RSS -->
+  <path d="M515,234 L595,234 L595,274" fill="none" stroke="#b45309" stroke-width="1.3" marker-end="url(#arrP)"/>
+  <text x="565" y="227" font-size="9" font-weight="bold" text-anchor="middle" fill="#b45309">Tidak / Rujukan &lt; 3</text>
+  <rect x="440" y="274" width="310" height="68" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.3"/>
+  <text x="595" y="291" font-size="10" font-weight="bold" text-anchor="middle">4b. Penelusuran Google News RSS</text>
+  <text x="595" y="305" font-size="8.8" text-anchor="middle">• Kueri kata kunci klaim + konteks peristiwa AI</text>
+  <text x="595" y="318" font-size="8.8" text-anchor="middle">• Skor = (10 × kecocokan) + 3(cek fakta) + 2(media)</text>
+  <text x="595" y="331" font-size="8.8" text-anchor="middle">• Maks 2 artikel/penerbit, gabung hingga 6 sumber</text>
+
+  <path d="M185,342 L185,365 L390,365 L390,378" fill="none" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arrP)"/>
+  <path d="M595,342 L595,365 L390,365" fill="none" stroke="#1e293b" stroke-width="1.3"/>
+
+  <!-- Node 5 -->
+  <rect x="150" y="378" width="480" height="72" rx="4" fill="#f3e8ff" stroke="#6d28d9" stroke-width="1.3"/>
+  <text x="390" y="395" font-size="10.5" font-weight="bold" text-anchor="middle">5. Sintesis Putusan &amp; Penyelarasan Label Rujukan (mockFallback.ts)</text>
+  <text x="390" y="409" font-size="9" text-anchor="middle">• Evaluasi hasExplicitHoaxSignal vs hasExplicitTrueConfirmation pada paragraf awal</text>
+  <text x="390" y="422" font-size="9" text-anchor="middle">• Jika indikasiHoax = true, ubah label rujukan "TERVERIFIKASI" → "FAKTA PEMBANDING"</text>
+  <text x="390" y="435" font-size="9" text-anchor="middle">• Kembalikan AnalysisResult (claim, indikasiHoax, confidence, alasan, factCheckSources)</text>
+</svg>

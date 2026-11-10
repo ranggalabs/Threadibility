@@ -1,0 +1,893 @@
+{
+  "runAt": "2026-10-31T07:49:38.052Z",
+  "results": [
+    {
+      "id": "H01",
+      "label": "H",
+      "basis": "Klaim konspirasi vaksin telah dibantah otoritas kesehatan",
+      "text": "Vaksin COVID-19 mengandung chip pelacak yang ditanam oleh Bill Gates untuk memantau seluruh warga dunia.",
+      "http": 200,
+      "latencyMs": 6972,
+      "predicted": "V",
+      "confidence": 0.95,
+      "alasan": "Klaim bahwa vaksin COVID-19 mengandung chip pelacak yang ditanam oleh Bill Gates adalah HOAKS.\nKlinik Hoaks\nBerikut adalah fakta ilmiah dan hasil verifikasi yang membantah klaim tersebut:\nUkuran Teknologi Tidak Memungkinkan: Secara medis dan teknologi, microchip terkecil yang ada saat ini (seperti chip RFID) memiliki ukuran yang jauh lebih besar daripada lubang jarum suntik vaksin. Chip tersebut tidak akan bisa lolos masuk ke dalam cairan vaksin maupun jarum suntik tipis yang digunakan untuk vaksinasi.\nKandungan Asli Vaksin: Berdasarkan data resmi lembaga kesehatan, vaksin COVID-19 hanya mengandung bahan-bahan medis untuk memicu kekebalan tubuh. Komponen utamanya meliputi antigen (seperti virus yang dimatikan atau materi genetik mRNA), serta bahan pendukung seperti air, garam, gula, dan lipid (lemak). Tidak ada kandungan logam atau perangkat elektronik apa pun di dalamnya.\nAsal-usul Teori Konspirasi: Narasi ini muncul dari salah tafsir terhadap pernyataan Bill Gates mengenai rencana pembuatan \"sertifikat digital\" untuk mencatat riwayat vaksinasi seseorang di masa depan. Pernyataan ini dipotong dan dipelintir oleh pihak tidak bertanggung jawab seolah-olah ia ingin menanamkan chip fisik ke dalam tubuh manusia. Bill Gates sendiri telah membantah keras tuduhan tersebut.\nNarasi mengenai \"chip pelacak Bill Gates\" ini merupakan teori konspirasi lama yang terus didaur ulang. Belakangan, isu serupa bahkan sempat dipakai kembali untuk menyebarkan hoaks baru terkait uji coba vaksin TBC.\nKlinik Hoaks\nCek Hoaks atau Fakta\nUji Coba Vaksin TBC Bill Gates adalah Upaya Pemasangan Chip 666. Hoaks; 2025-05-09 13:32:25; 491. Beredar klaim bahwa uji coba vak...",
+      "alasanChars": 1668,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Klinikhoaks.jatimprov.go.id",
+          "title": "Cek Hoaks atau Fakta",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://klinikhoaks.jatimprov.go.id/post/uji-coba-vaksin-tbc-bill-gates-adalah-upaya-pemasangan-chip-666-681da1daf326f",
+          "date": "2026-10-31"
+        },
+        {
+          "publisher": "Cekfakta.com",
+          "title": "[HOAKS] Uji Coba Vaksin TBC Bill Gates adalah Upaya ...",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://cekfakta.com/focus/26900",
+          "date": "8 Mei 2025"
+        },
+        {
+          "publisher": "detikcom",
+          "title": "Bill Gates Tanggapi Tuduhan Microchip Ditanam Bareng Vaksin Corona",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://inet.detik.com/cyberlife/d-6056587/bill-gates-tanggapi-tuduhan-microchip-ditanam-bareng-vaksin-corona",
+          "date": "29 Apr 2022"
+        },
+        {
+          "publisher": "Saberhoaks.jabarprov.go.id",
+          "title": "VAKSIN COVID 19 ADA CHIP DIDALAMNYA",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://saberhoaks.jabarprov.go.id/v2/klarifikasi/detail/ADN011826/VAKSIN-COVID-19-ADA-CHIP-DIDALAMNYA",
+          "date": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "id": "H02",
+      "label": "H",
+      "basis": "Bertentangan dengan konsensus ilmiah",
+      "text": "Bumi itu datar dan NASA membohongi seluruh dunia selama puluhan tahun.",
+      "http": 200,
+      "latencyMs": 6456,
+      "predicted": "H",
+      "confidence": 0.95,
+      "alasan": "Pernyataan bahwa Bumi itu datar dan NASA membohongi seluruh dunia adalah HOAKS.\nFaktanya, Bumi berbentuk bulat (lebih tepatnya oblate spheroid atau bulat pepat). Bukti ilmiah bahwa Bumi itu bulat sudah ada jauh sebelum NASA didirikan pada tahun 1958.\nBerikut adalah beberapa bukti ilmiah dan sejarah yang membantah klaim Bumi datar:\nSains Kuno: Filsuf Yunani kuno seperti Pythagoras (abad ke-6 SM) dan Aristoteles (abad ke-4 SM) telah membuktikan Bumi bulat melalui pengamatan bayangan Bumi pada Bulan saat gerhana bulan.\nPelayaran Mengelilingi Dunia: Ferdinand Magellan dan kru kapalnya berhasil mengelilingi dunia dengan terus berlayar ke arah barat hingga kembali ke titik semula pada tahun 1519–1522.\nFoto dari Luar Angkasa: Ribuan foto dan video Bumi diambil tidak hanya oleh NASA, tetapi juga oleh agensi antariksa dari berbagai negara lain (seperti Roscosmos Rusia, CNSA Tiongkok, ESA Eropa, dan ISRO India), serta satelit komersial swasta.\nPengamatan Sederhana:\nKapal yang berlayar ke laut lepas akan terlihat tenggelam dari bagian lambung terlebih dahulu, baru kemudian tiangnya.\nMenara pandang atau gedung tinggi memungkinkan kita melihat lebih jauh ke garis cakrawala karena lengkungan Bumi.\nRute penerbangan internasional menggunakan perhitungan Bumi bulat (lingkaran besar) untuk menentukan jalur terpendek dan paling efisien.",
+      "alasanChars": 1339,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Bbc.co.uk",
+          "title": "Laporan Mendalam | Peyakin bumi tidak bulat",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://www.bbc.co.uk/indonesian/indepth/story/2008/11/081113_bumibulat.shtml",
+          "date": "2026-10-31"
+        },
+        {
+          "publisher": "Tribunnews.com",
+          "title": "Foto 'Ujung Dunia' Ini Sempat Jadi Argumentasi Kelompok Bumi Datar tapi Ternyata Faktanya - Halaman 2",
+          "verdict": "CEK FAKTA",
+          "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPQVdpZ25rNFgySzRfcWZHaFNtU2xTTF84TVA1LUhFMjVEU3dBYm9POFFnR3VTazBLSnV5SUQ5cVA2MXBjam43QURKdmUxWS1XVU1ucU14S09mSWctQ01wQkJLX2R4UDI5Z3NybVpING5GS0wxdFV2WjR5c0ZGakZkakV3QWZ4VzRQMndfZ2ZBcm5NZUpsZ0hHaDFySjJtaTRaVmhWLTJ4dVh2bURaVVFubGZRMURQUDVJT3RXR2tIWENubktxWmpDQ0M5Um9kNzJKUmdR?oc=5",
+          "date": "2017-07-17"
+        },
+        {
+          "publisher": "VIVA.co.id",
+          "title": "Misi Bumi Datar ke 'Ujung Dunia' Bakal Bawa Masalah",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOX20xOEFsQkNrbXJYTmlFX2YxbEJjWUg5NzFnY1F5ZTRqcUN5QnJkTmlxMEtGa0EwMUJhQ3hBMHJ3VGtFYXpGcmlEMUFwZDRHSklzNGVnQVR6VU1Zbkt4SzMtUE5HX1F1WDd6SjVQcVNDb2xxeGNPR2tPQWNWNU51bkY5elo4STE5aFhyWndfZnc5U1dCZGdDdUtaaDZ2eVF10gGmAUFVX3lxTE1YaEhvaUgxTjdkNFdyZUtpemZhdEMxa0xrYXZqLWxKZnpSQmhORzRFc2lMMGxoOHV5NWVoYkNmUk5YcXNOZ2tsMkI2MFZ4UVRqUTlPdkNKWUw3UjhJbjlzVWdzbmU5MXJKU0VBRWJVMEJTR2NScjZlRUQtZzk3SmdLU1RyX2pGWWhGQVFCYlQtSk0zZkFoV1RfMFFmd0RVaUNRRmI2TUE?oc=5",
+          "date": "2019-03-22"
+        },
+        {
+          "publisher": "detikInet",
+          "title": "Legenda Tinju Dunia Yakin Bumi Datar dan NASA Pakai Gambar CGI",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOUld4blNWZzFmR21sZTNONEtfbC1zam1IdWNjaFhEVktzb1lDcXpVeTBfeVJvdTRRZnBFVnY3cklOYTQzVzZ1TzlOVEhEMmdpMGxpTzhKSDRmZWRIYU5zSmcxQ0RUWXQ4Vnl5UTY1aFV3ajRrQlpMb0dHanhZS3k0ZF9Cc0lJU3NwN0ktRGhrRzhFQ09ZcWpfc0pSQXgyUnA5NzhCbVpB?oc=5",
+          "date": "2019-09-27"
+        },
+        {
+          "publisher": "detikInet",
+          "title": "Viral Peta Bumi Datar Dikelilingi Dinding Es Antartika, Begini Faktanya",
+          "verdict": "CEK FAKTA",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPcDVuSEc4bk9EaTYzNnNUQkQxTl9oeGtDM0JDLVBqQUhlU3EzTmxKenA4THFPY2hHdXVXRTR6c0lsWG5mY1lsZlJwT0R6VXIzSTZrN1l3Xy1PMHhIeGpsaXpPNjB5ajRyQ2xjTUFaM3BZQWU4OF9MNjBYMFJFOXpPRzNzWnpLbTFBdW5aM0RJMEZUYlU5VnNrTkg4TTBTZ1J5QUpKSHV1U3ZpSVJMbU51YtIBtgFBVV95cUxNZG9IR1dsSDZMQk5fb1FGVXFNYmdqZXJNSEl4b2hidU52ay1hOXRRd0FyT3N4VkZvOGFNdXVrNXl6RWNmVjBrRlpMZ2tGcnZwMy1EWVhtV3JWSXIwUkR4TXgwU3hGLUdJYXhoUlVoNWg3ZVhwSGFobzJEZmlaQzZUOFo3MUM5ckhEYnlMTHFxSGNuOFl5VE5INVlKSU9ZOTdkV21GT3hCQ1VSNExVNXl6UlQydDhEZw?oc=5",
+          "date": "2024-01-02"
+        },
+        {
+          "publisher": "Liputan6.com",
+          "title": "Penganut Bumi Datar Tuduh NASA Melakukan Pembohongan Publik",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxONUlrdHRKZWJDSXJMLWdwYnlJSFZfRldTeGtjRDQ4NktMcHc0QXZBZTFtUm93UkY0TmY2SDJiZ3lodExSeUpxcnlFMVV2V25HdHNTeXpQSnl3NFFfWnZscEpuWHFaU0htbjRfMHNLSTdhanQ5cXJqeWNGeGl0Qkw1b2pTbjdFRnJLZ2w2X3RGTkZja3ZZOWxsVGRuVWpPby01RGVtTHJvVdIBnAFBVV95cUxPanJXOHAxdkFSeFZtLXA5R3c1THBJdmUzYjhtMDlJYkE3WjVqZzBsSzdPaHgyLXlTczZFYVZzTU9QLWhsYzlwRy1YcDdtaGozRlVDX0JrWW5uRWhwVWxUbEVjc1owOFhNd2treWJrZGVfamx5Qzl1SnViZi0tUU9FVGx6eEtEVWxwZlJUaldhOVgzQlJ1SXkxWU9fMzA?oc=5",
+          "date": "2018-02-01"
+        }
+      ]
+    },
+    {
+      "id": "H03",
+      "label": "H",
+      "basis": "Pola penipuan/phishing berkedok bantuan",
+      "text": "SELAMAT! Kamu terpilih dapat saldo DANA gratis Rp 2 juta dari bantuan presiden, klik link ini sebelum dihapus dan sebarkan ke 5 grup.",
+      "http": 200,
+      "latencyMs": 6731,
+      "predicted": "H",
+      "confidence": 0.95,
+      "alasan": "Pesan tersebut adalah hoaks.\nPemberitahuan yang menyatakan Anda mendapatkan saldo DANA gratis sebesar Rp2 juta dari bantuan presiden dengan syarat mengklik tautan (link) tertentu dan menyebarkannya ke 5 grup adalah modus penipuan (phishing).\nBerikut adalah beberapa ciri mengapa pesan tersebut dipastikan hoaks:\nTautan Mencurigakan: Tautan yang dikirimkan bukan situs resmi pemerintah (.go.id) atau aplikasi resmi DANA, melainkan link palsu yang bertujuan untuk mencuri data pribadi atau mengambil alih akun Anda.\nSyarat Berantai: Mengajak untuk menyebarkan pesan ke sejumlah grup adalah ciri khas utama hoaks atau penipuan agar korban bertambah banyak.\nTidak Ada Program Tersebut: Pemerintah tidak pernah membagikan bantuan sosial dalam bentuk saldo aplikasi dompet digital tertentu secara acak lewat pesan instan (WhatsApp/SMS).\nLangkah aman untuk Anda:\nJangan klik link tersebut.\nJangan sebarkan pesan itu ke grup lain.\nJangan berikan data pribadi apa pun (seperti nomor HP, PIN, atau kode OTP).",
+      "alasanChars": 998,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Poskota",
+          "title": "Saldo Gopay Gratis Rp100 Juta Terkirim ke Dompet Elektronik! Selamat Nomor HP Terpilih Berhak Klaim Sekarang Tanpa Link DANA Kaget, Cek Syaratnya",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxQWnZ3b2NWQWFRdmZKZlVTdkxCdlJjdElmc1BmWUN4R0dDbUdTSXJmU091V09PYXQ4NUpRZlFUOWN2SUthSGpCWVQ1b1RnVlZBY0ZtWG5hb09BVE5vc0htd1FnemtZb1lKRHVGQ3BpM09TZ0dlOGFnSXUtLWdqQTZDQ3hNZGtxYTRITVpDUlh6QzlOc0c4LUFuRGltZFhwejFoTE1pN1JrclVVRUFEenV3YmV6UGQyX1hvMU42RThvS2x3bEFFX1R4ajdkSTJ3YWI1b09WdTZlMmxzWHhFZlZqTUIwRGZ1VzBpZE04SVN3akhFcF93V2dZQTJZb3daWm43dnEyYV9KZzJXNHpF?oc=5",
+          "date": "2024-09-01"
+        },
+        {
+          "publisher": "Suara Merdeka Jogja",
+          "title": "SELAMAT! Saldo Dana Gratis 100 Ribu Hari Ini Senin 23 September 2024 Masih Aktif Bisa Kamu KLAIM, KLIK Link Dana Kaget Di Sini - Suara Merdeka Jogja",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMihAJBVV95cUxPY2lCZkFJblNvTk5VQVNJbTNCWEI3Vm1zaEZtbG94NTY5Yl9zTVVkTEM0UU90eEJLejA2TVh2TGRMVEZaU3VKX3g1cFdldjM5djNqQk81UGo2RlIxNFNMZDNPSE9Qd28yN2Y2bUpEcTU2VW5aU2hGZFQxWU92RkdWNFN6YmVEZVEzeXgtamptQmlmYnJPWkt0ZG5GVFl2UXZBQXlZak5YQTc2S0dTNk1ESHFLTURnZ3cxWURET0V2SlRJNGtmamQwZjdKSTNOVlJWYXI4azd4bVgzalpGXzZRVUc2elFrYUpuWTJDbHNJcVFxcmYxQ09ZaUxyZXVUdzR6Tmd3SNIBigJBVV95cUxQVVlpNEgzUV9Ld0pNZk5KWi1KVFVzLVEzRGY4cHJ6NExCckhacnhnTjNEeEJia1NZVFRTbE84WWNSRmkzT09Bb0VQUTlXYVp1SlJlLTRFMGE5M0gtMlFnMVJ6RURqOGRTYzYybkJETmRiYkRPUXZ1Qm1WZ3BYTUQwcDZGYzMxb3VLYkVEb1A1RlZ2OVhsdURpdDVxQ1o4UkpTNXpTUEdMajFUTnp2UzdFM2ZuaGJ1MTNUX0U1QXFPYnZEVk1ER1NydHY3SDZ2U2xmUGQ3UWJUR0hrYWE3ZmJuUm4zNi1rdDJIOWdQTmxOZXVBQkpJSHIyTFZjVHduT2pHNDJweG1Ra19Ndw?oc=5",
+          "date": "2024-09-22"
+        },
+        {
+          "publisher": "Suara.com",
+          "title": "SELAMAT! Nomor HP Kamu Terpilih Mendapatkan DANA Kaget Gratis Rp450 Ribu, Cek Sekarang",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOYVlxWjNpYnMxNjZRWGZaSVg0aDUzLXp5T2wyU1Y4M2hFdGI4YmVpNXAxWjkzX3ZjN29BUjlJZ1Z1eVBWOXJBcVpQd2NpdEhVVTZnWGRSdWNlckVod0p0cHQxZmc5djB1NXJ3anRuTk9Lam1EM2lsc3RlM2ZlWEZqZVZ4dGFnRmRMamswOV9jblI3UDNVQnltd1FsNjFFV0VrSGVJN24zWkp1MldKV0hTenlNSktMbWw3SmluYmIzWjVGQy1xRjFKWVJLTdIBywFBVV95cUxNbldnR0RRbEtmQVNLTkUxT0JOdmY0QlhGSVdQRHJxYUE1M3lUcnZrUDI2dG1XUmFrbDJaVDctc3hhTUtQVDVwdkJuMFlTajYwRU9wWFotU2VVcUxjQ2dIMjJBMFRGamNhOWszcVB3Y0V0UHVnbTVtMi0yYmktOUZDeThHWC1iYm1rUVdjT25jTE54M284MnR5YTIxZ3c1UVJEX1FUSTFoRUdjQTVUdWVmWkV4Wm5LOHRfVDgtb3ZiNWxJOHpSMUtFanBzUQ?oc=5",
+          "date": "2025-03-21"
+        },
+        {
+          "publisher": "Berita DIY",
+          "title": "SELAMAT Anda Berhak Klaim Saldo DANA Gratis Rp 1 Juta Hari Ini 13 Maret 2024, Begini Cara Daftar Online di HP - Berita DIY",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOUGNfTVZaYkVqclFKNW5JZmdmYWpWaWxUZlg2UHJyci16TUFWcWt5ckg1U0dLdFpfNkY0c2M0bG9kSTYtbTRmR01LNGJpYklSYVdTaktrMmdkQ3JSclU4cU5neGpKQVNkMTdFUVlvZk5xSkd5NTM5M3RmU0tOMVpZelpobzZ2UnEwNGxkZTZtdFlkTHJnVUF3eExLT3VtOUJyMEdvYW40bTROSUhPUFlHc2Z3cmVjVGk4TVItQlhZZi1DeVRZenNXa3prVFIxZl9XZUl2NVdFWU10bjhBSDl3clRWS3dhckFmdzJ0YW9kaHBqZXNjbVA3b1RR0gH_AUFVX3lxTE1fZVhJbnRHZTlHbEttMjZlZTg5Q2tqcEVPY1ZJZTd4Ylo4SjJGUkxIbFUxRmF3WkpLTTdQb0J4YnktZVlsOFRwV2N5dE1MOWRnZlRIYU53NkVmQjRLdmRLUk1IRV9NaUViTTJBeVo4U2Jxb0JvMVhpemlhaVF4SEluNjhiQk9HdjJaaXlrb1dLLWxiSkxIWHFrRWRHbGtDTWVqemwzcUJGSXdMbTRxbHhvVGQ2RUpMMEZEN0ZJOEl2ei02T0tLTkJBTGxiN3dSdzFmejZobUJkdUR5U1lGeTJNVXIxanhzaXpOUVdOWGxEUG1DUXhVLTNWaGxLclFmYw?oc=5",
+          "date": "2024-03-13"
+        },
+        {
+          "publisher": "Banyuwangi Network",
+          "title": "Selamat Ada Saldo DANA Gratis 1 Juta Buat Kamu, Hanya Klaim dengan 3 Cara Ini - Banyuwangi Network",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPNXRpaG5YMUNuanhiVnE1eUxtRndOVnlNR1BtUi10RFBrbGNMeDVMQ1F2RGluM1lONm0zaEdabFNHVkRhNGpBX2VaeHFQc3JqNDBQdWNxMFl5X3l1TVF1R0NSQXVha040N1JFZHVoUEhsdWExQjhqWEtCNlVDeTVPeXlDNWlNZVNkMlVUbllJd1oxeVg0RkhYQmk4WGpXdEFQSDhnOUxZQlMxX1FNa1NsRklINkVkd3JLaXRWVTNnaTRzTk9qWklQWmJJRGZUVE1iWWtiV3pn0gHbAUFVX3lxTE56V0lMTllDUnFuNnZPMXJwQ2VrcTZRcThKNUZ0WXFmekVjU1U5d0xOTXpFa3VWc0wzVWk3SmNSNmRxUlFVWmhiWHUycEVONWxHWlNxT0RaTU9fZU1LRlljXzhLMk1jY2dSMHFQSWZhLTRBc01wTEZqTU9fR0hHVUMxUFVrUUpEcUFiMjhRcGE4TE5NTkhBNE9QRE81d2g2Tm5jV002Y3NkWDN6bTJ4MVFsY2tyaHQ5Nkhtcm5BQlROSndqcGZFN1Q3U2hMZDJtRUJmN29ybGMtTzVjdw?oc=5",
+          "date": "2024-03-19"
+        }
+      ]
+    },
+    {
+      "id": "H04",
+      "label": "H",
+      "basis": "Klaim pengobatan tanpa bukti medis",
+      "text": "Minum air rebusan daun sirsak tiga kali sehari terbukti menyembuhkan kanker stadium 4 dalam seminggu.",
+      "http": 200,
+      "latencyMs": 6449,
+      "predicted": "V",
+      "confidence": 0.95,
+      "alasan": "Klaim bahwa minum air rebusan daun sirsak tiga kali sehari terbukti menyembuhkan kanker stadium 4 dalam seminggu adalah HOAKS.\nBerikut adalah fakta medis dan ilmiah yang sebenarnya:\nBelum Ada Uji Klinis pada Manusia: Kandungan aktif dalam daun sirsak, seperti acetogenins, memang menunjukkan potensi membunuh sel kanker dalam penelitian laboratorium (uji cawan petri/uji in vitro). Namun, efek ini belum pernah terbukti secara klinis dapat menyembuhkan kanker pada tubuh manusia.\nKanker Stadium 4 Tidak Bisa Sembuh dalam Seminggu: Kanker stadium 4 merupakan kondisi kompleks di mana sel kanker telah menyebar luas ke organ tubuh lain. Tidak ada obat herbal maupun medis di dunia yang mampu melenyapkan kanker stadium ini hanya dalam waktu 7 hari.\nRisiko Kerusakan Organ: Mengonsumsi air rebusan daun sirsak dalam jangka panjang atau dosis tinggi justru berbahaya. Zat di dalamnya berpotensi memicu kerusakan saraf (gejala menyerupai penyakit Parkinson) serta gangguan fungsi hati dan ginjal.\nBukan Pengganti Kemoterapi: Lembaga dan rumah sakit kanker resmi menegaskan bahwa daun sirsak tidak boleh digunakan sebagai pengganti pengobatan medis utama (seperti operasi, kemoterapi, atau radioterapi). Menunda pengobatan medis demi ramuan herbal justru berisiko memperparah kondisi pasien.\nJika Anda atau kerabat sedang menghadapi penyakit kanker, sangat disarankan untuk berkonsultasi langsung dengan dokter spesialis onkologi guna mendapatkan penanganan medis yang aman dan teruji.\nHalodoc",
+      "alasanChars": 1487,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Liputan6.com",
+          "title": "Cek Fakta Tidak Benar Minum Air Rebusan Daun Sirsak Bisa Sembuhkan Kanker Getah Bening",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://www.liputan6.com/cek-fakta/read/4359840/cek-fakta-tidak-benar-minum-air-rebusan-daun-sirsak-bisa-sembuhkan-kanker-getah-bening",
+          "date": "18 Sep 2020"
+        },
+        {
+          "publisher": "Liputan6.com",
+          "title": "Cek Fakta: Tidak Benar Minum Air Rebusan Daun Sirsak Bisa Sembuhkan Kanker Getah Bening",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQcE9ySGlKdkdISEZBaGdZYVpzQV9qUGZORWdNTGZ2YkFOQ2x4TmgzaGk5MmFSNHBPWHRWVWtsd3VYQmgxeUdpNzBTeFV2VkxocWRYUklUdHBhQVFXVFFOQl9MTVZXLWt2Z0U3UGpSbHR0b1BXZ0RUVXYxR29tMG5Rcl9pSkdrVE9XdWpuZm40aG9GREM2S19pVXZLTEhTbTF6RlJsZ3NIM0JZX0xYczVVNlhneGZjWFdPODVQU0JabWFHaVpsVWx4b050VXZGRDjSAcABQVVfeXFMT0IyRGpsZ3owTFV0TFNXTmdIYXpmVWplb1QzNEsxNEEtTXoybEVXNkJwOHpuTVlCZ0lORGhHTGdvTDY0SFNfSkswOVZWUnZTYmI0dGdLLTc3WXFobjhSZWtYazBBN1hINEZRcG9sbEhIT2M3LWFRV1F3TUJMbUROV3NuUlVHTGFOcGhDSXY1YjlxSVVzX2FPVFRRMW90TThsakxlbWdrczd1LWJ4S1cyOUxwYkxtLWM3R2dQWFYzM2pI?oc=5",
+          "date": "2020-09-18"
+        },
+        {
+          "publisher": "JPNN.com",
+          "title": "6 Khasiat Air Rebusan Daun Salam Campur Daun Sirsak, Salah Satunya Atasi Asam Urat",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQVEl3TEU4VzR3cVdxbXhlU0MyTzhkcmF6bExNZDdaX2lYYUhHUmVSbUV1elhIWFpndmVHN1hXYnZqVkpFQVM5bGNZMVduMXVGRVpzaWNHU01CTUJqZjlOTmhBckdqclNkMWc4WDB1NzBSb0NQZkJXTk1oOVY4YjF1MXdkWWFESDFoNzl6VzBmWFZrbWd1em9pMW03VjZOQ2tDT2xZdk5WRWxGRjDSAa4BQVVfeXFMTlJYZUk2V242ZXR4eU1kOWRoTXNKcEZvajdlWjl0ZlpuZHF4ZldTcmFBa3NQUTNndzBxUW1TN0RndFF0WUg0N0NYWXFmcG12bXVGeGlBN0cwaFlTcGkwNmowYkRfMGY0MnlpemZqeEhoMGZMcENqTEtfTFJ1dWtBaGpISTFZMGViWWZjQ3VINW9Yd2tXM09FeHMyM1NQREQzMFpVWFNhbHFRc0M0WThB?oc=5",
+          "date": "2021-01-26"
+        },
+        {
+          "publisher": "Kompas.com",
+          "title": "3 Efek Samping Minum Air Rebusan Daun Sirsak yang Jarang Diketahui",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPLUZFOFBVWGFsb1YzYWxsTkV6ZlY0UzA1anlaQzluSVJReTBKZWZJckIyV29WeUh6NlJNalpOZExDdjdkbHNSUGF4aFpMZVB5UkFnbWFyNGE4MnhNQThHSGVkNGF3U0VKc3Z0MVpCMkp0b19kZnFEM3p5MF9WUHI2RmdFNWpHYmtHcGlhcjFEd0FkeUFDWVYzT0VhLURGWFhLR3NYVjUyRXprUXVQdGxDcFJQMEtzSThENy1XS9IBvAFBVV95cUxNTkI2YWRFM0lYQzRhc3hxdUtrWnBNU3lOQngzclQ2Y1A1R1JvMWtJc2I4c0lLRUFfU09YNzJfQVl3QVBuRXhrOU43eDFYdlhqT29CRmtVZ1RzTlhzOXA2a25hRHI1YW1BYnRjRi1iSGZlYkxqekRtcGFQc3RrY182V2ZGZXE2aktYcFJfM1JWREV6U0Z4Qi0yUEFNaEpPQ2x6MmxpcW9vaGlnUlpHamlMeTI2eHBXdGZWVmluZg?oc=5",
+          "date": "2025-01-03"
+        },
+        {
+          "publisher": "SINDOnews Lifestyle",
+          "title": "7 Air Rebusan Daun untuk Menurunkan Asam Urat, Obat Alami Redakan Nyeri Sendi",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxNREUwRmp3OWtGTjB4Ylk5WjBGNGRuTVAwYWV0TFpxY0l4aEppQ3MtVTdQTzJKS2xtRDY3dFRlN1lZUDl3VjlEd19LYVBrX2U0TjVwT3BFcU95UElXOUp5bXhQMGdqNVVSVW9sMU9OSlN4cUZucGpQbnRLRm1mZkpCRkxSWXNBbFA0cUxvLXd2MVZBdHFJNnhEMlRrSXZxVV9wWVQ5czJUOUt5VXM4VU9FWFJ2U3ZKSC1Hem5mc3ZqT3B1ejl2dG9tYUwtcnI2ZzluOVdLUTBQUkt6bjh4MG1ld0lRQdIB1wFBVV95cUxOTnpKMUZUM0hpaVJzN1lUVjNLdDZNT1pXWTh1RkYxeUNZZWxiVkxTSS03REN6WnJ5b1o0Q1J6bzBMazUydUJRSVpkTkNNN0hpOXpsYVIyOUdxZGN4R3pJX2ZJeGJwQ1NENVZ0c2xBbWxLT045c2pyTUpwRmFMbktXcFZnTV9DSnR4OUJjbTlqeGhtamtHZ2t6OEt3Y1ZSYmVuaHBzU0hoMUxKVm1JUHNHZVVqSjc1MHBuM29JMERFWElibG9STzFjVnRjcWk2SDNvc211OVR2RQ?oc=5",
+          "date": "2023-07-08"
+        },
+        {
+          "publisher": "Halodoc",
+          "title": "Ini Reaksi Tubuh Setelah Minum Rebusan Daun Sirsak yang Perlu Diwaspadai",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNWVd2eFMyZkJFS3IyNG8wdVhkTFItR1N4eU9BcXNDRjgzZzc5Q3Mtb2lIakJQWlRodVNVbGJWbHZhUFY2a0VIdFgyamdEbnhKNHdManZXazlNUVpYa2FlRlF2dzBzNmk0NDBWRlpHWkcwSG1QWUxPd3duMUJtM3BHX01GdmlEWE40OGdmNnVCVGowQnE3QV9IcmJ2NjBLMV91aTNIWHZvYw?oc=5",
+          "date": "2026-09-08"
+        }
+      ]
+    },
+    {
+      "id": "H05",
+      "label": "H",
+      "basis": "Tidak ada penetapan upah semacam itu; pola hoax ketenagakerjaan",
+      "text": "Mulai besok semua buruh di Indonesia otomatis gajinya naik jadi 10 juta per bulan, sudah diteken presiden.",
+      "http": 200,
+      "latencyMs": 11500,
+      "predicted": "H",
+      "confidence": 0.95,
+      "alasan": "[Evaluasi GOOGLE AI OVERVIEW] Konten terindikasi hoaks (Ketenagakerjaan & Upah). Klaim mengenai kenaikan upah seluruh buruh sebesar nilai tertentu tidak memiliki rujukan surat edaran resmi, peraturan pemerintah (PP), maupun penetapan UMP/UMK dari Kementerian Ketenagakerjaan (Kemnaker).",
+      "alasanChars": 286,
+      "jalur": "heuristik (tanpa Ringkasan AI)",
+      "sources": [
+        {
+          "publisher": "https://janalokajournal.id/",
+          "title": "Gaji Guru PPPK Paruh Waktu Naik Hingga Rp2 Juta Mulai Oktober 2026",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQNlM4ai0zeGlQa0JDeE4zTHRZQm1sa2ZXLVYzaUZmaFBkbGVpM24zcXJnLUdrU2kwcFRUZVczRnVINTFqUkZnLUV4dWZZS3FtTlFwRUNST1hDQ2F2bzhmX0h2NFMwTTh5a0xMeGJRdVQzeDk0bGtvQnZoNzFZc1ZQQQ?oc=5",
+          "date": "2026-10-01"
+        },
+        {
+          "publisher": "HARIAN MISTAR",
+          "title": "Resmi! Gaji PNS Naik hingga 12 Persen Mulai Oktober 2025, Cair Rapel November",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNT3l2eTVQY0U1WUd4akFnUVZmcHdiekpWQTdTdGstRzlCd3VVMFlYSTBwOEFlUzlLcTF0VnMxUmMxMDVGQ0Q0R3RqTFQ1ZmNKajF6QVJlYUExbExUWnlsajdQTXUwQm0tSlFUUVRxUUdJVHRUMnBLQWt0dmFWanBNSVR2MHQyQzM3ZzZmYjU4eXhjOWVDY1dwLVhNZEJSMmE4bkRlYm5rb0dKYXc?oc=5",
+          "date": "2025-10-12"
+        },
+        {
+          "publisher": "Radar Kediri",
+          "title": "Gaji ASN, TNI, Polri, dan Pejabat Negara Naik Mulai Oktober! Perpres 79/2025 Sudah Terbit, Pencairan dan Rapelnya Cair November",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMigwJBVV95cUxQZ1RQXzhKWkthT0dzXzVXRjlyQnNKRi1UMFZxUThsbU92a2dCNXlSVzktZHNPWHYtT3hUOFQwclJCajFFU09rTmt1b0ozOHZaQU5GOFlJeWZ1b2xXX2JYczVzZ19fdW9zM1VJdTZ5QlBVUUVZSWEtVTJsUF8yaW5jOUFDRmN1UXN5aWJ4OXhkQ0NjVzg5NHhDLUloRXBYUVVHZWxiaVhFbVJqR3ZjbFpydUNyMUhxX1EyWGxYc1lkY0RrZnlUWGdONkRBbEpjRm05LWdIcV9nQXliMTZLWUl3LXVwTzVqa2dBYXhPYkd0T0hONUpDQ0o5aEhVa2JidGdmbXhn0gGIAkFVX3lxTE9HQVZkV2xTdHdITXRvQm1NUEN4dFNicTkxcFBFd1hwNFJDaFhscXc4LW1NSVVrWnNrWmdfcEw0dllMNkQ0d29IMXRMN2pSRmhFQWJOLWJBX1ZKN2NCc3RyZURXZ040Y2tSVHotX1VhX2FOa3lRcWlEbmRxOXJENGlyTmJiN1ZhdW9NeDNaMnNRU25sQk9zeG9OdXE1Q1VndXhpdEpvN3ZCS2V0X0ljS2VYMFVKOVlWMDV2bVZHcVRiNHlKaVRleDhTdDhzR1RBdkEwenBiN1pKMzlfUWltdjh2N3FPQy1xX0V2S1F6dGR5SEIwc2ZmN3lpZExFcUdWZHR4Z1JrM2lLMg?oc=5",
+          "date": "2025-10-18"
+        }
+      ]
+    },
+    {
+      "id": "H06",
+      "label": "H",
+      "basis": "Kasus nyata penulis: satire pada Threads @pergijauh (29/10/2026)",
+      "text": "Demi ikut (di)sumpah(in) pemuda, salah satu mahasiswa Unhar (universitas harvard) rela meninggalkan sidang tesis neuroscience-nya 1/2",
+      "http": 200,
+      "latencyMs": 6682,
+      "predicted": "H",
+      "confidence": 0.95,
+      "alasan": "Pernyataan tersebut adalah hoaks atau bentuk sindiran/satir.\nFakta Peristiwa: Narasi tersebut lahir dari ejekan dan sindiran di media sosial (seperti dari kreator konten Gofar Hilman dan netizen) menyusul viralnya peserta dalam acara Deklarasi Sumpah Pemuda Mahasiswa Indonesia di Bundaran HI, Jakarta, pada 29 Oktober 2026.\nKlarifikasi Peserta Viral: Salah satu peserta yang viral mengenakan jaket almamater (bernama Bayu Setiadi alias Dino) telah memberikan klarifikasi bahwa ia bukan mahasiswa dari kampus bergengsi tersebut (melainkan mengaku diundang komunitas dan dibayar).\nKlaim Tesis Neuroscience: Cerita tentang meninggalkan sidang tesis neuroscience di \"Universitas Harvard (Unhar)\" hanyalah lelucon atau sindiran satir warganet untuk menyindir kejanggalan identitas peserta acara tersebut.",
+      "alasanChars": 800,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Timesindonesia.co.id",
+          "title": "Polisi Gelar Deklarasi Sumpah Pemuda 2026 Bersama Mahasiswa di Bundaran HI",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://timesindonesia.co.id/read/news/615137/polisi-gelar-deklarasi-sumpah-pemuda-2026-bersama-mahasiswa-di-bundaran-hi",
+          "date": "29 Okt 2026"
+        },
+        {
+          "publisher": "Pewarta Nusantara",
+          "title": "Pria yang Sempat Mengaku Mahasiswa Saat Deklarasi Sumpah Pemuda Akhirnya Klarifikasi, Akui Bukan Mahasiswa",
+          "verdict": "KLARIFIKASI / BANTAHAN",
+          "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPOFJ0SWQzeDRDT0MxSW9oblQtNVRacFpTbXJFYUlTODdoalYtSUw2bzVpQmQ1dHM3QmxjWmd0MVE3S0ctc1VKREQzRjdUUWhfQURGTEtqU2pMTVZyWWxwZEwzRG1fc0ZkMUgwOW16SHg4cU5yMHJPUUUzSlMxUzVuMXJmakp1UERCSmhXUzZxdzFtd1FVdUw1Y2tHT1owaEdzVFUzdmY1dFo0YnlHSUlnUWJUbnZUbm5iSGZQMW1mRXgxUGVweWF6UUdjcWxZaktGNVp2c2FTdE5DY0ZpRnpF?oc=5",
+          "date": "2026-10-30"
+        },
+        {
+          "publisher": "Suara.com",
+          "title": "Raffi Ahmad Pesan Lawan Hoaks, Tapi Ada Mahasiswa Palsu di Acara Deklarasi Sumpah Pemuda",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNT0hmYkdSRDVxLVd4eVFqTnYtUlNMWUZkdG1xSFVmQW5ybU9lY2lSSFBFOFVZR09kZzhaaURoRV9ZZGpMU09OS2QxVW1DRXBRdjh4Sk9neVJwalNsbGI0RVFDRW9PaXFIb3dDaGhjSUdwWExKZm5MRkJXZ0ZMb1VuUmFtcnlhMlFKUGlHTlJkRmRIY0VMWXp0TjY0QmNwS1A0NUh4M25LVXZDcWJEelJzTU1WOW5oSEJVUGdoNVZBSy1CMURZMUZ1dVNtbE7SAcwBQVVfeXFMTVAtcEJEbFBYX3VXTVVLRXFKQm10RzlMOE1lb0tTcnF1a0NONWY1U0s3NHVIVDRKVE95R3dYVkkyZ2VXQTZqR2dYN1FmMkZ0RTNvWUx0blpMcTNQdGcxRzZ4dGEzSnNNbFV6REtkeFVrQWptb0RJazdMWmQ5bHd1b3c1WXhScjFrV1Qwc3Zvb1gxV3pJQnNpbXU3VEV5UTMydXNZU0h0Y2tqakFIY1AwRXJvRncyWlpNcHVOV1Zzc25ueXBOU2ZOOVlxR2R0?oc=5",
+          "date": "2026-10-30"
+        },
+        {
+          "publisher": "TribunTrends.com",
+          "title": "Wanita Pakai Almamater Kuning di Deklarasi Sumpah Pemuda Dicari, Mahasiswa UT Tuntut Klarifikasi",
+          "verdict": "KLARIFIKASI / BANTAHAN",
+          "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPRnQ2blZrMkoyYlJVZmtDbkVwckhlY2RiYU4wbGl5R19LMHZDUVpmUU1TMVd2MUZOSDkwNlNtMTh0T1FPVjdVQUxsaUNuLUN1WXJBejdZSFo1QXNrS3JBczlRQU5XWHNlVFB4ME9tYlczTC1DeHRGWHpVUVcyVVBoUmgyNWFWSzc0WTYtS1ZhYUNMbTZ2SmlWREYzMTREVVEzLTdITEs1ZlV3blhUWUQ0UFdVelllSl93VUtlWmZ4RWNVNDdaRGlZZ3dsZlB4THkzcUt3?oc=5",
+          "date": "2026-10-31"
+        },
+        {
+          "publisher": "Kompas.tv",
+          "title": "Peserta Deklarasi Sumpah Pemuda di Bundaran HI Akui Bukan Mahasiswa & Dapat Bayaran",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOQmxOendTc2ttczVJSEZHOE5zSlBNWWJ0TEJ0bUFMSkdlS3NWUjBEcWR3WlZTUmNjczljdkp2ZHludExKXzBBNHgwY0FkblpjTGxZWWxvYVJXVy1TaHlzd3M1dDJiMWNCTzBxSU1tOWVlWmRWUlJGU0tyOVNXY21Fb2xSejBtemp6V0FMSWR6enpwY0Yzc2VBSmR0YThtSEZQRjUyOGFoT1NpX1REYmR4TlJfelAyNzZRMlY00gHAAUFVX3lxTFB2d21adzNocGdiQnBLLTFtNmFJUmVxSU1IemcyaGlEVV9fdjNSNnEtREFUemZPZ1ZaR1lxNWxZa29Tem8tVDBuNUhvc1g3Tzg1YXFGdTBRdUlpSEVaYURvMEhKdEFycEswbURxLVpaQWdYQjRXVXk1YmpLUC0xampQVXU5Y2dEVEVxRTNNdDd1Q0EzRk9mV2NrQlZrR2VISVktUU0tY1lnUGpmTm5wMkR5b2F2OFNVX2RqSFh6ckRKdw?oc=5",
+          "date": "2026-10-30"
+        },
+        {
+          "publisher": "Nyata Media",
+          "title": "Raffi Ahmad Klarifikasi soal Kehadirannya di Deklarasi Sumpah Pemuda Mahasiswa Indonesia 2026",
+          "verdict": "KLARIFIKASI / BANTAHAN",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNaW53cDJ5eldBZ2NESHlxRm5TLWxOSVptRlBXV0hKdzhteWtZVjNIOTlFV1pqSUVHWURpQ2tnV21NYTJDQW91dTdOb3ZudVUtbjNsNGpaMTkwREZ4ZjNIcklmakpXaS10SHpHMnB4cm8xVC1uN0pYMTJwdDhpb3l0MllMd0hQRXJvekRhNmNrQmlJSDU5NmFONWE2cW5EZ0JRcnJSdjJjcjE1TG5VcDMwcWd4dmJaWGNKcHpLdQ?oc=5",
+          "date": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "id": "H07",
+      "label": "H",
+      "basis": "Kasus nyata penulis: narasi pemanggilan ke Hambalang dibantah media (jadwal pertemuan lain)",
+      "text": "INFO VALID. PRABOWO KETAR KETIR PANGGIL PANGLIMA TNI POLRI KE HAMBALANG, MAKANYA DARI PAGI HELI BOLAK BALIK DIATAS UDARA BOGOR. LANJUTKAN DEMO, IT WORKSSSS!!! KAWAL TRISAKTI, UNJ, UNTAR, ATMAJAYA HARI INI! WARGA JAGA WARGA",
+      "http": 200,
+      "latencyMs": 6104,
+      "predicted": "H",
+      "confidence": 0.95,
+      "alasan": "Pesan atau narasi yang beredar tersebut adalah HOAKS (tidak benar / keliru konteks).\nFakta Sebenarnya:\nKonteks Pertemuan di Hambalang: Presiden Prabowo Subianto memang pernah memanggil Panglima TNI dan Kapolri (serta jajaran terkait) ke Hambalang, Bogor, namun pertemuan tersebut bukan karena panik menghadapi demo, melainkan untuk membahas evaluasi situasi nasional serta koordinasi penanganan bencana kebakaran hutan dan lahan (karhutla) di wilayah Sumatra dan Kalimantan, serta agenda strategis lainnya.\nWaktu Kejadian yang Dipelintir: Pertemuan resmi tersebut berlangsung pada awal September 2026 (misalnya pada 1 September 2026), jauh sebelum narasi provokatif seputar aksi demo kampus (seperti Trisakti, UNJ, Untar, Atma Jaya) disebarkan kembali dengan narasi keliru.\nAktivitas Helikopter: Aktivitas penerbangan helikopter di wilayah Bogor atau sekitar kediaman Hambalang umumnya terkait mobilitas kenegaraan atau operasional rutin pejabat tinggi, bukan tanda darurat akibat kepanikan terhadap aksi demonstrasi.",
+      "alasanChars": 1017,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "CNN Indonesia",
+          "title": "Prabowo Panggil Panglima Kapolri Ke Hambalang Minta Laporan Karhutla",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://www.cnnindonesia.com/nasional/20260902053356-20-1398957/prabowo-panggil-panglima-kapolri-ke-hambalang-minta-laporan-karhutla",
+          "date": "2 Sep 2026"
+        },
+        {
+          "publisher": "Suara.com",
+          "title": "Prabowo Panggil Panglima TNI Kapolri Ke Hambalang Bahas Situasi Nasional Dan Karhutla",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://www.suara.com/news/2026/09/02/082552/prabowo-panggil-panglima-tni-kapolri-ke-hambalang-bahas-situasi-nasional-dan-karhutla",
+          "date": "2 Sep 2026"
+        },
+        {
+          "publisher": "Faktanasional.net",
+          "title": "Prabowo Panggil Panglima TNI Dan Kapolri Ke Hambalang",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://faktanasional.net/berita/prabowo-panggil-panglima-tni-dan-kapolri-ke-hambalang",
+          "date": "2 Sep 2026"
+        }
+      ]
+    },
+    {
+      "id": "H08",
+      "label": "H",
+      "basis": "Klaim 5G-corona telah dibantah WHO/otoritas kesehatan",
+      "text": "Radiasi jaringan 5G menyebabkan penyebaran virus corona di seluruh dunia.",
+      "http": 200,
+      "latencyMs": 6051,
+      "predicted": "H",
+      "confidence": 0.95,
+      "alasan": "HOAKS. Klaim yang menyebutkan bahwa radiasi jaringan 5G menyebabkan atau menyebarkan virus corona adalah tidak benar dan merupakan teori konspirasi.\nFakta terkait hal ini:\nTidak ada kaitan ilmiah: Organisasi Kesehatan Dunia (WHO), lembaga kesehatan, dan para ilmuwan dunia telah menegaskan bahwa virus tidak dapat berpindah atau disebarkan melalui gelombang radio atau jaringan seluler.\nKumparan.com\nCara penularan: Virus corona (COVID-19) menyebar melalui1 tetesan pernapasan (droplet) atau kontak langsung antarmanusia, bukan melalui sinyal elektromagnetik.\ninet.detik.com\nBeda sifat biologis dan fisika: Gelombang radio 5G memiliki energi yang lemah dan tidak mampu menembus kulit, merusak sel tubuh, ataupun menciptakan/membawa makhluk hidup seperti virus.\nBukti wilayah: COVID-19 juga menyebar secara luas di berbagai wilayah atau negara yang sama sekali belum memiliki infrastruktur atau jaringan 5G.\nBBC\nPenjelasan resmi dan bantahan lebih lanjut dapat dibaca melalui Kementerian Komunikasi dan Digital RI atau penjelasan medis di Liputan6 Cek Fakta.",
+      "alasanChars": 1057,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Komdigi.go.id",
+          "title": "[HOAKS] Virus Corona Disebarkan Melalui Jaringan 5G",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://www.komdigi.go.id/berita/artikel/detail/hoaks-virus-corona-disebarkan-melalui-jaringan-5g",
+          "date": "18 Mar 2020"
+        },
+        {
+          "publisher": "Kumparan",
+          "title": "Hoaxbuster: Gelombang Kedua Corona karena Radiasi 5G",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://kumparan.com/kumparannews/hoaxbuster-gelombang-kedua-corona-karena-radiasi-5g-1vgS9V1XcvZ",
+          "date": "5 Mei 2021"
+        },
+        {
+          "publisher": "Bbc.com",
+          "title": "Virus corona: Para ilmuwan sebut anggapan 'jaringan 5G sebarkan virus' omong kosong belaka - BBC News Indonesia",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://www.bbc.com/indonesia/majalah-52202296",
+          "date": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "id": "H09",
+      "label": "H",
+      "basis": "Tidak ada program penghapusan utang pinjol massal oleh pemerintah",
+      "text": "Pemerintah resmi menghapus seluruh utang pinjol masyarakat mulai bulan depan lewat program nasional dari presiden.",
+      "http": 200,
+      "latencyMs": 6339,
+      "predicted": "H",
+      "confidence": 0.95,
+      "alasan": "Klaim bahwa pemerintah resmi menghapus seluruh utang pinjol masyarakat lewat program nasional presiden adalah HOAKS.\nFakta dan rincian mengenai informasi palsu tersebut meliputi beberapa poin penting berikut:\nBantahan Resmi OJK: Otoritas Jasa Keuangan (OJK) menegaskan bahwa pihak regulator tidak pernah mengeluarkan kebijakan atau pernyataan terkait pemutihan data maupun penghapusan utang pinjaman online (pinjol) bagi masyarakat umum.\nModus Penipuan (Phishing): Narasi hoaks ini biasanya menyertakan tautan atau formulir pendaftaran digital. Informasi palsu tersebut sengaja disebarkan oleh pihak tidak bertanggung jawab dengan modus mencuri data pribadi nasabah (seperti foto KTP, nomor telepon, atau akun pesan instan).\nKementerian Komunikasi dan Digital\nSalah Paham Kebijakan Pemerintah: Narasi palsu ini diduga memelintir kebijakan nyata dari Presiden Prabowo Subianto, yaitu PP Nomor 47 Tahun 2024. Peraturan tersebut mengatur tentang penghapusan piutang macet untuk pelaku UMKM, petani, dan nelayan pada bank milik negara (Himbara), bukan pemutihan utang pinjol komersial untuk seluruh masyarakat.\nPT. BPR Bank Jombang Perseroda\nMasyarakat diimbau agar selalu waspada terhadap iming-iming pelunasan utang instan. Jika Anda menemukan tawaran serupa, Anda bisa langsung memeriksa kebenarannya dengan menghubungi kontak resmi Layanan Konsumen OJK di nomor 157 atau melalui WhatsApp di 081-157-157-157.\nOJK\nApakah ada tautan tertentu atau pesan berantai yang Anda terima mengenai informasi pemutihan ini? Jika ada, Anda bisa membagikannya di sini agar kita bisa memeriksa keamanannya bersama.",
+      "alasanChars": 1597,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Saberhoaks.jabarprov.go.id",
+          "title": "ojk resmi hapus tagihan dan data pinjol - Jabar Saber Hoaks",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://saberhoaks.jabarprov.go.id/v2/klarifikasi/detail/PTN004499/OJK-RESMI-HAPUS-TAGIHAN-DAN-DATA-PINJOL",
+          "date": "27 Okt 2026"
+        },
+        {
+          "publisher": "Cekfakta.com",
+          "title": "Cek Fakta: Hoaks OJK Resmi Hapus Tagihan dan Data Pinjol",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://cekfakta.com/focus/37235",
+          "date": "17 Okt 2026"
+        },
+        {
+          "publisher": "Bankjombang.co.id",
+          "title": "Prabowo Resmi Hapus Utang Macet Umkm Petani Hingga Nelayan Apakah Bank Jombang Termasuk",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://bankjombang.co.id/prabowo-resmi-hapus-utang-macet-umkm-petani-hingga-nelayan-apakah-bank-jombang-termasuk/",
+          "date": "11 Nov 2024"
+        }
+      ]
+    },
+    {
+      "id": "H10",
+      "label": "H",
+      "basis": "Klaim kesehatan tanpa dasar ilmiah",
+      "text": "Minum air es setelah makan membuat lemak membeku di perut dan langsung menyebabkan kanker usus.",
+      "http": 200,
+      "latencyMs": 6158,
+      "predicted": "H",
+      "confidence": 0.95,
+      "alasan": "Klaim tersebut adalah hoaks.\nSuhu tubuh menyesuaikan: Saat Anda minum air es, tubuh secara otomatis akan menyesuaikan suhu air tersebut agar sama dengan suhu tubuh (~37°C) dalam hitungan detik setelah masuk ke saluran cerna. Lemak tidak akan membeku atau mengendap di dalam perut atau usus.\nBukan faktor risiko kanker: Menurut penjelasan medis dari pakar kesehatan dan lembaga resmi seperti Kementerian Komunikasi dan Digital serta Jabar Saber Hoaks, air dingin atau air es tidak memiliki kandungan pemicu kanker. Faktor risiko kanker usus lebih berkaitan dengan genetika, kurangnya aktivitas fisik, serta pola makan tinggi lemak dan rendah serat, bukan karena suhu air minum.",
+      "alasanChars": 676,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Komdigi.go.id",
+          "title": "Kementerian Komunikasi dan Digital",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://www.komdigi.go.id/berita/pengumuman/detail/hoaks-minum-air-dingin-setelah-makan-menyebabkan-kanker",
+          "date": "2026-10-31"
+        },
+        {
+          "publisher": "Columbiaasia.co.id",
+          "title": "Minum Air Dingin Setelah Makan Menyebabkan Lemak Beku",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://columbiaasia.co.id/artikel/kesehatan/mitos-atau-fakta-minum-air-dingin/",
+          "date": "19 Apr 2025"
+        },
+        {
+          "publisher": "Saberhoaks.jabarprov.go.id",
+          "title": "MINUM AIR ES SETELAH MAKAN MEMICU PENYAKIT KANKER ",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://saberhoaks.jabarprov.go.id/v2/klarifikasi/detail/ADN014934/MINUM-AIR-ES-SETELAH-MAKAN-MEMICU-PENYAKIT-KANKER-",
+          "date": "10 Agu 2023"
+        },
+        {
+          "publisher": "Blitarkota.go.id",
+          "title": "[HOAKS] Minum Air Es Setelah Makan Dapat Sebabkan Kanker",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://blitarkota.go.id/saber-hoaks/hoaks-minum-air-es-setelah-makan-dapat-sebabkan-kanker",
+          "date": "13 Okt 2021"
+        },
+        {
+          "publisher": "Klinikhoaks.jatimprov.go.id",
+          "title": "Cek Hoaks atau Fakta",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://klinikhoaks.jatimprov.go.id/post/hoaks-air-dingin-dapat-membekukan-lemak-dalam-tubuh-64af5c34867de",
+          "date": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "id": "V01",
+      "label": "V",
+      "basis": "Kasus nyata penulis: dilaporkan Kompas.com, Tribunnews, Mashable (30/10/2026)",
+      "text": "Konten kreator Willie Salim sampaikan permintaan maaf karena hadiri acara Deklarasi Sumpah Pemuda Mahasiswa Indonesia 2026 di Bundaran Hotel Indonesia (HI), Jakarta, Kamis (29/10/2026).",
+      "http": 200,
+      "latencyMs": 6277,
+      "predicted": "V",
+      "confidence": 0.95,
+      "alasan": "FAKTA\nKabar mengenai permintaan maaf konten kreator Willie Salim karena menghadiri acara Deklarasi Sumpah Pemuda Mahasiswa Indonesia 2026 di Bundaran HI, Jakarta, adalah fakta (bukan hoaks).\nBerikut adalah beberapa poin penting terkait klarifikasi tersebut:\nPermintaan Maaf: Willie Salim menyampaikan permohonan maaf melalui akun Instagram pribadinya setelah kehadirannya di acara tersebut menuai sorotan dan kritik publik.\nPengakuan Kurang Teliti: Ia mengakui kurang cermat dalam memahami keseluruhan konteks kegiatan yang ia hadiri.\nKlarifikasi Bayaran: Willie menegaskan bahwa ia hadir memenuhi undangan, tidak terlibat dalam teknis atau penyelenggaraan acara, serta tidak menerima bayaran atau imbalan dalam bentuk apa pun.\nLatar Belakang Kontroversi: Acara Deklarasi Sumpah Pemuda Mahasiswa Indonesia 2026 yang digelar pada Kamis, 29 Oktober 2026, menjadi sorotan setelah muncul pengakuan dari salah satu peserta berjaket almamater (Bayu Setiadi alias Dino) yang mengaku dibayar dan bukan merupakan mahasiswa asli.\nAnda dapat membaca rincian lengkap klarifikasinya melalui Kompas.com.",
+      "alasanChars": 1089,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Kompas.com",
+          "title": "Willie Salim Minta Maaf Dan Mengaku Tak Dibayar Untuk Hadiri Acara",
+          "verdict": "KLARIFIKASI / FAKTA",
+          "url": "https://entertainment.kompas.com/read/2026/10/30/173056366/willie-salim-minta-maaf-dan-mengaku-tak-dibayar-untuk-hadiri-acara?page=all",
+          "date": "30 Okt 2026"
+        },
+        {
+          "publisher": "M.rctiplus.com",
+          "title": "Willie Salim Minta Maaf Soal Kehadiran Di Deklarasi Sumpah Pemuda Akui Kurang Teliti",
+          "verdict": "KLARIFIKASI / FAKTA",
+          "url": "https://m.rctiplus.com/news/detail/gaya-hidup/5505774/willie-salim-minta-maaf-soal-kehadiran-di-deklarasi-sumpah-pemuda-akui-kurang-teliti?utm_source=mpi_widget&utm_medium=referral&utm_campaign=news_article_5505774",
+          "date": "31 Okt 2026"
+        },
+        {
+          "publisher": "VIVA.co.id",
+          "title": "Disorot Gegara Hadiri Deklarasi Sumpah Pemuda Willie Salim Ngaku Lakukan Kesalahan Ini",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://www.viva.co.id/gaya-hidup/showbiz/1939995-disorot-gegara-hadiri-deklarasi-sumpah-pemuda-willie-salim-ngaku-lakukan-kesalahan-ini",
+          "date": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "id": "V02",
+      "label": "V",
+      "basis": "Fakta kalender nasional",
+      "text": "Hari Sumpah Pemuda diperingati setiap tanggal 28 Oktober di Indonesia.",
+      "http": 200,
+      "latencyMs": 6131,
+      "predicted": "V",
+      "confidence": 0.95,
+      "alasan": "FAKTA.\nHari Sumpah Pemuda di Indonesia diperingati secara resmi setiap tanggal 28 Oktober.\nPemerintah Daerah Kota Cimahi\nPenjelasan Singkat:\nAsal-usul Sejarah: Tanggal tersebut merujuk pada hasil keputusan Kongres Pemuda Kedua yang berlangsung pada tanggal 27–28 Oktober 1928 di Batavia (Jakarta).\nPemerintah Daerah Kota Cimahi\nDasar Hukum: Penetapan 28 Oktober sebagai Hari Sumpah Pemuda dikuatkan melalui Keputusan Presiden (Keppres) Nomor 316 Tahun 1959.\nPemerintah Daerah Kota Cimahi\nIsi Ikrar: Dalam kongres tersebut, dirumuskan tiga butir ikrar utama mengenai satu tanah air, satu bangsa, dan satu bahasa persatuan, yaitu Indonesia.\nPemerintah Daerah Kota Cimahi",
+      "alasanChars": 668,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Cimahikota.go.id",
+          "title": "Mengapa Sumpah Pemuda Diperingati Tanggal 28 Oktober - Selamat Datang di Website Resmi Pemerintah Daerah Kota Cimahi",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://cimahikota.go.id/index.php/artikel/detail/1219-mengapa-sumpah-pemuda-diperingati-tanggal-28-oktober",
+          "date": "2026-10-31"
+        },
+        {
+          "publisher": "Jakarta.indonesiaraya.co.id",
+          "title": "Jempolmu, Ikrarmu: Sumpah Pemuda di Era Hoaks dan AI",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://jakarta.indonesiaraya.co.id/opini/117017783403/jempolmu-ikrarmu-sumpah-pemuda-di-era-hoaks-dan-ai",
+          "date": "19 Okt 2026"
+        },
+        {
+          "publisher": "Antara News",
+          "title": "Antara Sumpah Pemuda dan Hoaks - Antara News jatim",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://jatim.antaranews.com/berita/327899/antara-sumpah-pemuda-dan-hoaks",
+          "date": "30 Okt 2019"
+        }
+      ]
+    },
+    {
+      "id": "V03",
+      "label": "V",
+      "basis": "Fakta olahraga",
+      "text": "Argentina menjuarai Piala Dunia FIFA 2022 setelah mengalahkan Prancis lewat adu penalti di final.",
+      "http": 200,
+      "latencyMs": 6531,
+      "predicted": "V",
+      "confidence": 0.95,
+      "alasan": "FAKTA\nPernyataan tersebut adalah fakta (bukan hoaks).\nSkor Akhir: Timnas Argentina resmi menjuarai Piala Dunia FIFA 2022 setelah bermain imbang 3-3 melawan Prancis hingga babak perpanjangan waktu di Stadion Lusail, Qatar, pada 18 Desember 2022.\nAdu Penalti: Argentina memastikan kemenangan dengan skor 4-2 dalam babak adu penalti.\nEksekutor Penalti: Keempat penendang Argentina (Lionel Messi, Paulo Dybala, Leandro Paredes, dan Gonzalo Montiel) berhasil memasukkan bola, sementara di pihak Prancis hanya Kylian Mbappé dan Randal Kolo Muani yang sukses, sedangkan Kingsley Coman dan Aurélien Tchouaméni gagal.",
+      "alasanChars": 608,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Bbc.com",
+          "title": "Piala Dunia 2022: Dramatis, Argentina juara, tekuk juara bertahan Prancis melalui adu penalti - 'final terbaik' sepanjang masa - BBC News Indonesia",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://www.bbc.com/indonesia/articles/c89jzxlpne1o",
+          "date": "18/12/2022"
+        },
+        {
+          "publisher": "Tempo.co",
+          "title": "Fakta Menarik Dari Keberhasilan Timnas Argentina Menjuarai Piala Dunia 2022 Menang Adu Penalti Vs Prancis 238249",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://www.tempo.co/sepakbola/13-fakta-menarik-dari-keberhasilan-timnas-argentina-menjuarai-piala-dunia-2022-menang-adu-penalti-vs-prancis-238249",
+          "date": "19 Des 2022"
+        },
+        {
+          "publisher": "Antara News",
+          "title": "Argentina Juara Piala Dunia 2022 Setelah Kalahkan Prancis Lewat Adu Penalti",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://bali.antaranews.com/berita/303118/argentina-juara-piala-dunia-2022-setelah-kalahkan-prancis-lewat-adu-penalti",
+          "date": "19 Des 2022"
+        }
+      ]
+    },
+    {
+      "id": "V04",
+      "label": "V",
+      "basis": "Fakta politik",
+      "text": "Prabowo Subianto dilantik sebagai Presiden Republik Indonesia pada 20 Oktober 2024.",
+      "http": 200,
+      "latencyMs": 6723,
+      "predicted": "H",
+      "confidence": 0.95,
+      "alasan": "FAKTA.\nPrabowo Subianto resmi dilantik sebagai Presiden Republik Indonesia pada Minggu, 20 Oktober 2024, di Gedung Nusantara MPR/DPR/DPD RI, Jakarta. Ia mengucapkan sumpah jabatan bersama Wakil Presiden Gibran Rakabuming Raka untuk periode 2024–2029, sesuai dengan jadwal yang ditetapkan oleh Komisi Pemilihan Umum (KPU).\nKabar atau narasi di media sosial yang mengeklaim bahwa pelantikan tersebut diundur hingga Desember 2024 adalah hoaks.\nKomdigi",
+      "alasanChars": 448,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Klinikhoaks.jatimprov.go.id",
+          "title": "Cek Hoaks atau Fakta - Klinik Hoaks",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://klinikhoaks.jatimprov.go.id/post/hoaks-pelantikan-prabowo-gibran-ditunda-hingga-desember-2024-673033e90bb04",
+          "date": "2026-10-31"
+        },
+        {
+          "publisher": "Pemkab Aceh Timur",
+          "title": "Selamat dan Sukses atas dilantiknya Prabowo Subianto & Gibran Rakabumingraka Sebagai Presiden dan Wakil Presiden Republik Indonesia Tahun 2024-2029",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMitwJBVV95cUxQY05UMk9hcE93ek9EOUhHMFBJbm93UzJ5UGh1c21HZk1vY2RaTGthMUNSa3k3czV6R3ZsTHljS3V2NWczVXlmU0laZmJ5bWNQcmkzbUdMRV9WNUJiVmlBWS1SeEhaOTljWjZWOV91ZDEzZ195ZFV5Z0MtXzVsYlhHLWlsdUJZdVd6V01xdXJWdEZzamVHX0p1bWhLcm5EVklHQWVrVWFrTHl6aDUxbk00aGRDRnRmWkNlRGhNVDlqOU1lZDZDdERSV1lUYjFsRTFwdnd2T0lQTWxPR0RoSUVmZzJ3MURSa0RfREtYY01rZlo0RXlVQlZZNUc1VjE5dnNQdHpfRWpMaGNYckJhVGVRbW1PTzNTQXFVZm9telZEWkxPWmpzcy1xdFNaQ2JsZVV1Rm1XaDBaaw?oc=5",
+          "date": "2024-10-20"
+        },
+        {
+          "publisher": "Facebook",
+          "title": "Presiden Republik Indonesia Prabowo Subianto resmi melantik 1.177 calon perwira remaja (Capaja) TNI-Polri di Istana Merdeka, Jakarta, pada Rabu (22/7/2026). Salah satu nama yang menjadi sorotan dalam pelantikan tersebut adalah Tribrata Putra Sambo",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPcVlCNDVmYkJSQjR1Qlo4U3o4SXB6YWprLXh5R2phZjBiNklpaUI4d3lYNS1fZURuNlVZZjh2X2lBcURaUHFOS2p3MU1LaVdDcGNJTlhxZGhGbmczUHRBdVI0dXlKOU52NkNrSDd5YmRvVUNxWHFOcERsU3dKQVBqeWFRZ3g3NEFmWmxSMUZGZm1HMTBfeXVxMGFZOGtkUHUtd0RjcTRJVmNjQmxweUlrbV9vQVIzQ2M0MnRGNHNYczVnSmloMU1zTmdHTzB6cVppQ2hyeDdqSGMtMTF0?oc=5",
+          "date": "2026-07-22"
+        },
+        {
+          "publisher": "Pemerintah Kabupaten Asahan",
+          "title": "Pemerintah Kabupaten Asahan Mengucapkan Selamat Ulang Tahun Ke-75 Bapak Prabowo Subianto, Presiden Republik Indonesia – 17 Oktober 2026",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxQWkhqcENQa1ZzbXRzUE9iOEE3N0dycDVMOGFOakQxUDdJT3ZwcWF1UDBabC00TmtiMWN0T2F0STN5Tk9zdlRHUV9iYmVOcXBNdzFjRzRLQzc3UGNhOVJBM0lnQ3BVeTEtQlN0aFRKRFNERWx3dmlnZW9lZkZNdU5KYkczdFR5Ulo5c1dkbGRqbWR4Yzk2M1JaaEtFZU1tVXFOWFhhaFJKVi1IVGltS0pROXhZUUxnZnc1UllTbDdXYVZZUFlFR3RsYmNFYkhVbGttekdwRm03UEd0dHdWNUNNcUV6dEpXbTdlUjB3WWhBRWdQVTFwMlB2VElZNEhhSUxCR3J0RER3?oc=5",
+          "date": "2026-10-17"
+        },
+        {
+          "publisher": "Kementerian Sekretariat Negara",
+          "title": "Prabowo Subianto dan Gibran Rakabuming Raka Resmi Dilantik Sebagai Presiden dan Wakil Presiden Republik Indonesia",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPSDhUOTc5WlRFbklCM3k5dGdNeVdDdmdOdDlGb2hGRk52WVFFT3hFajJyRi1zcF9yaDlCR2xaRktDVEtEV3VqYUtqZnA1RUk3cEM5QXFUWWdqenBwVXd1RGhFVmpIY25wWWR6RktCeHFidWRwNzgtSk9lZGpMelRZQ2p5bW5YSWNHX1o2R3FtZE9iWGFnZjJFblhfbW9oYjZUM09tbjFhM1ZXUDZRRXBSY0o3dU85RDkteGViSFJvZWNMcGRocUlSWHBDOWI4UmlTcVlvMEwxQWhUNG9GUXkwdnI0SQ?oc=5",
+          "date": "2024-10-20"
+        },
+        {
+          "publisher": "Pemerintah Kota Padangsidimpuan",
+          "title": "Dr. H. Letnan Dalimunthe, SKM, M.Kes dan H. Harry Pahlevi Harahap resmi dilantik Presiden Republik Indonesia Prabowo Subianto",
+          "verdict": "FAKTA PEMBANDING",
+          "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxNR0ZUNnZBcEpGWXBfWU45RU9EUzJOMThMVm9JWFg2M2ptbllVd2pjVlN1bmd5OU1MdnZCVXZ2M3lpc2ZORloxcUVzQmljeFZOblF0aFF0YXUwMV9xQmpWREpGd1F5OXRPZlF5VXhnZkpVUkZReTVBQnlFaDRFSVpMdjhia3pDMlZMd2xHMmIxUU9KdE9aYXV0dFlXX01vUFhVZHJHTmNJSFllcXdoR1B4NU9LQWFkNXNHVG5adDM2UDhUOXZBNmtJUVBUY1psS25HcENJSUt3VllwTjZkdDJpRG5GM1BLME9WWHQ4cG5YNA?oc=5",
+          "date": "2025-03-06"
+        }
+      ]
+    },
+    {
+      "id": "V05",
+      "label": "V",
+      "basis": "Fakta regulasi (UU IKN)",
+      "text": "Ibu kota negara Indonesia dipindahkan secara bertahap ke Nusantara di Kalimantan Timur berdasarkan UU IKN.",
+      "http": 200,
+      "latencyMs": 6144,
+      "predicted": "V",
+      "confidence": 0.95,
+      "alasan": "Klaim tersebut adalah FAKTA dari segi dasar hukum, namun belum sepenuhnya efektif secara administratif karena masih menunggu Keputusan Presiden (Keppres).\nPenjelasan Detail:\nDasar Hukum Sah: Pemindahan ibu kota ke Nusantara di Kalimantan Timur memiliki landasan hukum yang sah, yaitu Undang-Undang Nomor 3 Tahun 2022 tentang Ibu Kota Negara (UU IKN) yang disahkan pada Januari 2022 serta putusan Mahkamah Konstitusi (MK) yang menolak gugatan cacat formil terhadap UU tersebut.\nPERSPEKTIF: Kajian Masalah Hukum dan Pembangunan\nProses Bertahap: Rencana pemindahan memang dirancang secara bertahap hingga target proyek jangka panjang pada tahun 2045.\nStatus Jakarta Saat Ini: Meskipun pembangunan infrastruktur di Ibu Kota Nusantara (IKN) terus berjalan, status hukum Ibu Kota Negara Republik Indonesia secara de jure masih dipegang oleh DKI Jakarta sampai Keputusan Presiden (Keppres) tentang pemindahan resmi diterbitkan oleh Presiden.",
+      "alasanChars": 934,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Jdih.kemenkoinfra.go.id",
+          "title": "Undang Undang Nomor 3 Tahun 2022 Tentang Ibu Kota Negara",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://jdih.kemenkoinfra.go.id/en/undang-undang-nomor-3-tahun-2022-tentang-ibu-kota-negara",
+          "date": "2026-10-31"
+        },
+        {
+          "publisher": "Indonesiabaik.id",
+          "title": "Perjalanan Perpindahan Ibu Kota Indonesia - Indonesiabaik.id",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://indonesiabaik.id/infografis/perjalanan-perpindahan-ibu-kota-indonesia",
+          "date": "2026-10-31"
+        },
+        {
+          "publisher": "Tirto.id",
+          "title": "Hoaks IKN Batal Jadi Ibu Kota",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://tirto.id/hoaks-ikn-batal-jadi-ibu-kota-gZl2",
+          "date": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "id": "V06",
+      "label": "V",
+      "basis": "Fakta geologi",
+      "text": "Indonesia berada di kawasan Cincin Api Pasifik sehingga rawan gempa bumi dan letusan gunung berapi.",
+      "http": 200,
+      "latencyMs": 6700,
+      "predicted": "V",
+      "confidence": 0.95,
+      "alasan": "FAKTA.\nPernyataan bahwa Indonesia berada di kawasan Cincin Api Pasifik (Pacific Ring of Fire) dan rawan terhadap gempa bumi serta letusan gunung berapi adalah fakta ilmiah.\nAlasan Ilmiah:\nPertemuan Lempeng Tektonik: Indonesia berada di wilayah pertemuan tiga lempeng tektonik besar dunia, yaitu Lempeng Indo-Australia, Lempeng Eurasia, dan Lempeng Pasifik (serta tambahan lempeng kecil seperti Filipina).\nAktivitas Seismik & Vulkanik Tinggi: Pergerakan dan benturan antar-lempeng ini menyebabkan akumulasi energi yang ketika dilepaskan akan memicu gempa bumi. Selain itu, aktivitas ini membentuk ratusan gunung berapi aktif di sepanjang wilayah nusantara.\nData Dukung: Berdasarkan informasi dari lembaga sains dan kebencanaan seperti USGS serta Indonesiabaik.id, sebagian besar gempa bumi di dunia terjadi di kawasan Cincin Api ini.",
+      "alasanChars": 832,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Indonesiabaik.id",
+          "title": "Indonesia di Lingkaran Api Pasifik - Indonesiabaik.id",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://indonesiabaik.id/infografis/indonesia-di-lingkaran-api-pasifik",
+          "date": "2026-10-31"
+        },
+        {
+          "publisher": "Human-initiative.org",
+          "title": "Mengapa Indonesia Rawan Gempa? Kenali Cincin Api Pasifik",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://human-initiative.org/cincin-api-pasifik-indonesia/",
+          "date": "26 Agu 2026"
+        },
+        {
+          "publisher": "Edukasia.id",
+          "title": "Indonesia Di Kawasan Cincin Api Ini",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://www.edukasia.id/2026/09/indonesia-di-kawasan-cincin-api-ini.html",
+          "date": "8 Sep 2026"
+        }
+      ]
+    },
+    {
+      "id": "V07",
+      "label": "V",
+      "basis": "Kasus nyata: dilaporkan Kompas.tv, Tirto.id, Suara.com (Okt 2026)",
+      "text": "Peserta Deklarasi Sumpah Pemuda di Bundaran HI mengaku bukan mahasiswa dan mengaku mendapat bayaran.",
+      "http": 200,
+      "latencyMs": 6244,
+      "predicted": "V",
+      "confidence": 0.95,
+      "alasan": "Kabar mengenai peserta Deklarasi Sumpah Pemuda di Bundaran HI yang mengaku bukan mahasiswa dan mendapat bayaran adalah fakta.\nPengakuan Peserta: Pria berinisial Bayu Setiadi alias Dino yang memakai jas almamater Universitas Dian Nusantara (Undira) secara resmi membuat video klarifikasi dan mengakui bahwa dirinya bukan mahasiswa kampus tersebut.\nMendapat Bayaran: Ia mengaku hadir dalam acara tanggal 29 Oktober 2026 tersebut setelah diundang oleh sebuah komunitas dan menerima bayaran.\nAtribut Almamater: Dino menyatakan bahwa jas almamater yang ia kenakan diberikan oleh pihak lain tanpa ia ketahui asal-usulnya. Pihak BEM Universitas Dian Nusantara juga telah mengonfirmasi dan memfasilitasi klarifikasi bahwa Dino bukan mahasiswa aktif mereka.",
+      "alasanChars": 748,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Tirto.id",
+          "title": "Peserta Deklarasi Sumpah Pemuda di HI Mengaku Bukan Mahasiswa",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://tirto.id/peserta-deklarasi-sumpah-pemuda-di-hi-mengaku-bukan-mahasiswa-hEp5",
+          "date": "30 Okt 2026"
+        },
+        {
+          "publisher": "Kompas TV",
+          "title": "Peserta Deklarasi Sumpah Pemuda di Bundaran HI Akui Bukan Mahasiswa & Dapat Bayaran",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://www.kompas.tv/regional/698870/peserta-deklarasi-sumpah-pemuda-di-bundaran-hi-akui-bukan-mahasiswa-dapat-bayaran",
+          "date": "30 Okt 2026"
+        },
+        {
+          "publisher": "Posnews.co.id",
+          "title": "Mahasiswa Bayaran di Deklarasi Sumpah Pemuda? Ini Faktanya",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://www.posnews.co.id/mahasiswa-bayaran-di-deklarasi-sumpah-pemuda-ini-faktanya/",
+          "date": "31 Okt 2026"
+        },
+        {
+          "publisher": "Sulselinfo.com",
+          "title": "Peserta Aksi Ngaku Dibayar Di Bundaran HI Benarkah Ada Pihak Di Deklarasi Sumpah Pemuda",
+          "verdict": "CEK FAKTA",
+          "url": "https://www.sulselinfo.com/peserta-aksi-ngaku-dibayar-di-bundaran-hi-benarkah-ada-pihak-di-deklarasi-sumpah-pemuda",
+          "date": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "id": "V08",
+      "label": "V",
+      "basis": "Fakta geologi",
+      "text": "Gunung Merapi di perbatasan Yogyakarta dan Jawa Tengah merupakan salah satu gunung berapi paling aktif di Indonesia.",
+      "http": 200,
+      "latencyMs": 6705,
+      "predicted": "V",
+      "confidence": 0.95,
+      "alasan": "Lihat semua\nFakta.\nPernyataan bahwa Gunung Merapi yang terletak di perbatasan Daerah Istimewa Yogyakarta dan Jawa Tengah (wilayah Sleman, Magelang, Boyolali, dan Klaten) merupakan salah satu gunung berapi paling aktif di Indonesia adalah fakta.\nStatus Aktivitas: Gunung Merapi secara konsisten berada dalam status Level III (Siaga) menurut pemantauan resmi dari BPPTKG / Kementerian ESDM.\nKarakter Erupsi: Merapi aktif mengeluarkan guguran lava, awan panas, serta material vulkanik secara berkala.\nCatatan terkait hoaks: Meskipun pernyataan lokasinya dan keaktifannya adalah fakta, sering kali beredar video atau narasi hoaks di media sosial yang melebih-lebihkan kondisi Merapi (seperti klaim letusan dahsyat yang tidak berdasar atau suara mengerikan tertentu). Informasi resmi terkait aktivitas gunung ini dapat dipantau melalui situs MAGMA Indonesia.",
+      "alasanChars": 853,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "detikcom",
+          "title": "5 Fakta Gunung Merapi yang Kembali Keluarkan Awan Panas",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.detik.com/berita/d-4665803/5-fakta-gunung-merapi-yang-kembali-keluarkan-awan-panas",
+          "date": "14 Agu 2019"
+        },
+        {
+          "publisher": "Komdigi.go.id",
+          "title": "[HOAKS] Gunung Merapi Keluarkan Letusan Dahsyat - Komdigi",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://www.komdigi.go.id/berita/berita-hoaks/detail/hoaks-gunung-merapi-keluarkan-letusan-dahsyat",
+          "date": "2026-10-31"
+        },
+        {
+          "publisher": "Jatengprov.go.id",
+          "title": "[HOAKS] Seluruh Gunung Api di Indonesia Aktif Serentak",
+          "verdict": "HOAKS / DISINFORMASI",
+          "url": "https://jatengprov.go.id/padhang-nasional/hoaks-seluruh-gunung-api-di-indonesia-aktif-serentak/",
+          "date": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "id": "V09",
+      "label": "V",
+      "basis": "Fakta pemilu",
+      "text": "Pemilihan Presiden Indonesia 2024 diikuti tiga pasangan calon presiden dan wakil presiden.",
+      "http": 200,
+      "latencyMs": 12085,
+      "predicted": "V",
+      "confidence": 0.93,
+      "alasan": "Informasi terkonfirmasi benar berdasarkan liputan media resmi (Fisipol.unja.ac.id, Kpu.go.id, Universitas Mulawarman), antara lain melalui laporan \"Menyoalkan Calon Presiden Dan Wakil Presiden Pemilu 2024\". Unggahan sesuai dengan fakta peristiwa yang dilaporkan dan tidak memuat indikasi disinformasi.",
+      "alasanChars": 301,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Fisipol.unja.ac.id",
+          "title": "Menyoalkan Calon Presiden Dan Wakil Presiden Pemilu 2024",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://fisipol.unja.ac.id/menyoalkan-calon-presiden-dan-wakil-presiden-pemilu-2024/",
+          "date": "2026-10-31"
+        },
+        {
+          "publisher": "Kpu.go.id",
+          "title": "KPU Tetapkan Tiga Pasangan Calon Presiden dan Wakil ...",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://www.kpu.go.id/berita/baca/12081",
+          "date": "2026-10-31"
+        },
+        {
+          "publisher": "Universitas Mulawarman",
+          "title": "Kampanye Akbar Resmi Dimulai, Pemira Unmul Diikuti 2 Pasangan Calon Presiden dan Wakil Presiden BEM KM",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPM1lQNnl4X21JWDVnV0pmM0U4NVpvTGR1ZmJjR0s0YU9aM2RfNE0yS2szVmNXTl9oMFdUaGVUdkE0Nm11SUg2aG5odEdHWGRWazVKOWstTzNYZThDbDZ2REpydm5qLUkyQ2l6VFhUblY5cU1wV1ZBcEU1dHdQVUNwSXMyQTNfQk5GMGRmd0tEckJYUkJjUnlpTlF2NFYxUndUaEpsQm9kU3pELWZ5ZDRURHQ3cktaQVNwdFdoRzk3OFBhSG5adXc?oc=5",
+          "date": "2024-01-12"
+        },
+        {
+          "publisher": "BBC",
+          "title": "Pilpres 2024: Siapa calon presiden yang akan dipilih umat Katolik dan Protestan?",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1Sdm5lUXUwUDRlbzhTVkJ1Yy1mTUxOQlpUbFVXU3VoN09OTFlUTE5aNGlJUmQzdGF5NlVfMVU3VnJPOHhBZksyM1FQU3ZEcGRKRThvTE5VWWo2YWVyZ2FNStIBZkFVX3lxTE9xczZPQV93T2JZTi1Ja3F4M1AxdkNtWlJGSjlKRm5fTTVocVJMRDhDVDdfRjJjdXY3VVZtT2R5dmNDQTdyMnhpaHlwWUk0ZzlOZWxNOXVGUU9xX3VLeXBJWEluR0JCZw?oc=5",
+          "date": "2023-12-27"
+        },
+        {
+          "publisher": "UIN Datokarama",
+          "title": "Opini-Cacat Pencalonan Dan Pemakzulan: Menakar Akibat Hukum Ketidakterpenuhan Syarat Calon Wakil Presiden",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQcXZNR3U5bVFMWVg2SnFCTzFqbjVTZjZ6V0c4dmZ4QTdVaUxoYk1MMGVZM0VranNQMk01d1dTWno2VHdTNnRVbDJnSGF6RmJBZmZYeC0wMEs1YlZ2SzJJLXpQSlI0MWxDUjd3dUltMnhleEF6ckt0V3RnNk9yYXlNbTBSTmlHQzVXeHlzck10VUdFR3JaX0h0LUVsTGllNnpfTjlDc0Vxb2hqM0Z5TmdWdTRZaEJLTDIwTE9KM2NnejBqNnBOY2x3SUFFelQwdw?oc=5",
+          "date": "2026-10-11"
+        },
+        {
+          "publisher": "Voice of America Indonesia",
+          "title": "KPU Tetapkan Prabowo-Gibran Sebagai Pemenang Pemilihan Presiden 2024",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOM2ludG9kVEk3UHk5Y1gtajBTVmN3MVo3SnpRczNUajctTUFQbXFIeXNyOXhneklZZ3ExUHktR1dWWXFJMG96cDdOQzFSczUzZ0RsTTJYdzByVGFva1lvRUNfN09pSmkwVlFsRzJzOTRRUVRHZURkd3B6dkJzMHhUeU5xTGd5RHhmTjlRZEVPV2FGZ9IBlAFBVV95cUxNVEY2bXZZX1NmM25seTZwNzdIYTliQzFzMHhXd2FnM0Q0MlIxcHppZlNIWUs3dUdFUl9ITkJuckpvUzgzMk0wLUs0ZXVSS3cxZ2VWc29sN0NWSHY0a1pwNVZvUlJnWENBbTMyLXVOTTg2cXlNb24xWkxrQ3J1MzNLMFZGVVhSTDJsR2psUnZVRkl6QXpN?oc=5",
+          "date": "2024-04-24"
+        }
+      ]
+    },
+    {
+      "id": "V10",
+      "label": "V",
+      "basis": "Kasus nyata: dilaporkan Antara News (30/10/2026)",
+      "text": "Polisi menggelar Deklarasi Sumpah Pemuda Mahasiswa Indonesia 2026 di Bundaran HI Jakarta yang dihadiri Raffi Ahmad.",
+      "http": 200,
+      "latencyMs": 6831,
+      "predicted": "V",
+      "confidence": 0.95,
+      "alasan": "FAKTA.\nPeristiwa tersebut benar-benar terjadi dan bukan hoaks.\nBerikut adalah detail faktanya:\nWaktu dan Lokasi: Acara ini digelar oleh Polda Metro Jaya bersama jajaran Polres Metro Jakarta Pusat di kawasan Bundaran Hotel Indonesia (HI), Jakarta Pusat, pada Kamis, 29 Oktober 2026.\nKehadiran Raffi Ahmad: Utusan Khusus Presiden Bidang Pembinaan Generasi Muda dan Pekerja Seni, Raffi Ahmad, hadir dalam kegiatan tersebut dan memberikan pesan kepada generasi muda untuk aktif melawan hoaks serta provokasi.\nPolemik yang Muncul: Meskipun acaranya benar ada (bukan hoaks), kegiatan ini sempat menuai polemik/sorotan publik setelah muncul dugaan adanya peserta atau \"mahasiswa\" bayaran yang mengenakan jas almamater tertentu tanpa kejelasan identitas kampus resmi. Terkait hal ini, Raffi Ahmad telah membantah terlibat dalam perencanaan mobilisasi tersebut.",
+      "alasanChars": 852,
+      "jalur": "Google AI Overview",
+      "sources": [
+        {
+          "publisher": "Timesindonesia.co.id",
+          "title": "Polisi Gelar Deklarasi Sumpah Pemuda 2026 Bersama Mahasiswa di Bundaran HI",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://timesindonesia.co.id/read/news/615137/polisi-gelar-deklarasi-sumpah-pemuda-2026-bersama-mahasiswa-di-bundaran-hi",
+          "date": "29 Okt 2026"
+        },
+        {
+          "publisher": "TribunWow.com",
+          "title": "Pengakuan Sari Hadiri Deklarasi Sumpah Pemuda Bareng Raffi Ahmad, Diminta Polisi Berkelit",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOcDV3RGxRR1pXT0M4cy1WNzhiY1JtYWVpX09SWHNSb1ZIVndYVFU4VFJwZU1aNnVrNnpsdDVNWEtLNG13VW95dHNoZGZBZ2RreG1IY0FkR3NXYmN0Y0xsenNEMURxQmc1YUk0STFzeUotWmFhZ2Zta1hQU2ZJN05jU1dKai12NnFSd3dRamVwVlBQdnRITmNDQS1YLVoyODV5YnhsSEJpV0c1Mjl5RUJKRFhOdmt0S1pQYVdYRVJTTXczMHk1U0E?oc=5",
+          "date": "2026-10-30"
+        },
+        {
+          "publisher": "Tribunnews.com",
+          "title": "Sosok Sari Dikulik Hadiri Deklarasi Sumpah Pemuda di Bundaran HI, Diminta Polisi Pinjam Almamater",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPd3BESUZoSENEMGJ2OUZ2aEtnbmh5aE5jSnVobEZwdklhVkptc2VLZmRRU0gyZ2hXVmEyYVpnNXVPRzNSYl9SZmc0NnhnTnJXQW9iQjZFcTlHdjVydXY0UzJLd1RVX0VNVm94QXRkZUx6RkdPY3ZlQUtpQmFkSlZwLVNoUEpTUnVMeEt3eGRxZkExZlRHUmxGaUZqcXdzNG1JR2VySEcxVWxjRlhHaFFHbU9JNzNHRjF0aHNGT20tOExjUG8wNFhiY3psSUowU2NVaTRFNWN3WGRfdw?oc=5",
+          "date": "2026-10-30"
+        },
+        {
+          "publisher": "TribunWow.com",
+          "title": "Demo Sumpah Pemuda di Bundaran HI, Sahroni Minta Polisi Jaga Keselamatan Mahasiswa",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQMkhHQjl6aU5CUG5Fd0hka2E0VXRiTDRKV2VsWDl4Nk1NTzZoOHUzeklTWHRmbTdDSUdMZTNsZElLcWhwMjRjcVYxRENzMFBGWUF3MGRhdTY0MDVpMm1TM2s1TTJJaU9zZXVOazhlbEViZGdpQnhsdUd5S2ZIakk4WGlHcWd0dXdjMy0wd21lTDJxRC1WV3lYVUo5eTNLb2daZmlQVjM3ekVlM3JtU3p0bjVrZU9kcndoSzE5Mw?oc=5",
+          "date": "2026-10-28"
+        },
+        {
+          "publisher": "Suara.com",
+          "title": "Mahasiswa UHAMKA Dihadang Polisi saat Long March ke Bundaran HI, TransJakarta Ikut Tertahan",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxNNWlGdzlOY0wxUE1UMGFRSjBQckxEQV84ZDNLZHdFczZaQU9VcGtYTjVTd0RVZTlOcUhmM0tHLWVPRzBpWDM0NVZ0Y2NwdFVrLVNHVEFMeXVZYzQ3VWEzUk4xMmV0WGNDc01UQzhqcVlkcTNpTXZ5MXRTYU0wNXdTTUJfTzZJemJPNGNoRnMzU19ZM21PV0syc1dkWjQwNWNvaElrbVdJa2lJakl2MXNhbXJXc2gzTFZ3S3NkcG0ybnpuaW1CQTQ4SWllTG5uN2d40gHQAUFVX3lxTFBHUGlHLVU1S0JBNUVKM1NwVTloZ0Z0M21CdDNvcndDdUlpYU1UVHE2M3dvOGM2ei1rb1dhakZ6WTJKdVY0ZkgwREZMREpXclJGMWRvVXBxLWxQZWwtbmhFdmV0cnd4bVhZT0I0SnVCLXRIMVFNYjFCQ3JOcGF6ZjhrSTdKcEV5Z1Q3NkZpZlR5R3dybTB1cmU5T2ZVMlZUZmJOZWRrYnlWTi1NNnhlbnNjX21GUWQ4aGljUnhUQWhYaEdDVWVzUmVxZFBZRzE4ZXY?oc=5",
+          "date": "2026-10-28"
+        },
+        {
+          "publisher": "Tribunjakarta.com",
+          "title": "DAFTAR Kelompok Mahasiswa Demo 18 Agustus 2026 di Bundaran HI, Polisi Terjunkan Ribuan Personel",
+          "verdict": "FAKTA / TERVERIFIKASI",
+          "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPSmxkZktBbGc5ZmNWbVROU29wRnRJbzVtblVueVRLOUhaSGsyMWh6eWhZWWctdlhycnZhWW01NFNWbU8welJyV25fbXREVEw1MUdrRlhRbFd5dE9rZDlmczdLNWJtYzFWcEJvbWVIdUhLRnpVdFN1MzZ4eUZna1pxTGRMNFBlSEhVRENtZXVxUUkyNHEwVWdGV3dkSllfVElja1FnRnhYLXpkbV9fX1ZLemlLQ2lMRGpndUk0dlMtbzc1N1c4MHFKS0VJSmstM0pmc3FQLWtGcw?oc=5",
+          "date": "2026-08-18"
+        }
+      ]
+    }
+  ]
+}

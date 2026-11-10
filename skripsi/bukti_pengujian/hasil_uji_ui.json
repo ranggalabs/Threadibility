@@ -1,0 +1,152 @@
+{
+  "runAt": "2026-10-31T07:51:01.105Z",
+  "results": [
+    {
+      "id": "U01",
+      "nama": "findPostContainer: selector utama data-pressable-container",
+      "expected": "post1",
+      "actual": "post1",
+      "pass": true
+    },
+    {
+      "id": "U02",
+      "nama": "findPostContainer: fallback ikon Like dan Reply",
+      "expected": "post2",
+      "actual": "post2",
+      "pass": true
+    },
+    {
+      "id": "U03",
+      "nama": "findPostContainer: area di luar post mengembalikan null",
+      "expected": "null",
+      "actual": "true",
+      "pass": true
+    },
+    {
+      "id": "U03b",
+      "nama": "findPostContainer: area antar-post di feed yang sama (batasan fallback)",
+      "expected": "null",
+      "actual": "feed",
+      "pass": false
+    },
+    {
+      "id": "U04a",
+      "nama": "extractPostData: username",
+      "expected": "@pergijauh",
+      "actual": "@pergijauh",
+      "pass": true
+    },
+    {
+      "id": "U04b",
+      "nama": "extractPostData: teks isi post tanpa username/waktu/angka/tombol",
+      "expected": "Demi ikut (di)sumpah(in) pemuda, ... 1/2",
+      "actual": "Demi ikut (di)sumpah(in) pemuda, salah satu mahasiswa Unhar (universitas harvard) rela meninggalkan sidang tesis neuroscience-nya 1/2",
+      "pass": true
+    },
+    {
+      "id": "U04c",
+      "nama": "extractPostData: URL post absolut",
+      "expected": "https://.../@pergijauh/post/DfGj6J8FB6X",
+      "actual": "https://www.threads.com/@pergijauh/post/DfGj6J8FB6X",
+      "pass": true
+    },
+    {
+      "id": "U04d",
+      "nama": "extractPostData: timestamp dari atribut datetime",
+      "expected": "2026-10-29T09:00:00.000Z",
+      "actual": "2026-10-29T09:00:00.000Z",
+      "pass": true
+    },
+    {
+      "id": "U05",
+      "nama": "injectLoadingBadge: lencana \"Menganalisis...\"",
+      "expected": "🔍 Menganalisis...",
+      "actual": "🔍 Menganalisis...",
+      "pass": true
+    },
+    {
+      "id": "U06a",
+      "nama": "injectBadge (hoax): kelas dan teks lencana",
+      "expected": "tb-badge-hoax / Hoax",
+      "actual": "tb-badge tb-badge-hoax / Hoax",
+      "pass": true
+    },
+    {
+      "id": "U06b",
+      "nama": "injectBadge: persentase confidence di tooltip",
+      "expected": "(95% Confidence)",
+      "actual": "(95% Confidence)",
+      "pass": true
+    },
+    {
+      "id": "U06c",
+      "nama": "injectBadge: jumlah tautan rujukan = jumlah sumber",
+      "expected": "6",
+      "actual": "6",
+      "pass": true
+    },
+    {
+      "id": "U06d",
+      "nama": "injectBadge: tautan dibuka di tab baru (target=_blank, rel=noopener)",
+      "expected": "true",
+      "actual": "true",
+      "pass": true
+    },
+    {
+      "id": "U09",
+      "nama": "injectBadge: badge lama diganti (hanya satu kontainer)",
+      "expected": "1",
+      "actual": "1",
+      "pass": true
+    },
+    {
+      "id": "U07",
+      "nama": "injectBadge (valid): kelas, teks lencana, dan status tooltip",
+      "expected": "tb-badge-verified / Verified / Terverifikasi Benar",
+      "actual": "tb-badge tb-badge-verified / Verified / ✅ Terverifikasi Benar\n        (95% Confidence)",
+      "pass": true
+    },
+    {
+      "id": "U08",
+      "nama": "injectErrorBadge: tampil lalu hilang otomatis ±3 detik",
+      "expected": "tampil lalu hilang",
+      "actual": "⚠️ Gagal, coba lagi → hilang",
+      "pass": true
+    },
+    {
+      "id": "U10a",
+      "nama": "Injeksi HTML pada judul sumber (escapeHtml)",
+      "expected": "tidak dieksekusi",
+      "actual": "judul di-escape, skrip tidak dieksekusi",
+      "pass": true
+    },
+    {
+      "id": "U10b",
+      "nama": "Injeksi HTML pada field alasan (tanpa escape)",
+      "expected": "seharusnya di-escape",
+      "actual": "HTML pada alasan DIRENDER (temuan kerentanan)",
+      "pass": false
+    },
+    {
+      "id": "P01",
+      "nama": "Popup Dashboard: 4 kartu statistik",
+      "expected": "Total Dianalisis, Terindikasi Hoaks, Terverifikasi, Keyakinan Rata-rata",
+      "actual": "Total Dianalisis5 | Terindikasi Hoaks3 | Terverifikasi2 | Keyakinan Rata-rata95.0%",
+      "pass": true
+    },
+    {
+      "id": "P02",
+      "nama": "Popup Dashboard: nilai total & hoaks sesuai riwayat",
+      "expected": "total=5, hoaks=3",
+      "actual": "Total Dianalisis5 | Terindikasi Hoaks3 | Terverifikasi2 | Keyakinan Rata-rata95.0%",
+      "pass": true
+    },
+    {
+      "id": "P03",
+      "nama": "Popup Riwayat: daftar riwayat tampil",
+      "expected": ">= 5 item",
+      "actual": "5",
+      "pass": true
+    }
+  ]
+}
