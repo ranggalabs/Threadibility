@@ -529,11 +529,12 @@ Keenam tahapan pada Gambar~\ref{fig:waterfall} memiliki keterkaitan langsung den
 
 \subsection{\textit{Unified Modeling Language} (UML)}
 
-\textit{Unified Modeling Language} (UML) adalah bahasa pemodelan visual standar yang digunakan dalam rekayasa perangkat lunak berbasis objek untuk memvisualisasikan, merancang, dan mendokumentasikan alur kerja serta struktur sistem sebelum penulisan kode program dilakukan. Tiga jenis diagram UML yang digunakan dalam perancangan sistem ini meliputi:
+Merujuk pada Fowler dan Scott dalam buku \textit{UML Distilled: A Brief Guide to the Standard Object Modeling Language}, \textit{Unified Modeling Language} (UML) adalah keluarga notasi grafis standar berbasis metamodel \textit{Object Management Group} (OMG) yang digunakan untuk mendeskripsikan, memvisualisasikan, dan merancang sistem perangkat lunak berorientasi objek sebelum tahap pengodean dilakukan~[9]. Empat jenis diagram UML yang relevan dalam perancangan sistem ini meliputi:
 \begin{enumerate}[leftmargin=0.8cm,itemsep=2pt,topsep=2pt]
-  \item \textit{Use Case Diagram}: Menggambarkan daftar fungsi utama yang disediakan oleh ekstensi \textit{browser} serta interaksi antara aktor pengguna Threads dan sistem.
-  \item \textit{Activity Diagram}: Memetakan urutan aktivitas kerja dari awal hingga akhir lintas komponen (\textit{swimlane}), mulai dari tindakan klik kanan pengguna pada unggahan hingga lencana hasil tampil di layar.
-  \item \textit{Sequence Diagram}: Menjelaskan urutan waktu pertukaran pesan (\textit{message passing}) secara rinci antara \textit{Content Script}, \textit{Background Service Worker}, REST API pada \textit{server} \textit{backend}, dan modul penelusuran \textit{web}.
+  \item \textit{Use Case Diagram}: Memodelkan interaksi fungsional antara aktor eksternal (pengguna Threads) dan sekumpulan skenario penggunaan (\textit{use case}) yang disediakan oleh sistem ekstensi \textit{browser}~[9].
+  \item \textit{Activity Diagram}: Memetakan alur kerja prosedural dan urutan aktivitas secara berurutan maupun bercabang menggunakan pembagian lajur komponen (\textit{swimlane}), mulai dari tindakan klik kanan pengguna pada unggahan hingga lencana hasil verifikasi tampil di layar~[9].
+  \item \textit{Sequence Diagram}: Menjelaskan interaksi antar-objek berdasarkan urutan waktu melalui garis hidup (\textit{lifeline}), kotak aktivasi (\textit{activation box}), dan pertukaran pesan (\textit{message passing}) antara \textit{Content Script}, \textit{Background Service Worker}, REST API pada \textit{server} \textit{backend}, serta modul penelusuran \textit{web}~[9].
+  \item \textit{Class Diagram}: Mendeskripsikan jenis-jenis objek atau modul di dalam sistem beserta atribut, operasi, dan berbagai hubungan statis (asosiasi maupun ketergantungan) yang terjalin di antara komponen-komponen tersebut~[9].
 \end{enumerate}
 
 \subsection{Pengujian \textit{Black-Box}}
@@ -694,6 +695,45 @@ Draw.io (\textit{diagrams.net}) adalah perangkat lunak pemodelan diagram berbasi
   \end{spacing}
 \end{table}
 
+\clearpage
+Berdasarkan keempat tabel \textit{literature review} di atas, ringkasan tujuan, inti pembahasan, hasil studi, serta persamaan dan perbedaan masing-masing penelitian terdahulu dengan penelitian skripsi ini disajikan pada Tabel~\ref{tab:perbandingan_lr}.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{spacing}{1.0}
+\begin{longtable}{|L{2.3cm}|L{2.3cm}|L{2.4cm}|L{2.3cm}|L{2.9cm}|}
+  \caption{Perbandingan \textit{Literature Review}}\label{tab:perbandingan_lr}\\
+  \hline
+  \centering\textbf{Nama Penulis, Tahun dan Judul Jurnal} & \centering\textbf{Tujuan Jurnal} & \centering\textbf{Inti Dari Jurnal} & \centering\textbf{Hasil Studi} & \centering\arraybackslash\textbf{Persamaan \& Perbedaan dengan Penelitian Skripsi} \\ \hline
+  \endfirsthead
+  \hline
+  \centering\textbf{Nama Penulis, Tahun dan Judul Jurnal} & \centering\textbf{Tujuan Jurnal} & \centering\textbf{Inti Dari Jurnal} & \centering\textbf{Hasil Studi} & \centering\arraybackslash\textbf{Persamaan \& Perbedaan dengan Penelitian Skripsi} \\ \hline
+  \endhead
+  Fardhina dkk. (2025), ``Sistem Deteksi Berita Hoaks Berbasis Algoritma \textit{Natural Language Processing} (NLP) Menggunakan BERT'' &
+  Membangun model deteksi berita \textit{hoax} berbahasa Indonesia menggunakan BERT untuk meningkatkan ketepatan klasifikasi teks. &
+  Penerapan model \textit{pre-trained} IndoBERT pada 730 artikel berita Kaggle (425 \textit{hoax} dan 305 non-\textit{hoax}) dengan rasio data latih dan uji 80:20, lalu dievaluasi menggunakan \textit{confusion matrix}. &
+  Akurasi 98,0\%, presisi 97,6\%, \textit{recall} 98,2\%, dan \textit{F1-score} 97,9\%, serta mampu menampilkan tingkat keyakinan (\textit{confidence level}) prediksi. &
+  Persamaan: sama-sama mendeteksi \textit{hoax} berbahasa Indonesia, menampilkan skor keyakinan, dan dievaluasi dengan \textit{confusion matrix}. Perbedaan: penelitian tersebut memakai \textit{dataset} statis secara luring tanpa integrasi \textit{browser}, sedangkan skripsi ini menelusuri bukti \textit{web} secara \textit{real-time} melalui ekstensi Chrome di Threads beserta tautan rujukannya. \\ \hline
+  Dierickx dkk. (2023), ``\textit{Automated Fact-Checking to Support Professional Practices: Systematic Literature Review and Meta-Analysis}'' &
+  Mengidentifikasi kesenjangan antara riset pemeriksaan fakta otomatis dengan kebutuhan praktis pemeriksa fakta di lapangan. &
+  Kajian literatur sistematis dan meta-analisis terhadap publikasi \textit{automated fact-checking} (AFC) dengan menekankan prinsip \textit{human-in-the-loop} dan transparansi bukti. &
+  \textit{F1-score} menjadi metrik paling umum; lebih dari 80\% riset hanya berfokus pada algoritma; alat cek fakta perlu mudah diakses dan menampilkan sumber bukti. &
+  Persamaan: sama-sama berfokus pada pemeriksaan fakta otomatis dan pentingnya bukti rujukan yang transparan. Perbedaan: penelitian tersebut bersifat kajian konseptual tanpa membangun sistem, sedangkan skripsi ini mewujudkan rekomendasinya menjadi ekstensi yang menampilkan alasan dan tautan rujukan langsung di samping unggahan. \\ \hline
+  Widhiyasana dkk. (2021), ``Penerapan \textit{Convolutional Long Short-Term Memory} untuk Klasifikasi Teks Berita Bahasa Indonesia'' &
+  Meningkatkan ketepatan klasifikasi teks berita berbahasa Indonesia dengan menggabungkan CNN dan LSTM. &
+  Arsitektur gabungan C-LSTM dengan representasi kata Word2Vec pada 3.164 artikel berita portal nasional dalam 7 kategori. &
+  C-LSTM memperoleh \textit{F1-score} 93,27\%, mengungguli CNN tunggal (89,85\%) dan LSTM tunggal (90,87\%). &
+  Persamaan: sama-sama mengolah teks berita berbahasa Indonesia dengan memperhatikan kata kunci dan konteks kalimat. Perbedaan: penelitian tersebut mengklasifikasikan kategori berita menggunakan model luring, sedangkan skripsi ini memverifikasi kebenaran klaim melalui penelusuran \textit{web} \textit{real-time} dan penyaringan kata kunci konteks. \\ \hline
+  Malik dkk. (2024), ``\textit{Browser Extension for Fake URL Detection}'' &
+  Membangun ekstensi \textit{browser} untuk mendeteksi alamat URL palsu dan konten \textit{spam} secara langsung. &
+  Arsitektur klien-\textit{server}: ekstensi \textit{browser} terhubung ke REST API pada \textit{server} \textit{backend} yang menjalankan algoritma LGBM dan \textit{Multinomial Naive Bayes}. &
+  LGBM mencapai akurasi 96,5\% (\textit{F1-score} 96,49\%) pada URL palsu dan \textit{Multinomial Naive Bayes} mencapai akurasi 97,09\% pada deteksi \textit{spam}. &
+  Persamaan: sama-sama memakai arsitektur ekstensi \textit{browser} dan \textit{server} \textit{backend} melalui REST API dengan peringatan \textit{real-time}. Perbedaan: objek penelitian tersebut berupa URL dan \textit{spam} dengan model statis, sedangkan skripsi ini memeriksa klaim teks unggahan Threads melalui ekstraksi DOM, Google AI Overview, dan Google News RSS. \\ \hline
+\end{longtable}
+\end{spacing}
+\endgroup
+
 % ==============================================================================
 % DAFTAR PUSTAKA (Format IEEE Berdasarkan Urutan Kemunculan Pertama - Pedoman Bab 5)
 % ==============================================================================
@@ -720,6 +760,8 @@ Draw.io (\textit{diagrams.net}) adalah perangkat lunak pemodelan diagram berbasi
   \item Meta Open Source, ``React Documentation: Describing the UI and Components,'' React. Accessed: Oct. 30, 2026. [Online]. Available: \url{https://react.dev/learn}
 
   \item L. G. Malik, R. Shambharkar, S. Morey, S. Kanpate, and V. Raut, ``Browser extension for fake URL detection,'' Dept. of Computer Science and Engineering, Government College of Engineering Nagpur, Nagpur, India, Tech. Paper, 2024.
+
+  \item M. Fowler and K. Scott, \textit{UML Distilled: A Brief Guide to the Standard Object Modeling Language}, 2nd ed. Reading, MA, USA: Addison-Wesley, 2000.
 \end{enumerate}
 \end{spacing}
 \endgroup

@@ -17,7 +17,8 @@
 ## 3. Aturan Tabel *State of the Art* & `DAFTAR TABEL` (Mengacu pada `DRAFT 10`)
 - **Penamaan Judul Tabel *State of the Art***:
   - Baik pada halaman `DAFTAR TABEL` maupun pada bagian *State of the Art* di Bab 2, judul tabel penelitian terdahulu **WAJIB** ditulis dengan format `Tabel 2.1 Literature Review 1`, `Tabel 2.2 Literature Review 2`, `Tabel 2.3 Literature Review 3`, dan seterusnya (kata *Literature Review* dicetak miring/*italic*).
-  - Tidak menggunakan judul panjang seperti *"Tinjauan penelitian terdahulu pertama (...)"* ataupun tabel perbandingan terpisah di akhir *State of the Art*.
+  - Tidak menggunakan judul panjang seperti *"Tinjauan penelitian terdahulu pertama (...)"* pada judul tabel *Literature Review* 1, 2, 3, dst.
+- **Tabel Perbandingan *Literature Review***: Setelah seluruh tabel *Literature Review* per jurnal, WAJIB disajikan satu tabel ringkasan `Tabel 2.X Perbandingan Literature Review` (*Literature Review* dicetak miring) dengan 5 kolom: `Nama Penulis, Tahun dan Judul Jurnal`, `Tujuan Jurnal`, `Inti Dari Jurnal`, `Hasil Studi`, dan `Persamaan & Perbedaan dengan Penelitian Skripsi` (satu baris per jurnal, baris kepala dicetak tebal dan diulang di setiap halaman, baris tidak terpotong antarhalaman).
 - **Struktur Baris Tabel *Literature Review***:
   - Mengacu pada `DRAFT 10`, setiap tabel *Literature Review* disajikan dalam format 2 kolom berukuran `12pt` tanpa baris kepala (`<th>`), dengan 8 baris komponen pada kolom kiri (dicetak tebal):
     1. **Judul Jurnal**
