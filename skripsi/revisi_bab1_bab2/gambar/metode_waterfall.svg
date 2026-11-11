@@ -1,44 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 318" width="720" height="318" style="background:#ffffff;font-family:Helvetica,Arial,sans-serif;color:#000000;">
-  
-  <defs>
-    <marker id="classic" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 9 5 L 0 9 L 2.3 5 Z" fill="#000000" stroke="#000000" stroke-width="0.8"/>
-    </marker>
-  </defs>
-
-
-  <!-- 1. System Engineering -->
-  <rect x="16" y="14" width="180" height="40" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="106" y="31" font-size="11.5" font-weight="bold" font-style="italic" text-anchor="middle" fill="#000000">System Engineering</text>
-  <text x="106" y="46" font-size="10.5" text-anchor="middle" fill="#000000">(Rekayasa Sistem)</text>
-  <path d="M 196 34 L 222 34 L 222 61" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-
-  <!-- 2. System Analysis -->
-  <rect x="118" y="62" width="180" height="40" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="208" y="79" font-size="11.5" font-weight="bold" font-style="italic" text-anchor="middle" fill="#000000">System Analysis</text>
-  <text x="208" y="94" font-size="10.5" text-anchor="middle" fill="#000000">(Analisis Kebutuhan Sistem)</text>
-  <path d="M 298 82 L 324 82 L 324 109" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-
-  <!-- 3. System & Software Design -->
-  <rect x="220" y="110" width="180" height="40" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="310" y="127" font-size="11.5" font-weight="bold" font-style="italic" text-anchor="middle" fill="#000000">System &amp; Software Design</text>
-  <text x="310" y="142" font-size="10.5" text-anchor="middle" fill="#000000">(Perancangan Sistem)</text>
-  <path d="M 400 130 L 426 130 L 426 157" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-
-  <!-- 4. Implementation / Coding -->
-  <rect x="322" y="158" width="180" height="40" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="412" y="175" font-size="11.5" font-weight="bold" font-style="italic" text-anchor="middle" fill="#000000">Implementation / Coding</text>
-  <text x="412" y="190" font-size="10.5" text-anchor="middle" fill="#000000">(Implementasi Kode)</text>
-  <path d="M 502 178 L 528 178 L 528 205" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-
-  <!-- 5. Testing / Verification -->
-  <rect x="424" y="206" width="180" height="40" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="514" y="223" font-size="11.5" font-weight="bold" font-style="italic" text-anchor="middle" fill="#000000">Testing / Verification</text>
-  <text x="514" y="238" font-size="10.5" text-anchor="middle" fill="#000000">(Pengujian Sistem)</text>
-  <path d="M 604 226 L 630 226 L 630 253" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-
-  <!-- 6. Maintenance -->
-  <rect x="526" y="254" width="180" height="40" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="616" y="271" font-size="11.5" font-weight="bold" font-style="italic" text-anchor="middle" fill="#000000">Maintenance</text>
-  <text x="616" y="286" font-size="10.5" text-anchor="middle" fill="#000000">(Pemeliharaan Sistem)</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 370" width="500" height="370" style="background:#ffffff;font-family:Helvetica,Arial,sans-serif;color:#000000;">
+  <defs><marker id="classic" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 L 2.3 5 Z" fill="#000000" stroke="#000000" stroke-width="0.8"/></marker></defs>
+  <rect x="0" y="0" width="500" height="370" fill="#ffffff"/>
+  <rect x="10" y="10.0" width="170" height="47.0" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="95.0" y="29.6" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000"><tspan font-style="italic">System Engineering</tspan></text>
+  <text x="95.0" y="44.9" font-size="11.5" text-anchor="middle" fill="#000000">(Rekayasa Sistem)</text>
+  <path d="M 180 33.5 L 200 33.5 L 200 70.0" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="72" y="71.0" width="170" height="47.0" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="157.0" y="90.6" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000"><tspan font-style="italic">System Analysis</tspan></text>
+  <text x="157.0" y="105.9" font-size="11.5" text-anchor="middle" fill="#000000">(Analisis Kebutuhan Sistem)</text>
+  <path d="M 242 94.5 L 262 94.5 L 262 131.0" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="134" y="132.0" width="170" height="47.0" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="219.0" y="151.6" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000"><tspan font-style="italic">System &amp; Software Design</tspan></text>
+  <text x="219.0" y="166.9" font-size="11.5" text-anchor="middle" fill="#000000">(Perancangan Sistem)</text>
+  <path d="M 304 155.5 L 324 155.5 L 324 192.0" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="196" y="193.0" width="170" height="47.0" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="281.0" y="212.6" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000"><tspan font-style="italic">Implementation / Coding</tspan></text>
+  <text x="281.0" y="227.9" font-size="11.5" text-anchor="middle" fill="#000000">(Implementasi Kode)</text>
+  <path d="M 366 216.5 L 386 216.5 L 386 253.0" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="258" y="254.0" width="170" height="47.0" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="343.0" y="273.6" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000"><tspan font-style="italic">Testing / Verification</tspan></text>
+  <text x="343.0" y="288.9" font-size="11.5" text-anchor="middle" fill="#000000">(Pengujian Sistem)</text>
+  <path d="M 428 277.5 L 448 277.5 L 448 314.0" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="320" y="315.0" width="170" height="47.0" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="405.0" y="334.6" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000"><tspan font-style="italic">Maintenance</tspan></text>
+  <text x="405.0" y="349.9" font-size="11.5" text-anchor="middle" fill="#000000">(Pemeliharaan Sistem)</text>
 </svg>

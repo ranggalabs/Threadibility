@@ -12,12 +12,15 @@
 - **Setiap selesai revisi, WAJIB menyamakan seluruh salinan berkas**:
   1. `revisi_bab1_bab2/main.tex` → `skripsi_revisi_bab1_bab2.tex`
   2. PDF hasil kompilasi → `revisi_bab1_bab2/skripsi_revisi_bab1_bab2.pdf` dan `skripsi_revisi_bab1_bab2.pdf`
-  3. `main.tex` di dalam `revisi_bab1_bab2/skripsi_revisi_bab1_bab2_overleaf.zip`
+  3. `main.tex` dan seluruh isi folder `gambar/` di dalam `revisi_bab1_bab2/skripsi_revisi_bab1_bab2_overleaf.zip`
 - **Pengaturan LaTeX yang sudah ditetapkan (jangan dihapus)**:
   - Judul `DAFTAR ISI`, `DAFTAR GAMBAR`, `DAFTAR TABEL` didefinisikan di dalam `\addto\captionsindonesian{...}` agar tidak tertimpa `babel` menjadi huruf kecil.
   - Pemenggalan kata diminimalkan (`\hyphenpenalty=9000`, `\exhyphenpenalty=9000`, `\tolerance=2000`, `\emergencystretch=2.5em`) dan kata terakhir di dasar halaman tidak boleh dipenggal (`\brokenpenalty=10000`) sesuai Pedoman 1.6.
   - `\raggedbottom` WAJIB dipertahankan: opsi `twoside` mengaktifkan `\flushbottom` yang meregangkan jarak antarbutir/paragraf secara tidak wajar (contoh: celah besar antarnomor pada 1.2 Identifikasi Masalah) agar halaman selalu penuh.
   - Paket `xurl` dipakai agar URL panjang pada Daftar Pustaka dapat berpindah baris; huruf *monospace* (`\texttt`) memakai Courier New.
+  - Nomor halaman lanjutan berada 1,5 cm dari tepi atas kertas (`headsep=2.5cm` dengan margin atas 4 cm), nomor halaman pertama bab 1,5 cm dari tepi bawah (Pedoman 2.6).
+  - Batas porsi gambar dilonggarkan (`\topfraction=0.9`, `\textfraction=0.1`, `\floatpagefraction=0.8`) agar gambar besar tetap berbagi halaman dengan teks.
+  - Tabel 2.5 Perbandingan *Literature Review* disajikan pada halaman *landscape* (`pdflscape`, Pedoman 6.7) dengan lebar kolom `2.8/2.8/4.4/3.6/7.5 cm`; pada halaman *landscape* gaya halaman dikosongkan dan nomor halaman dicetak terputar mengikuti arah baca melalui *hook* `shipout/background` (`\landscapenumtrue`/`\landscapenumfalse`), ganjil di kiri dan genap di kanan.
 
 ## 1. Aturan Indentasi Paragraf (Mengacu pada `DRAFT 10`)
 - **Setiap awal paragraf WAJIB diberi penanda indentasi (menjorok ke dalam) sebesar `1,27 cm` (`36 pt` / `0,5 inci` / 1 *tab stop* standar Word)**:
@@ -54,6 +57,11 @@
   - Isi tabel berspasi 1 (`\begin{spacing}{1.0}`, Pedoman 1.3 butir 3) dan tabel *Literature Review* memakai penempatan `[H]` (paket `float`) agar urutannya tetap. Judul subbab *State of the Art* diikuti satu kalimat pengantar dan tidak boleh tertinggal sendirian di satu halaman.
   - Pada LaTeX, ukuran tersebut diterapkan dengan `\setlength{\arrayrulewidth}{0.5pt}` dan `\begin{tabular}{|L{119.5pt}|L{251.5pt}|}` (lebar isi + `\tabcolsep` 2×6 pt = `132pt` dan `264pt`, total `396pt` = lebar area teks).
 
+- **Perataan Teks di Dalam Tabel (aturan penulis; Pedoman tidak mengatur perataan isi tabel)**:
+  - Seluruh isi sel tabel WAJIB rata kanan-kiri (*justify*) agar rapi. Pada LaTeX, tipe kolom `L{...}` didefinisikan sebagai `>{\arraybackslash}p{...}` (tanpa `\raggedright`). Baris kepala tabel tetap rata tengah (`\centering`) dan dicetak tebal.
+  - Pedoman hanya mengatur bahwa tabel diletakkan simetris di tengah halaman, isinya berspasi 1, dan mudah dibaca (Pedoman 1.3 butir 3 dan 6.7); kata "*Justify*" di Pedoman hanya muncul pada contoh Surat Pernyataan Orisinalitas.
+  - Pada kolom sempit (≤ 4 cm, misalnya Tabel 2.5), pemenggalan kata otomatis diizinkan secara lokal (`\hyphenpenalty=300`) agar tidak muncul celah antarkata yang lebar. Hasil pemenggalan WAJIB diperiksa: nama produk/teknologi tidak boleh dipenggal dan kata bahasa Indonesia harus dipenggal sesuai kaidah (contoh salah yang pernah muncul: `Fas-tAPI`, `Threa-ds`, `sedangk-an`, `sk-ripsi`, `ho-ax`). Tambahkan kata bermasalah ke daftar `\hyphenation{...}` di pembuka `main.tex`.
+
 ## 3A. Aturan Kebenaran Isi *Literature Review* dan Sitasi (Mengacu pada Pedoman 1.5, 2.4, dan Bab 5)
 - **Isi tabel *Literature Review* WAJIB 100% sesuai dengan isi jurnal asli di folder `jurnal/`**. Sebelum menulis atau mengubah tabel, baca dan cocokkan langsung dengan PDF jurnalnya:
   - Nama model/algoritma, jumlah dan sumber *dataset*, jumlah kategori/kelas, rasio data, parameter pelatihan, serta seluruh angka hasil (akurasi, presisi, *recall*, *F1-score*) harus tertulis persis seperti di jurnal (gunakan koma desimal, misalnya `96,49%`).
@@ -83,3 +91,13 @@ Setiap kali membuat atau men-generate gambar/diagram (diagram alur metodologi, a
 3. **Mudah Dimengerti & Ringkas**:
    - Isi teks di dalam setiap kotak harus singkat, jelas, langsung pada intinya, dan mudah dipahami pembaca tanpa istilah berbelit-belit.
    - Istilah bahasa Inggris di dalam diagram wajib dicetak miring (*italic*).
+
+4. **Ukuran Huruf Diagram Harus Terbaca saat Dicetak (Pedoman 6.1: huruf pada gambar "harus jelas")**:
+   - Teks terkecil di dalam diagram WAJIB tercetak minimal ±9 pt setelah gambar diskalakan ke dalam naskah. Rumus: ukuran tercetak = ukuran huruf SVG × (lebar gambar di naskah ÷ lebar `viewBox` SVG).
+   - Standar yang dipakai: lebar `viewBox` 480–500 unit, huruf judul kontainer/lajur 12,5–13, judul kotak 12–12,5 (tebal), isi 11,5–12, lalu disisipkan dengan `\includegraphics[width=\textwidth]{...}` (hasil ±9–10,7 pt). Teks panjang dipecah menjadi beberapa baris, bukan diperkecil.
+   - Diagram dibuat ulang dengan `alat_diagram/gen_diagram.py` (SVG) lalu dirender ke PNG skala 4× sekaligus diperiksa teks yang keluar dari kotaknya dengan `alat_diagram/render_diagram.js`:
+     ```
+     python alat_diagram/gen_diagram.py <folder_keluaran>
+     PW_CORE=../server/node_modules/playwright-core node alat_diagram/render_diagram.js <folder_svg> <folder_png> metodologi_penelitian metode_waterfall system_engineering system_analysis arsitektur_umum
+     ```
+     Pemeriksaan harus menampilkan `OK` untuk setiap diagram sebelum berkas SVG/PNG disalin ke `revisi_bab1_bab2/gambar/`. Kotak kontainer/lajur selalu digambar di lapisan belakang agar tidak menutupi isinya.

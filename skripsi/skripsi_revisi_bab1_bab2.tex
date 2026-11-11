@@ -14,7 +14,7 @@
   right=3cm,
   bottom=3cm,
   headheight=15pt,
-  headsep=1.2cm,
+  headsep=2.5cm,
   footskip=1.5cm
 ]{geometry}
 
@@ -49,6 +49,9 @@
 % Pemenggalan kata seminimal mungkin dan kata terakhir di dasar halaman tidak dipenggal (Pedoman 1.6)
 \hyphenpenalty=9000
 \exhyphenpenalty=9000
+% Nama produk/teknologi tidak boleh dipenggal sembarangan (Pedoman 1.5 butir n)
+\hyphenation{Fast-API Threads Chrome Google Playwright Express Overview Antigravity TypeScript JavaScript React Kaggle IndoBERT
+  hoax dataset se-dang-kan skrip-si auto-mated sys-tem-at-ic lit-er-a-ture ex-ten-sion}
 \brokenpenalty=10000
 \tolerance=2000
 \emergencystretch=2.5em
@@ -60,6 +63,24 @@
 \usepackage{tabularx}
 \usepackage{longtable}
 \usepackage{float}
+% Izinkan gambar besar berbagi halaman dengan teks (hindari halaman berisi satu gambar saja)
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.8}
+\usepackage{pdflscape}
+% Nomor halaman pada halaman landscape: diputar 90 derajat, 1,5 cm dari tepi atas
+% orientasi baca (= tepi kiri kertas fisik); ganjil di kiri, genap di kanan (Pedoman 2.6).
+\newif\iflandscapenum
+\AddToHook{shipout/background}{%
+  \iflandscapenum
+    \setlength{\unitlength}{1cm}%
+    \ifodd\value{page}%
+      \put(1.5,-26.7){\rotatebox{90}{\makebox[0pt][l]{\normalfont\normalsize\thepage}}}%
+    \else
+      \put(1.5,-4){\rotatebox{90}{\makebox[0pt][r]{\normalfont\normalsize\thepage}}}%
+    \fi
+  \fi}
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{enumitem}
@@ -199,7 +220,8 @@
   \renewcommand{\footrulewidth}{0pt}
 }
 
-\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+% Isi sel tabel rata kanan-kiri (justify) agar rapi; baris kepala tetap \centering.
+\newcolumntype{L}[1]{>{\arraybackslash}p{#1}}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 
 \begin{document}
@@ -339,7 +361,7 @@ Pelaksanaan penelitian ini disusun mengikuti kerangka tahapan penelitian yang te
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.92\textwidth]{gambar/metodologi_penelitian.png}
+  \includegraphics[width=\textwidth]{gambar/metodologi_penelitian.png}
   \caption{Diagram alur metodologi penelitian}
   \label{fig:metodologi}
 \end{figure}
@@ -450,7 +472,7 @@ Dalam sistem deteksi \textit{hoax} berarsitektur klien-\textit{server} yang dira
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.96\textwidth]{gambar/arsitektur_umum.png}
+  \includegraphics[width=\textwidth]{gambar/arsitektur_umum.png}
   \caption{Arsitektur komunikasi ekstensi Chrome dan \textit{server} \textit{backend}}
   \label{fig:arsitektur}
 \end{figure}
@@ -503,7 +525,7 @@ dengan keterangan $P$ menyatakan nilai persentase untuk suatu pilihan jawaban (\
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.94\textwidth]{gambar/system_engineering.png}
+  \includegraphics[width=\textwidth]{gambar/system_engineering.png}
   \caption{Diagram alur \textit{system engineering} pada pengembangan sistem}
   \label{fig:syseng}
 \end{figure}
@@ -516,7 +538,7 @@ Berdasarkan Gambar~\ref{fig:syseng}, tahap \textit{system engineering} menyatuka
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.88\textwidth]{gambar/system_analysis.png}
+  \includegraphics[width=\textwidth]{gambar/system_analysis.png}
   \caption{Diagram tahapan \textit{system analysis} pada penelitian}
   \label{fig:sysana}
 \end{figure}
@@ -535,7 +557,7 @@ Proses rekayasa perangkat lunak dalam penelitian ini mengikuti model \textit{Wat
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.92\textwidth]{gambar/metode_waterfall.png}
+  \includegraphics[width=\textwidth]{gambar/metode_waterfall.png}
   \caption{Tahapan metode pengembangan perangkat lunak \textit{Waterfall}}
   \label{fig:waterfall}
 \end{figure}
@@ -719,14 +741,20 @@ Rincian penelitian terdahulu yang dijadikan acuan dalam penelitian ini, sebagaim
   \end{spacing}
 \end{table}
 
-\clearpage
 Berdasarkan keempat tabel \textit{literature review} di atas, ringkasan tujuan, inti pembahasan, hasil studi, serta persamaan dan perbedaan masing-masing penelitian terdahulu dengan penelitian skripsi ini disajikan pada Tabel~\ref{tab:perbandingan_lr}.
 
+% Tabel 2.5 disajikan pada halaman landscape (Pedoman 6.7) agar kolom cukup lebar;
+% nomor halaman diputar mengikuti orientasi baca (Pedoman 2.6).
+\begin{landscape}
+\pagestyle{empty}
+\landscapenumtrue
 \begingroup
-\small
 \setlength{\tabcolsep}{4pt}
+% Kolom sempit + rata kanan-kiri: izinkan pemenggalan otomatis (Pedoman 1.6) agar tidak muncul celah antarkata lebar
+\hyphenpenalty=300
+\exhyphenpenalty=300
 \begin{spacing}{1.0}
-\begin{longtable}{|L{2.3cm}|L{2.3cm}|L{2.4cm}|L{2.3cm}|L{2.9cm}|}
+\begin{longtable}{|L{3.3cm}|L{3.3cm}|L{4.2cm}|L{3.6cm}|L{6.7cm}|}
   \caption{Perbandingan \textit{Literature Review}}\label{tab:perbandingan_lr}\\
   \hline
   \centering\textbf{Nama Penulis, Tahun dan Judul Jurnal} & \centering\textbf{Tujuan Jurnal} & \centering\textbf{Inti Dari Jurnal} & \centering\textbf{Hasil Studi} & \centering\arraybackslash\textbf{Persamaan \& Perbedaan dengan Penelitian Skripsi} \\ \hline
@@ -757,6 +785,9 @@ Berdasarkan keempat tabel \textit{literature review} di atas, ringkasan tujuan, 
 \end{longtable}
 \end{spacing}
 \endgroup
+\clearpage
+\landscapenumfalse
+\end{landscape}
 
 % ==============================================================================
 % DAFTAR PUSTAKA (Format IEEE Berdasarkan Urutan Kemunculan Pertama - Pedoman Bab 5)

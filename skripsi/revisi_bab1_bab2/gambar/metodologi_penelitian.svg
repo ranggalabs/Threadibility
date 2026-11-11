@@ -1,73 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 580" width="600" height="580" style="background:#ffffff;font-family:Helvetica,Arial,sans-serif;color:#000000;">
-  
-  <defs>
-    <marker id="classic" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 9 5 L 0 9 L 2.3 5 Z" fill="#000000" stroke="#000000" stroke-width="0.8"/>
-    </marker>
-  </defs>
-
-
-  <!-- 1. Identifikasi Masalah -->
-  <rect x="40" y="14" width="520" height="32" rx="5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="300" y="34" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">Identifikasi Masalah</text>
-
-  <line x1="300" y1="46" x2="300" y2="71" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-
-  <!-- 2. Pengumpulan Data (Draw.io Container) -->
-  <rect x="40" y="72" width="520" height="114" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <line x1="40" y1="96" x2="560" y2="96" stroke="#000000" stroke-width="1"/>
-  <text x="300" y="88" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">Pengumpulan Data</text>
-
-  <!-- Studi Pustaka -->
-  <rect x="100" y="112" width="165" height="56" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="182.5" y="129" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#000000">Studi Pustaka</text>
-  <text x="114" y="146" font-size="11" fill="#000000">1. Jurnal Penelitian</text>
-  <text x="114" y="160" font-size="11" fill="#000000">2. Dokumentasi Teknis</text>
-
-  <!-- Garis penghubung horizontal seperti DRAFT 10 -->
-  <line x1="265" y1="140" x2="335" y2="140" stroke="#000000" stroke-width="1"/>
-
-  <!-- Kuesioner -->
-  <rect x="335" y="112" width="165" height="56" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="417.5" y="129" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#000000">Kuesioner</text>
-  <text x="349" y="146" font-size="11" fill="#000000">1. Survei 60 Responden</text>
-  <text x="363" y="160" font-size="11" fill="#000000">Pengguna Threads</text>
-
-  <line x1="300" y1="186" x2="300" y2="211" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-
-  <!-- 3. Analisis dan Perancangan Sistem (Draw.io Container) -->
-  <rect x="40" y="212" width="520" height="242" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <line x1="40" y1="236" x2="560" y2="236" stroke="#000000" stroke-width="1"/>
-  <text x="300" y="228" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">Analisis dan Perancangan Sistem</text>
-
-  <!-- 3.1 Analisis Masalah -->
-  <rect x="100" y="254" width="400" height="28" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="300" y="272" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#000000">Analisis Masalah</text>
-  <line x1="300" y1="282" x2="300" y2="303" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-
-  <!-- 3.2 Analisis Sistem yang Berjalan -->
-  <rect x="100" y="304" width="400" height="28" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="300" y="322" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#000000">Analisis Sistem yang Berjalan</text>
-  <line x1="300" y1="332" x2="300" y2="353" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-
-  <!-- 3.3 Analisis Kebutuhan Sistem -->
-  <rect x="100" y="354" width="400" height="28" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="300" y="372" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#000000">Analisis Kebutuhan Sistem</text>
-  <line x1="300" y1="382" x2="300" y2="403" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-
-  <!-- 3.4 Perancangan Sistem -->
-  <rect x="100" y="404" width="400" height="28" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="300" y="422" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#000000">Perancangan Sistem</text>
-
-  <line x1="300" y1="454" x2="300" y2="479" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-
-  <!-- 4. Implementasi dan Pengujian -->
-  <rect x="40" y="480" width="520" height="32" rx="5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="300" y="500" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">Implementasi dan Pengujian</text>
-
-  <line x1="300" y1="512" x2="300" y2="537" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-
-  <!-- 5. Output -->
-  <rect x="40" y="538" width="520" height="32" rx="5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="300" y="558" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000"><tspan font-style="italic">Output</tspan>: Ekstensi Google Chrome untuk Deteksi <tspan font-style="italic">Hoax</tspan> pada Threads</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 582" width="480" height="582" style="background:#ffffff;font-family:Helvetica,Arial,sans-serif;color:#000000;">
+  <defs><marker id="classic" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 L 2.3 5 Z" fill="#000000" stroke="#000000" stroke-width="0.8"/></marker></defs>
+  <rect x="0" y="0" width="480" height="582" fill="#ffffff"/>
+  <rect x="20" y="212.60000000000002" width="440" height="247.2" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <line x1="20" y1="241.8" x2="460" y2="241.8" stroke="#000000" stroke-width="1"/>
+  <text x="240.0" y="231.1" font-size="13" font-weight="bold" text-anchor="middle" fill="#000000">Analisis dan Perancangan Sistem</text>
+  <rect x="20" y="67.2" width="440" height="121.4" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <line x1="20" y1="96.4" x2="460" y2="96.4" stroke="#000000" stroke-width="1"/>
+  <text x="240.0" y="85.7" font-size="13" font-weight="bold" text-anchor="middle" fill="#000000">Pengumpulan Data</text>
+  <rect x="20" y="10" width="440" height="33.2" rx="5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="240.0" y="30.5" font-size="13" font-weight="bold" text-anchor="middle" fill="#000000">Identifikasi Masalah</text>
+  <path d="M 240 43.2 L 240 66.2" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="38" y="110.4" width="180" height="64.2" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <rect x="262" y="110.4" width="180" height="64.2" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="128.0" y="130.4" font-size="12.5" font-weight="bold" text-anchor="middle" fill="#000000">Studi Pustaka</text>
+  <text x="52" y="146.5" font-size="12" fill="#000000">1. Jurnal Penelitian</text>
+  <text x="52" y="162.3" font-size="12" fill="#000000">2. Dokumentasi Teknis</text>
+  <text x="352.0" y="130.4" font-size="12.5" font-weight="bold" text-anchor="middle" fill="#000000">Kuesioner</text>
+  <text x="276" y="146.5" font-size="12" fill="#000000">1. Survei 60 Responden</text>
+  <text x="292" y="162.3" font-size="12" fill="#000000">Pengguna Threads</text>
+  <line x1="218" y1="142.5" x2="262" y2="142.5" stroke="#000000" stroke-width="1"/>
+  <path d="M 240 188.60000000000002 L 240 211.60000000000002" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="60" y="255.8" width="360" height="32.5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="240.0" y="275.8" font-size="12.5" font-weight="bold" text-anchor="middle" fill="#000000">Analisis Masalah</text>
+  <path d="M 240 288.3 L 240 307.3" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="60" y="308.3" width="360" height="32.5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="240.0" y="328.3" font-size="12.5" font-weight="bold" text-anchor="middle" fill="#000000">Analisis Sistem yang Berjalan</text>
+  <path d="M 240 340.8 L 240 359.8" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="60" y="360.8" width="360" height="32.5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="240.0" y="380.8" font-size="12.5" font-weight="bold" text-anchor="middle" fill="#000000">Analisis Kebutuhan Sistem</text>
+  <path d="M 240 393.3 L 240 412.3" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="60" y="413.3" width="360" height="32.5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="240.0" y="433.3" font-size="12.5" font-weight="bold" text-anchor="middle" fill="#000000">Perancangan Sistem</text>
+  <path d="M 240 459.8 L 240 482.8" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="20" y="483.8" width="440" height="33.2" rx="5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="240.0" y="504.3" font-size="13" font-weight="bold" text-anchor="middle" fill="#000000">Implementasi dan Pengujian</text>
+  <path d="M 240 517.0 L 240 540.0" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="20" y="541.0" width="440" height="32.5" rx="5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="240.0" y="561.0" font-size="12.5" font-weight="bold" text-anchor="middle" fill="#000000"><tspan font-style="italic">Output</tspan>: Ekstensi Google Chrome untuk Deteksi <tspan font-style="italic">Hoax</tspan> pada Threads</text>
 </svg>
