@@ -31,6 +31,7 @@
 \else
   \usepackage{fontspec}
   \setmainfont{Times New Roman}
+  \IfFontExistsTF{Courier New}{\setmonofont{Courier New}}{}
 \fi
 
 % --- Bahasa, Spasi, dan Paragraf (Spasi 1,5 & Awal Paragraf Menjorok 1,27 cm Mengacu DRAFT 10) ---
@@ -38,10 +39,19 @@
 \usepackage{setspace}
 \usepackage{indentfirst}
 \onehalfspacing
+% twoside mengaktifkan \flushbottom yang meregangkan jarak antarparagraf/butir agar halaman
+% selalu penuh; \raggedbottom menjaga jarak tetap seragam (sisa ruang dibiarkan di dasar halaman)
+\raggedbottom
 \setlength{\parindent}{1.27cm}
 \setlength{\parskip}{6pt}
 \widowpenalty=10000
 \clubpenalty=10000
+% Pemenggalan kata seminimal mungkin dan kata terakhir di dasar halaman tidak dipenggal (Pedoman 1.6)
+\hyphenpenalty=9000
+\exhyphenpenalty=9000
+\brokenpenalty=10000
+\tolerance=2000
+\emergencystretch=2.5em
 
 % --- Paket Tabel, Gambar, Rumus, dan Daftar ---
 \usepackage{graphicx}
@@ -49,6 +59,7 @@
 \setlength{\arrayrulewidth}{0.5pt}
 \usepackage{tabularx}
 \usepackage{longtable}
+\usepackage{float}
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{enumitem}
@@ -56,6 +67,7 @@
 \usepackage{tocloft}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
+\usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
 
 % --- Format Judul Gambar & Tabel (Pedoman Bab 6: Spasi 1, Tanpa Titik Dua) ---
@@ -135,9 +147,14 @@
 \renewcommand{\cfttabpresnum}{Tabel~}
 \setlength{\cftfignumwidth}{2.2cm}
 \setlength{\cfttabnumwidth}{1.9cm}
-\renewcommand{\contentsname}{DAFTAR ISI}
-\renewcommand{\listfigurename}{DAFTAR GAMBAR}
-\renewcommand{\listtablename}{DAFTAR TABEL}
+% Ditempatkan di \captionsindonesian agar tidak ditimpa babel saat \begin{document}
+\addto\captionsindonesian{%
+  \renewcommand{\contentsname}{DAFTAR ISI}%
+  \renewcommand{\listfigurename}{DAFTAR GAMBAR}%
+  \renewcommand{\listtablename}{DAFTAR TABEL}%
+  \renewcommand{\figurename}{Gambar}%
+  \renewcommand{\tablename}{Tabel}%
+}
 % Judul halaman daftar: 14 pt tebal, tengah, sedikit di bawah batas margin atas.
 \renewcommand{\cfttoctitlefont}{\hfill\normalfont\fontsize{14}{18}\selectfont\bfseries}
 \renewcommand{\cftloftitlefont}{\hfill\normalfont\fontsize{14}{18}\selectfont\bfseries}
@@ -267,14 +284,20 @@ Dasar permasalahan kedua berkaitan dengan keterbatasan pendekatan deteksi \texti
 % Paragraf 5: Dasar masalah 3 (risiko halusinasi rujukan pada model bahasa tanpa penelusuran nyata)
 Dasar permasalahan ketiga muncul apabila sistem pemeriksaan otomatis hanya mengandalkan pembuatan jawaban bebas dari model bahasa besar (\textit{Large Language Model}/LLM) tanpa dihubungkan ke sumber berita nyata di internet. Model bahasa yang menjawab tanpa pijakan artikel aktual berisiko menghasilkan penjelasan yang mengada-ada atau melampirkan rujukan yang tidak sesuai dengan konteks peristiwa yang sedang dibahas (\textit{hallucination}). Padahal, kajian literatur pemeriksaan fakta otomatis menegaskan bahwa alat bantu verifikasi yang baik tidak cukup hanya memberikan label benar atau salah, melainkan wajib menyertakan alasan yang jernih beserta tautan sumber berita asli agar pengguna tetap dapat memeriksa ulang bukti tersebut secara mandiri (\textit{human-in-the-loop}) [2].
 
-% Paragraf 6: Teknologi yang digunakan (sisi server: penelusuran real-time dua lapis)
-Untuk mengatasi ketiga akar masalah tersebut, penelitian ini menerapkan teknologi penelusuran bukti \textit{web} secara \textit{real-time} pada sisi \textit{server} (\textit{backend}) menggunakan lingkungan eksekusi Node.js dan kerangka kerja Express.js [4]. Penelusuran fakta dirancang dalam dua lapis, yaitu mengekstraksi fitur Google AI Overview (Ringkasan AI) beserta kartu artikel rujukannya secara otomatis menggunakan pustaka \textit{browser} Playwright [5] sebagai jalur utama, serta memanfaatkan umpan berita Google News RSS sebagai jalur cadangan. Agar daftar bacaan rujukan benar-benar sesuai dengan topik unggahan dan bebas dari halusinasi, \textit{server} membuka tautan pengalihan pencarian menuju alamat situs berita aslinya, menormalisasi karakter \textit{Unicode} pada teks unggahan, serta menyaring kecocokan kata kunci antara isi klaim, ringkasan peristiwa, dan judul berita.
+% Paragraf 6: State of the Art (pemetaan penelitian terdahulu - Pedoman 4.1.1 butir D)
+Apabila dipetakan, penelitian terdahulu yang berkaitan dengan permasalahan tersebut terbagi ke dalam tiga arah. Arah pertama berfokus pada peningkatan akurasi model klasifikasi teks berita berbahasa Indonesia, seperti model BERT yang mencapai akurasi 98\% [1] dan model C-LSTM yang mencapai \textit{F1-score} 93,27\% [3], namun keduanya diuji pada kumpulan data statis dan belum diterapkan langsung pada lingkungan media sosial. Arah kedua berupa kajian literatur pemeriksaan fakta otomatis yang menegaskan pentingnya transparansi bukti serta kolaborasi antara manusia dan mesin, tetapi tidak membangun sistem yang dapat langsung digunakan oleh pengguna [2]. Arah ketiga membuktikan bahwa ekstensi \textit{browser} yang terhubung dengan \textit{server} \textit{backend} efektif memberikan peringatan secara \textit{real-time} saat pengguna menjelajah \textit{web}, namun objek yang diperiksa terbatas pada alamat URL, surel \textit{spam}, dan log jaringan, bukan kebenaran klaim pada teks unggahan [4].
 
-% Paragraf 7: Teknologi yang digunakan (sisi klien: Chrome Extension Manifest V3)
-Agar fitur pemeriksaan ini dapat dipakai tanpa mengganggu kenyamanan membaca lini masa, sisi antarmuka pengguna dibangun sebagai ekstensi \textit{browser} Google Chrome berbasis standar \textit{Manifest V3} [6] dengan memanfaatkan bahasa pemrograman TypeScript dan pustaka antarmuka React [7]. Penelitian sebelumnya membuktikan bahwa arsitektur ekstensi \textit{browser} yang berkomunikasi dengan \textit{server} analisis melalui antarmuka pemrograman aplikasi (\textit{Application Programming Interface}/API) efektif menyajikan peringatan keamanan konten secara langsung di halaman \textit{web} [8]. Dengan pendekatan ini, pengguna cukup mengklik kanan pada suatu unggahan di halaman \textit{web} Threads untuk mengambil teks dari struktur \textit{Document Object Model} (DOM), lalu sistem akan menyematkan lencana (\textit{badge}) status beserta jendela keterangan (\textit{tooltip}) berisi tingkat keyakinan, alasan analisis, dan tautan berita rujukan tepat di samping unggahan tersebut.
+% Paragraf 7: Research Gap dan kontribusi penelitian (Pedoman 4.1.1 butir E dan G)
+Berdasarkan pemetaan tersebut, terdapat kesenjangan penelitian (\textit{research gap}) yang belum terjawab, yaitu belum tersedianya alat pemeriksa fakta yang bekerja langsung di dalam halaman \textit{web} Threads, mampu memeriksa klaim peristiwa terbaru melalui penelusuran bukti \textit{web} secara \textit{real-time}, serta menyertakan alasan analisis beserta tautan berita rujukan yang dapat diperiksa ulang oleh pengguna. Kesenjangan tersebut menjadi posisi sekaligus kontribusi penelitian ini, yaitu memadukan arsitektur ekstensi \textit{browser} dan \textit{server} \textit{backend} dengan penelusuran bukti \textit{web} secara \textit{real-time} untuk memeriksa indikasi \textit{hoax} pada teks unggahan Threads.
 
-% Paragraf 8: Penutup
-Berdasarkan uraian permasalahan, temuan kuesioner pengguna, dan dukungan teknologi di atas, penelitian ini berfokus pada pengembangan ekstensi Google Chrome untuk deteksi indikasi \textit{hoax} berbasis teks pada platform Threads. Kehadiran ekstensi \textit{browser} ini diharapkan dapat memangkas waktu pemeriksaan manual, menyediakan sumber rujukan cek fakta yang relevan dengan konteks berita terkini, serta membantu pengguna bersikap lebih kritis sebelum mempercayai atau menyebarkan ulang suatu unggahan di media sosial.
+% Paragraf 8: Teknologi yang digunakan (sisi server: penelusuran real-time dua lapis)
+Untuk mengisi kesenjangan tersebut sekaligus mengatasi ketiga akar masalah di atas, penelitian ini menerapkan teknologi penelusuran bukti \textit{web} secara \textit{real-time} pada sisi \textit{server} (\textit{backend}) menggunakan lingkungan eksekusi Node.js dan kerangka kerja Express.js [5]. Penelusuran fakta dirancang dalam dua lapis, yaitu mengekstraksi fitur Google AI Overview (Ringkasan AI) beserta kartu artikel rujukannya secara otomatis menggunakan pustaka \textit{browser} Playwright [6] sebagai jalur utama, serta memanfaatkan umpan berita Google News RSS sebagai jalur cadangan. Agar daftar bacaan rujukan benar-benar sesuai dengan topik unggahan dan bebas dari halusinasi, \textit{server} membuka tautan pengalihan pencarian menuju alamat situs berita aslinya, menormalisasi karakter \textit{Unicode} pada teks unggahan, serta menyaring kecocokan kata kunci antara isi klaim, ringkasan peristiwa, dan judul berita.
+
+% Paragraf 9: Teknologi yang digunakan (sisi klien: Chrome Extension Manifest V3)
+Agar fitur pemeriksaan ini dapat dipakai tanpa mengganggu kenyamanan membaca lini masa, sisi antarmuka pengguna dibangun sebagai ekstensi \textit{browser} Google Chrome berbasis standar \textit{Manifest V3} [7] dengan memanfaatkan bahasa pemrograman TypeScript dan pustaka antarmuka React [8]. Pemilihan arsitektur ini mengacu pada penelitian sebelumnya yang membuktikan bahwa ekstensi \textit{browser} yang berkomunikasi dengan \textit{server} analisis melalui antarmuka pemrograman aplikasi (\textit{Application Programming Interface}/API) efektif menyajikan peringatan secara langsung di halaman \textit{web} [4]. Dengan pendekatan ini, pengguna cukup mengklik kanan pada suatu unggahan di halaman \textit{web} Threads untuk mengambil teks dari struktur \textit{Document Object Model} (DOM), lalu sistem akan menyematkan lencana (\textit{badge}) status beserta jendela keterangan (\textit{tooltip}) berisi tingkat keyakinan, alasan analisis, dan tautan berita rujukan tepat di samping unggahan tersebut.
+
+% Paragraf 10: Penutup
+Berdasarkan uraian permasalahan, temuan kuesioner pengguna, kesenjangan penelitian terdahulu, dan dukungan teknologi di atas, penelitian ini berfokus pada pengembangan ekstensi Google Chrome untuk deteksi indikasi \textit{hoax} berbasis teks pada platform Threads. Kehadiran ekstensi \textit{browser} ini diharapkan dapat memangkas waktu pemeriksaan manual, menyediakan sumber rujukan cek fakta yang relevan dengan konteks berita terkini, serta membantu pengguna bersikap lebih kritis sebelum mempercayai atau menyebarkan ulang suatu unggahan di media sosial.
 
 \section{Identifikasi Masalah}
 
@@ -360,7 +383,7 @@ Penjelasan mengenai masing-masing tahapan pada Gambar~\ref{fig:metodologi} diura
 Sistematika penulisan skripsi ini disusun ke dalam lima bab yang saling berkaitan guna memberikan gambaran utuh mengenai jalannya penelitian:
 
 \noindent\textbf{BAB 1 PENDAHULUAN}\par
-Menguraikan latar belakang masalah penyebaran informasi \textit{hoax} pada platform Threads, kondisi pemeriksaan manual berdasarkan fakta dan kuesioner 60 responden, akar permasalahan, pemilihan teknologi penelusuran \textit{real-time} dan ekstensi Chrome, identifikasi masalah, maksud dan tujuan, batasan masalah, metodologi penelitian, serta sistematika penulisan.
+Menguraikan latar belakang masalah penyebaran informasi \textit{hoax} pada platform Threads, kondisi pemeriksaan manual berdasarkan fakta dan kuesioner 60 responden, akar permasalahan, pemetaan penelitian terdahulu (\textit{state of the art}) beserta kesenjangan penelitian (\textit{research gap}), pemilihan teknologi penelusuran \textit{real-time} dan ekstensi Chrome, identifikasi masalah, maksud dan tujuan, batasan masalah, metodologi penelitian, serta sistematika penulisan.
 
 \noindent\textbf{BAB 2 TINJAUAN PUSTAKA}\par
 Memaparkan landasan teori umum yang mendukung pembangunan sistem (konsep umum sistem, informasi, dan deteksi \textit{hoax}, klasifikasi \textit{hoax} dan \textit{satire}, struktur halaman \textit{web} Threads, arsitektur ekstensi Chrome \textit{Manifest V3}, \textit{server} \textit{backend}, serta penelusuran Google AI Overview dan Google News RSS), penjelasan metode penelitian (pengolahan kuesioner, \textit{system engineering}, \textit{system analysis}, metode pengembangan perangkat lunak \textit{Waterfall}, pemodelan UML, \textit{black-box testing}, dan \textit{confusion matrix}), perangkat lunak (\textit{tools}) yang digunakan termasuk \textit{Integrated Development Environment} (IDE) Google Antigravity, serta kajian penelitian terdahulu (\textit{state of the art}).
@@ -508,7 +531,7 @@ Berdasarkan Gambar~\ref{fig:sysana}, keempat tahapan \textit{system analysis} da
 
 \subsection{Metode Pengembangan Perangkat Lunak \textit{Waterfall}}
 
-Proses rekayasa perangkat lunak dalam penelitian ini mengikuti model \textit{Waterfall} yang dikemukakan oleh Pressman dan Maxim. Model \textit{Waterfall} dipilih karena spesifikasi masalah, batasan fitur ekstensi, serta alur komunikasi antara \textit{browser} dan \textit{server} telah terdefinisi dengan jelas sejak awal penelitian, sehingga pengerjaan dapat dilakukan secara runtut dari tahap \textit{system engineering} dan \textit{system analysis} hingga tahap pemeliharaan sebagaimana ditunjukkan pada Gambar~\ref{fig:waterfall}.
+Proses rekayasa perangkat lunak dalam penelitian ini mengikuti model \textit{Waterfall} yang dikemukakan oleh Pressman dan Maxim~[9]. Model \textit{Waterfall} dipilih karena spesifikasi masalah, batasan fitur ekstensi, serta alur komunikasi antara \textit{browser} dan \textit{server} telah terdefinisi dengan jelas sejak awal penelitian, sehingga pengerjaan dapat dilakukan secara runtut dari tahap \textit{system engineering} dan \textit{system analysis} hingga tahap pemeliharaan sebagaimana ditunjukkan pada Gambar~\ref{fig:waterfall}.
 
 \begin{figure}[htbp]
   \centering
@@ -529,12 +552,12 @@ Keenam tahapan pada Gambar~\ref{fig:waterfall} memiliki keterkaitan langsung den
 
 \subsection{\textit{Unified Modeling Language} (UML)}
 
-Merujuk pada Fowler dan Scott dalam buku \textit{UML Distilled: A Brief Guide to the Standard Object Modeling Language}, \textit{Unified Modeling Language} (UML) adalah keluarga notasi grafis standar berbasis metamodel \textit{Object Management Group} (OMG) yang digunakan untuk mendeskripsikan, memvisualisasikan, dan merancang sistem perangkat lunak berorientasi objek sebelum tahap pengodean dilakukan~[9]. Empat jenis diagram UML yang relevan dalam perancangan sistem ini meliputi:
+Merujuk pada Fowler dan Scott dalam buku \textit{UML Distilled: A Brief Guide to the Standard Object Modeling Language}, \textit{Unified Modeling Language} (UML) adalah keluarga notasi grafis standar berbasis metamodel \textit{Object Management Group} (OMG) yang digunakan untuk mendeskripsikan, memvisualisasikan, dan merancang sistem perangkat lunak berorientasi objek sebelum tahap pengodean dilakukan~[10]. Empat jenis diagram UML yang relevan dalam perancangan sistem ini meliputi:
 \begin{enumerate}[leftmargin=0.8cm,itemsep=2pt,topsep=2pt]
-  \item \textit{Use Case Diagram}: Memodelkan interaksi fungsional antara aktor eksternal (pengguna Threads) dan sekumpulan skenario penggunaan (\textit{use case}) yang disediakan oleh sistem ekstensi \textit{browser}~[9].
-  \item \textit{Activity Diagram}: Memetakan alur kerja prosedural dan urutan aktivitas secara berurutan maupun bercabang menggunakan pembagian lajur komponen (\textit{swimlane}), mulai dari tindakan klik kanan pengguna pada unggahan hingga lencana hasil verifikasi tampil di layar~[9].
-  \item \textit{Sequence Diagram}: Menjelaskan interaksi antar-objek berdasarkan urutan waktu melalui garis hidup (\textit{lifeline}), kotak aktivasi (\textit{activation box}), dan pertukaran pesan (\textit{message passing}) antara \textit{Content Script}, \textit{Background Service Worker}, REST API pada \textit{server} \textit{backend}, serta modul penelusuran \textit{web}~[9].
-  \item \textit{Class Diagram}: Mendeskripsikan jenis-jenis objek atau modul di dalam sistem beserta atribut, operasi, dan berbagai hubungan statis (asosiasi maupun ketergantungan) yang terjalin di antara komponen-komponen tersebut~[9].
+  \item \textit{Use Case Diagram}: Memodelkan interaksi fungsional antara aktor eksternal (pengguna Threads) dan sekumpulan skenario penggunaan (\textit{use case}) yang disediakan oleh sistem ekstensi \textit{browser}~[10].
+  \item \textit{Activity Diagram}: Memetakan alur kerja prosedural dan urutan aktivitas secara berurutan maupun bercabang menggunakan pembagian lajur komponen (\textit{swimlane}), mulai dari tindakan klik kanan pengguna pada unggahan hingga lencana hasil verifikasi tampil di layar~[10].
+  \item \textit{Sequence Diagram}: Menjelaskan interaksi antar-objek berdasarkan urutan waktu melalui garis hidup (\textit{lifeline}), kotak aktivasi (\textit{activation box}), dan pertukaran pesan (\textit{message passing}) antara \textit{Content Script}, \textit{Background Service Worker}, REST API pada \textit{server} \textit{backend}, serta modul penelusuran \textit{web}~[10].
+  \item \textit{Class Diagram}: Mendeskripsikan jenis-jenis objek atau modul di dalam sistem beserta atribut, operasi, dan berbagai hubungan statis (asosiasi maupun ketergantungan) yang terjalin di antara komponen-komponen tersebut~[10].
 \end{enumerate}
 
 \subsection{Pengujian \textit{Black-Box}}
@@ -609,88 +632,89 @@ Playwright adalah pustaka otomasi \textit{browser} modern yang dikembangkan oleh
 
 Draw.io (\textit{diagrams.net}) adalah perangkat lunak pemodelan diagram berbasis \textit{web} yang digunakan dalam penelitian ini untuk merancang seluruh diagram teknis secara terstruktur dan terstandar, meliputi diagram alur metodologi penelitian, diagram arsitektur komunikasi sistem, diagram alur \textit{system engineering}, diagram tahapan \textit{system analysis}, tahapan metode \textit{Waterfall}, serta diagram-diagram UML.
 
-\clearpage
 \section{\textit{State of the Art}}
 
-\begin{table}[htbp]
+Rincian penelitian terdahulu yang dijadikan acuan dalam penelitian ini, sebagaimana telah dianalisis pada Latar Belakang (Subbab 1.1), disajikan pada Tabel~\ref{tab:sota1} hingga Tabel~\ref{tab:sota4}.
+
+\begin{table}[H]
   \centering
   \caption{\textit{Literature Review} 1}
   \label{tab:sota1}
   \begin{spacing}{1.15}
   \normalsize
-  \begin{tabular}{|L{4.2cm}|L{9.1cm}|}
+  \begin{tabular}{|L{119.5pt}|L{251.5pt}|}
     \hline
     \textbf{Judul Jurnal} & Sistem Deteksi Berita Hoaks Berbasis Algoritma \textit{Natural Language Processing} (NLP) Menggunakan BERT \\ \hline
     \textbf{Penulis} & Azura Fardhina, Ramadhan Mustaqim Siregar, Mika Ria Waty Br Sibarani, Irsya Chlara Br Ginting, Andre Pratama \\ \hline
     \textbf{Tahun Terbit} & 2025 \\ \hline
-    \textbf{Masalah Utama} & Rendahnya literasi digital membuat masyarakat rentan mempercayai berita \textit{hoax} berbahasa Indonesia yang menyebar cepat di media daring, sedangkan metode klasifikasi klasik seperti KNN, \textit{Naive Bayes}, dan SVM belum optimal dalam memahami konteks kalimat secara dua arah. \\ \hline
+    \textbf{Masalah Utama} & Rendahnya literasi digital membuat masyarakat Indonesia rentan mempercayai berita \textit{hoax} yang menyebar cepat di media daring, sedangkan pendekatan sebelumnya seperti \textit{K-Nearest Neighbor} (KNN) berbasis representasi TF-IDF masih terbatas dalam menangkap relasi semantik antarkata. \\ \hline
     \textbf{Tujuan} & Membangun dan mengevaluasi model deteksi berita \textit{hoax} berbahasa Indonesia menggunakan algoritma \textit{Bidirectional Encoder Representations from Transformers} (BERT) guna meningkatkan ketepatan klasifikasi teks. \\ \hline
-    \textbf{Metode} & \textit{Natural Language Processing} (NLP) dengan model \textit{pre-trained} IndoBERT (\textit{indobenchmark/indobert-base-p1}) pada \textit{dataset} Kaggle berjumlah 730 artikel berita (425 \textit{hoax} dan 305 non-\textit{hoax}) dengan rasio data latih dan uji 80:20. \\ \hline
-    \textbf{Hasil dan Pembahasan} & Evaluasi menggunakan \textit{confusion matrix} menunjukkan model BERT mampu mencapai akurasi sebesar 98,0\%, presisi 97,6\%, \textit{recall} 98,2\%, dan \textit{F1-score} 97,9\%, serta mampu menampilkan persentase tingkat keyakinan (\textit{confidence level}) pada setiap hasil prediksi. \\ \hline
-    \textbf{Kesimpulan} & Algoritma BERT efektif memahami hubungan konteks kalimat dua arah pada teks berita berbahasa Indonesia dan menghasilkan kinerja klasifikasi \textit{hoax} yang sangat akurat pada pengujian data statis. \\ \hline
+    \textbf{Metode} & \textit{Natural Language Processing} (NLP) dengan model \textit{pre-trained} BERT (\textit{bert-base-uncased}) yang dilatih ulang (\textit{fine-tuning}) selama 4 \textit{epoch} menggunakan \textit{optimizer} AdamW pada \textit{dataset} Kaggle berjumlah 730 artikel berita (425 \textit{hoax} dan 305 non-\textit{hoax}) dengan rasio data latih dan uji 80:20. \\ \hline
+    \textbf{Hasil dan Pembahasan} & Evaluasi menggunakan \textit{confusion matrix} pada 146 data uji menunjukkan model BERT mencapai akurasi 98\% (0,9863) dengan nilai presisi, \textit{recall}, dan \textit{F1-score} sebesar 0,98 pada kelas \textit{hoax} dan 0,96 pada kelas non-\textit{hoax}, melampaui akurasi KNN sebesar 93,33\% pada penelitian pembanding. \\ \hline
+    \textbf{Kesimpulan} & Algoritma BERT efektif memahami konteks semantik teks berita berbahasa Indonesia dan menghasilkan kinerja klasifikasi \textit{hoax} yang sangat akurat pada pengujian data statis, serta fungsi prediksinya dapat diintegrasikan ke dalam antarmuka pengguna. \\ \hline
   \end{tabular}
   \end{spacing}
 \end{table}
 
 \clearpage
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{\textit{Literature Review} 2}
   \label{tab:sota2}
   \begin{spacing}{1.15}
   \normalsize
-  \begin{tabular}{|L{4.2cm}|L{9.1cm}|}
+  \begin{tabular}{|L{119.5pt}|L{251.5pt}|}
     \hline
     \textbf{Judul Jurnal} & \textit{Automated Fact-Checking to Support Professional Practices: Systematic Literature Review and Meta-Analysis} \\ \hline
     \textbf{Penulis} & Laurence Dierickx, Carl-Gustav Lind\'{e}n, Andreas Lothe Opdahl \\ \hline
     \textbf{Tahun Terbit} & 2023 \\ \hline
-    \textbf{Masalah Utama} & Pemeriksaan fakta secara manual memakan waktu berjam-jam hingga berhari-hari untuk setiap klaim, namun lebih dari 80\% penelitian \textit{automated fact-checking} (AFC) hanya berfokus pada pengujian algoritma di laboratorium tanpa memperhatikan kemudahan akses pengguna akhir dan keterbukaan sumber bukti. \\ \hline
-    \textbf{Tujuan} & Mengidentifikasi kesenjangan antara riset akademis pemeriksaan fakta otomatis dengan kebutuhan praktis di lapangan melalui kajian literatur sistematis dan meta-analisis. \\ \hline
-    \textbf{Metode} & \textit{Systematic Literature Review} (SLR) dan meta-analisis terhadap korpus publikasi ilmiah pemeriksaan fakta otomatis berdasarkan kerangka kerja proses \textit{fact-checking}. \\ \hline
-    \textbf{Hasil dan Pembahasan} & Menunjukkan bahwa metrik \textit{F1-score} merupakan ukuran evaluasi yang paling banyak digunakan pada sistem verifikasi klaim, serta menemukan bahwa sistem yang hanya menampilkan label status tertutup tanpa menyertakan rujukan bukti kurang dipercaya oleh pengguna. \\ \hline
-    \textbf{Kesimpulan} & Sistem pemeriksa fakta otomatis perlu dirancang dengan prinsip \textit{human-in-the-loop}, mudah diakses langsung oleh pengguna, dan wajib menyertakan transparansi sumber bukti yang dapat diperiksa ulang. \\ \hline
+    \textbf{Masalah Utama} & Pemeriksaan fakta secara manual merupakan proses yang memakan banyak waktu, sementara riset \textit{automated fact-checking} (AFC) didominasi bidang ilmu komputer (80,90\% korpus) yang berfokus pada solusi teknologis dan kurang memperhatikan kebutuhan praktis pemeriksa fakta sebagai pengguna akhir. \\ \hline
+    \textbf{Tujuan} & Menyajikan kajian \textit{state of the art} yang bersifat multidisiplin mengenai AFC dari sudut pandang jurnalistik serta mengidentifikasi bagaimana alat AFC terhubung dengan pengguna akhirnya. \\ \hline
+    \textbf{Metode} & \textit{Systematic Literature Review} (SLR) mengikuti pedoman PRISMA dan meta-analisis terhadap korpus publikasi ilmiah pemeriksaan fakta otomatis. \\ \hline
+    \textbf{Hasil dan Pembahasan} & Sebanyak 92 artikel (35,20\% korpus) menggunakan \textit{F1-score} sebagai ukuran kinerja dengan rentang nilai 5\% hingga 99,6\%, namun metrik tersebut dinilai sebagai estimator yang lemah. Transparansi dan keterjelasan (\textit{explainability}) hasil menjadi syarat penting agar alat AFC dipercaya oleh penggunanya. \\ \hline
+    \textbf{Kesimpulan} & Sebagian besar riset AFC masih berorientasi teknologi, sehingga diperlukan kolaborasi manusia dan mesin (\textit{human-machine teaming}) serta hasil yang andal dan transparan untuk membangun kepercayaan antara pengembang dan pemeriksa fakta. \\ \hline
   \end{tabular}
   \end{spacing}
 \end{table}
 
 \clearpage
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{\textit{Literature Review} 3}
   \label{tab:sota3}
   \begin{spacing}{1.15}
   \normalsize
-  \begin{tabular}{|L{4.2cm}|L{9.1cm}|}
+  \begin{tabular}{|L{119.5pt}|L{251.5pt}|}
     \hline
     \textbf{Judul Jurnal} & Penerapan \textit{Convolutional Long Short-Term Memory} untuk Klasifikasi Teks Berita Bahasa Indonesia \\ \hline
     \textbf{Penulis} & Yudi Widhiyasana, Transmissia Semiawan, Ilham Gibran Achmad Mudzakir, Muhammad Randi Noor \\ \hline
     \textbf{Tahun Terbit} & 2021 \\ \hline
-    \textbf{Masalah Utama} & Klasifikasi teks berita berbahasa Indonesia menggunakan satu arsitektur jaringan saraf tunggal seperti CNN saja atau LSTM saja belum optimal dalam menangkap frasa kunci penting sekaligus mempertahankan urutan konteks kalimat yang panjang. \\ \hline
-    \textbf{Tujuan} & Menggabungkan arsitektur \textit{Convolutional Neural Network} (CNN) dan \textit{Long Short-Term Memory} (LSTM) untuk meningkatkan ketepatan klasifikasi teks berita berbahasa Indonesia. \\ \hline
-    \textbf{Metode} & Arsitektur gabungan \textit{Convolutional Long Short-Term Memory} (C-LSTM) dengan representasi vektor kata Word2Vec pada korpus berita portal nasional berbahasa Indonesia sebanyak 3.164 artikel dalam 7 kategori. \\ \hline
-    \textbf{Hasil dan Pembahasan} & Model gabungan C-LSTM dengan variasi filter konvolusi menghasilkan nilai \textit{F1-score} sebesar 93,27\%, mengungguli arsitektur CNN tunggal yang memperoleh 89,85\% maupun LSTM tunggal yang memperoleh 90,87\%. \\ \hline
-    \textbf{Kesimpulan} & Pengolahan teks berita berbahasa Indonesia membutuhkan perpaduan antara penangkapan kata kunci lokal yang spesifik dan pembacaan konteks urutan kalimat secara utuh agar klasifikasi berita tidak melenceng. \\ \hline
+    \textbf{Masalah Utama} & Klasifikasi teks berita berbahasa Indonesia umumnya menggunakan satu metode \textit{deep learning} saja, yaitu \textit{Convolutional Neural Network} (CNN) atau \textit{Long Short-Term Memory} (LSTM), yang masing-masing memiliki keterbatasan dalam menangkap fitur lokal dan keterkaitan konteks di dalam dokumen. \\ \hline
+    \textbf{Tujuan} & Menganalisis penerapan kombinasi CNN dan LSTM (C-LSTM) untuk mengklasifikasikan teks berita berbahasa Indonesia. \\ \hline
+    \textbf{Metode} & Arsitektur gabungan \textit{Convolutional Long Short-Term Memory} (C-LSTM) pada 5.000 dokumen berita dari portal Detik, Suara, CNN Indonesia, Tribun, Tempo, dan Kompas yang dikelompokkan ke dalam tiga kategori (Nasional, Internasional, dan Regional), dengan variabel uji jumlah dokumen, ukuran \textit{batch}, dan \textit{learning rate}. \\ \hline
+    \textbf{Hasil dan Pembahasan} & Model C-LSTM menghasilkan nilai \textit{F1-score} sebesar 93,27\%, mengungguli CNN tunggal (89,85\%) maupun LSTM tunggal (90,87\%). Pengaturan ukuran \textit{batch} 16 dan \textit{learning rate} 0,001 memberikan dampak positif terhadap kinerja C-LSTM. \\ \hline
+    \textbf{Kesimpulan} & Kombinasi dua metode \textit{deep learning} CNN dan LSTM menjadi C-LSTM memiliki kinerja yang lebih baik daripada kedua metode pendahulunya dalam mengklasifikasikan teks berita berbahasa Indonesia. \\ \hline
   \end{tabular}
   \end{spacing}
 \end{table}
 
 \clearpage
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{\textit{Literature Review} 4}
   \label{tab:sota4}
   \begin{spacing}{1.15}
   \normalsize
-  \begin{tabular}{|L{4.2cm}|L{9.1cm}|}
+  \begin{tabular}{|L{119.5pt}|L{251.5pt}|}
     \hline
     \textbf{Judul Jurnal} & \textit{Browser Extension for Fake URL Detection} \\ \hline
     \textbf{Penulis} & Latesh G. Malik, Rohini Shambharkar, Shivam Morey, Shubhlak Kanpate, Vedika Raut \\ \hline
     \textbf{Tahun Terbit} & 2024 \\ \hline
-    \textbf{Masalah Utama} & Pengguna internet sering kesulitan mengenali tautan situs palsu (\textit{phishing}) dan konten \textit{spam} secara manual saat berselancar di \textit{web} karena belum tersedianya alat pelindung praktis yang bekerja langsung di dalam \textit{browser}. \\ \hline
-    \textbf{Tujuan} & Membangun ekstensi \textit{browser} yang terhubung dengan layanan pemroses di sisi \textit{server} untuk mendeteksi alamat URL berbahaya dan konten \textit{spam} secara langsung saat halaman \textit{web} dibuka. \\ \hline
-    \textbf{Metode} & Arsitektur klien-\textit{server} menggunakan ekstensi \textit{browser} pada sisi klien dan layanan REST API pada sisi \textit{server} \textit{backend} yang menjalankan algoritma \textit{Light Gradient Boosting Machine} (LGBM) serta \textit{Multinomial Naive Bayes}. \\ \hline
-    \textbf{Hasil dan Pembahasan} & Pengujian menunjukkan model LGBM mencapai akurasi 96,5\% dan \textit{F1-score} 96,49\% pada deteksi URL palsu, sedangkan model \textit{Multinomial Naive Bayes} mencapai akurasi 97,09\% pada deteksi \textit{spam} dengan waktu respons yang cepat di antarmuka ekstensi. \\ \hline
-    \textbf{Kesimpulan} & Arsitektur pemisahan antara ekstensi \textit{browser} sebagai antarmuka pengguna dan \textit{server} \textit{backend} sebagai pemroses analisis terbukti efektif memberikan peringatan keamanan secara \textit{real-time} tanpa membebani kinerja \textit{browser}. \\ \hline
+    \textbf{Masalah Utama} & Serangan siber seperti situs palsu (\textit{phishing}), surel \textit{spam}, dan kerentanan jaringan terus meningkat, sedangkan pengguna internet kesulitan mengikuti perkembangan teknologi sehingga rentan menjadi korban. \\ \hline
+    \textbf{Tujuan} & Membangun ekstensi \textit{browser} berbasis \textit{machine learning} yang mengintegrasikan tiga fungsi keamanan, yaitu deteksi URL berbahaya, deteksi surel \textit{spam}, dan analisis log jaringan (\textit{network logs}). \\ \hline
+    \textbf{Metode} & Ekstensi \textit{browser} (HTML, CSS, dan JavaScript) terhubung dengan \textit{server} \textit{backend} FastAPI melalui \textit{endpoint} GET dan POST. Model \textit{Light Gradient Boosting Machine} (LGBM) dilatih dengan 87 fitur untuk deteksi URL \textit{phishing}, model \textit{Multinomial Naive Bayes} dilatih dengan lebih dari 5.500 pesan untuk deteksi \textit{spam}, dan log jaringan dipantau melalui \textit{webRequest API}. \\ \hline
+    \textbf{Hasil dan Pembahasan} & Model LGBM mencapai akurasi 96,5\%, presisi 96,8\%, dan \textit{F1-score} 96,49\% pada deteksi URL \textit{phishing}, sedangkan model \textit{Multinomial Naive Bayes} mencapai akurasi 97,09\% dengan presisi 100\% pada deteksi \textit{spam}. \\ \hline
+    \textbf{Kesimpulan} & Penempatan model \textit{machine learning} pada sisi \textit{server} agar tidak membebani kinerja ekstensi maupun \textit{browser} terbukti efektif menghadirkan perlindungan keamanan secara \textit{real-time} kepada pengguna saat menjelajah \textit{web}. \\ \hline
   \end{tabular}
   \end{spacing}
 \end{table}
@@ -712,24 +736,24 @@ Berdasarkan keempat tabel \textit{literature review} di atas, ringkasan tujuan, 
   \endhead
   Fardhina dkk. (2025), ``Sistem Deteksi Berita Hoaks Berbasis Algoritma \textit{Natural Language Processing} (NLP) Menggunakan BERT'' &
   Membangun model deteksi berita \textit{hoax} berbahasa Indonesia menggunakan BERT untuk meningkatkan ketepatan klasifikasi teks. &
-  Penerapan model \textit{pre-trained} IndoBERT pada 730 artikel berita Kaggle (425 \textit{hoax} dan 305 non-\textit{hoax}) dengan rasio data latih dan uji 80:20, lalu dievaluasi menggunakan \textit{confusion matrix}. &
-  Akurasi 98,0\%, presisi 97,6\%, \textit{recall} 98,2\%, dan \textit{F1-score} 97,9\%, serta mampu menampilkan tingkat keyakinan (\textit{confidence level}) prediksi. &
-  Persamaan: sama-sama mendeteksi \textit{hoax} berbahasa Indonesia, menampilkan skor keyakinan, dan dievaluasi dengan \textit{confusion matrix}. Perbedaan: penelitian tersebut memakai \textit{dataset} statis secara luring tanpa integrasi \textit{browser}, sedangkan skripsi ini menelusuri bukti \textit{web} secara \textit{real-time} melalui ekstensi Chrome di Threads beserta tautan rujukannya. \\ \hline
+  \textit{Fine-tuning} model \textit{bert-base-uncased} pada 730 artikel berita Kaggle (425 \textit{hoax} dan 305 non-\textit{hoax}) dengan rasio data latih dan uji 80:20, lalu dievaluasi menggunakan \textit{confusion matrix}. &
+  Akurasi 98\% pada 146 data uji dengan presisi, \textit{recall}, dan \textit{F1-score} 0,98 (kelas \textit{hoax}) dan 0,96 (kelas non-\textit{hoax}), melampaui KNN (93,33\%). &
+  Persamaan: sama-sama mendeteksi \textit{hoax} berbahasa Indonesia dan dievaluasi dengan \textit{confusion matrix}. Perbedaan: penelitian tersebut mengandalkan \textit{dataset} statis tanpa integrasi dengan media sosial, sedangkan skripsi ini menelusuri bukti \textit{web} secara \textit{real-time} melalui ekstensi Chrome di Threads beserta tautan rujukannya. \\ \hline
   Dierickx dkk. (2023), ``\textit{Automated Fact-Checking to Support Professional Practices: Systematic Literature Review and Meta-Analysis}'' &
-  Mengidentifikasi kesenjangan antara riset pemeriksaan fakta otomatis dengan kebutuhan praktis pemeriksa fakta di lapangan. &
-  Kajian literatur sistematis dan meta-analisis terhadap publikasi \textit{automated fact-checking} (AFC) dengan menekankan prinsip \textit{human-in-the-loop} dan transparansi bukti. &
-  \textit{F1-score} menjadi metrik paling umum; lebih dari 80\% riset hanya berfokus pada algoritma; alat cek fakta perlu mudah diakses dan menampilkan sumber bukti. &
-  Persamaan: sama-sama berfokus pada pemeriksaan fakta otomatis dan pentingnya bukti rujukan yang transparan. Perbedaan: penelitian tersebut bersifat kajian konseptual tanpa membangun sistem, sedangkan skripsi ini mewujudkan rekomendasinya menjadi ekstensi yang menampilkan alasan dan tautan rujukan langsung di samping unggahan. \\ \hline
+  Menyajikan kajian multidisiplin AFC dari sudut pandang jurnalistik dan hubungan alat AFC dengan pengguna akhirnya. &
+  \textit{Systematic literature review} (PRISMA) dan meta-analisis publikasi \textit{automated fact-checking} (AFC) dengan menekankan kolaborasi manusia dan mesin serta transparansi hasil. &
+  Riset AFC didominasi ilmu komputer (80,90\%); 35,20\% artikel memakai \textit{F1-score}; transparansi dan keandalan hasil menentukan kepercayaan pengguna. &
+  Persamaan: sama-sama berfokus pada pemeriksaan fakta otomatis dan pentingnya bukti yang transparan. Perbedaan: penelitian tersebut bersifat kajian literatur tanpa membangun sistem, sedangkan skripsi ini mewujudkan rekomendasinya menjadi ekstensi yang menampilkan alasan dan tautan rujukan langsung di samping unggahan. \\ \hline
   Widhiyasana dkk. (2021), ``Penerapan \textit{Convolutional Long Short-Term Memory} untuk Klasifikasi Teks Berita Bahasa Indonesia'' &
-  Meningkatkan ketepatan klasifikasi teks berita berbahasa Indonesia dengan menggabungkan CNN dan LSTM. &
-  Arsitektur gabungan C-LSTM dengan representasi kata Word2Vec pada 3.164 artikel berita portal nasional dalam 7 kategori. &
+  Menganalisis penerapan kombinasi CNN dan LSTM (C-LSTM) untuk klasifikasi teks berita berbahasa Indonesia. &
+  Arsitektur C-LSTM pada 5.000 dokumen berita dari enam portal nasional dalam tiga kategori (Nasional, Internasional, dan Regional). &
   C-LSTM memperoleh \textit{F1-score} 93,27\%, mengungguli CNN tunggal (89,85\%) dan LSTM tunggal (90,87\%). &
-  Persamaan: sama-sama mengolah teks berita berbahasa Indonesia dengan memperhatikan kata kunci dan konteks kalimat. Perbedaan: penelitian tersebut mengklasifikasikan kategori berita menggunakan model luring, sedangkan skripsi ini memverifikasi kebenaran klaim melalui penelusuran \textit{web} \textit{real-time} dan penyaringan kata kunci konteks. \\ \hline
+  Persamaan: sama-sama mengolah teks berita berbahasa Indonesia dengan memperhatikan kata kunci dan konteks kalimat. Perbedaan: penelitian tersebut mengklasifikasikan kategori berita menggunakan model yang dilatih pada data statis, sedangkan skripsi ini memverifikasi kebenaran klaim melalui penelusuran \textit{web} \textit{real-time} dan penyaringan kata kunci konteks. \\ \hline
   Malik dkk. (2024), ``\textit{Browser Extension for Fake URL Detection}'' &
-  Membangun ekstensi \textit{browser} untuk mendeteksi alamat URL palsu dan konten \textit{spam} secara langsung. &
-  Arsitektur klien-\textit{server}: ekstensi \textit{browser} terhubung ke REST API pada \textit{server} \textit{backend} yang menjalankan algoritma LGBM dan \textit{Multinomial Naive Bayes}. &
-  LGBM mencapai akurasi 96,5\% (\textit{F1-score} 96,49\%) pada URL palsu dan \textit{Multinomial Naive Bayes} mencapai akurasi 97,09\% pada deteksi \textit{spam}. &
-  Persamaan: sama-sama memakai arsitektur ekstensi \textit{browser} dan \textit{server} \textit{backend} melalui REST API dengan peringatan \textit{real-time}. Perbedaan: objek penelitian tersebut berupa URL dan \textit{spam} dengan model statis, sedangkan skripsi ini memeriksa klaim teks unggahan Threads melalui ekstraksi DOM, Google AI Overview, dan Google News RSS. \\ \hline
+  Membangun ekstensi \textit{browser} untuk mendeteksi URL berbahaya, surel \textit{spam}, dan menganalisis log jaringan. &
+  Arsitektur klien-\textit{server}: ekstensi \textit{browser} terhubung ke \textit{backend} FastAPI yang menjalankan model LGBM dan \textit{Multinomial Naive Bayes}. &
+  LGBM mencapai akurasi 96,5\% (\textit{F1-score} 96,49\%) pada URL \textit{phishing} dan \textit{Multinomial Naive Bayes} mencapai akurasi 97,09\% pada deteksi \textit{spam}. &
+  Persamaan: sama-sama memakai arsitektur ekstensi \textit{browser} yang terhubung ke \textit{server} \textit{backend} untuk memberikan peringatan \textit{real-time}. Perbedaan: objek penelitian tersebut berupa URL, surel \textit{spam}, dan log jaringan dengan model \textit{machine learning}, sedangkan skripsi ini memeriksa klaim teks unggahan Threads melalui ekstraksi DOM, Google AI Overview, dan Google News RSS. \\ \hline
 \end{longtable}
 \end{spacing}
 \endgroup
@@ -751,6 +775,8 @@ Berdasarkan keempat tabel \textit{literature review} di atas, ringkasan tujuan, 
 
   \item Y. Widhiyasana, T. Semiawan, I. G. A. Mudzakir, and M. R. Noor, ``Penerapan Convolutional Long Short-Term Memory untuk klasifikasi teks berita bahasa Indonesia,'' \textit{Jurnal Nasional Teknik Elektro dan Teknologi Informasi (JNTETI)}, vol. 10, no. 4, pp. 354--361, Nov. 2021.
 
+  \item L. G. Malik, R. Shambharkar, S. Morey, S. Kanpate, and V. Raut, ``Browser extension for fake URL detection,'' Dept. of Computer Science and Engineering, Government College of Engineering Nagpur, Nagpur, India, Tech. Paper, 2024.
+
   \item OpenJS Foundation, ``Express 4.x API Reference and Routing Guide,'' Express.js. Accessed: Oct. 30, 2026. [Online]. Available: \url{https://expressjs.com/en/4x/api.html}
 
   \item Microsoft Corporation, ``Playwright Library Documentation for Browser Automation,'' Playwright. Accessed: Oct. 30, 2026. [Online]. Available: \url{https://playwright.dev/docs/intro}
@@ -759,7 +785,7 @@ Berdasarkan keempat tabel \textit{literature review} di atas, ringkasan tujuan, 
 
   \item Meta Open Source, ``React Documentation: Describing the UI and Components,'' React. Accessed: Oct. 30, 2026. [Online]. Available: \url{https://react.dev/learn}
 
-  \item L. G. Malik, R. Shambharkar, S. Morey, S. Kanpate, and V. Raut, ``Browser extension for fake URL detection,'' Dept. of Computer Science and Engineering, Government College of Engineering Nagpur, Nagpur, India, Tech. Paper, 2024.
+  \item R. S. Pressman and B. R. Maxim, \textit{Software Engineering: A Practitioner's Approach}, 9th ed. New York, NY, USA: McGraw-Hill, 2020.
 
   \item M. Fowler and K. Scott, \textit{UML Distilled: A Brief Guide to the Standard Object Modeling Language}, 2nd ed. Reading, MA, USA: Addison-Wesley, 2000.
 \end{enumerate}

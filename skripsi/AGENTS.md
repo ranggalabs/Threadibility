@@ -1,5 +1,24 @@
 # Aturan Penulisan Skripsi & Pembuatan Diagram
 
+## 0. Alur Kerja, Lokasi Berkas, dan Kompilasi PDF
+- **Sumber acuan (urutan prioritas)**: (1) aturan di berkas `AGENTS.md` ini, (2) `pedoman_penulisan/final-PEDOMAN-DASAR-PENULISAN-SKRIPSI-2026-Revisi-1.pdf` (Pedoman UNIKOM 2026), (3) contoh skripsi pembanding `DRAFT 10`. Apabila `AGENTS.md` berbeda dengan Pedoman, ikuti `AGENTS.md` dan laporkan perbedaannya kepada penulis (contoh: Pedoman 1.3 butir 5 menyebut paragraf dimulai dari tepi kiri, sedangkan aturan No. 1 di bawah mewajibkan indentasi `1,27 cm`).
+- **Berkas sumber utama**: `revisi_bab1_bab2/main.tex` (gambar di `revisi_bab1_bab2/gambar/`).
+- **Kompilasi WAJIB dari LaTeX asli** menggunakan Tectonic (XeTeX, font Times New Roman melalui `fontspec`), bukan konversi HTML ke PDF:
+  ```
+  cd skripsi/revisi_bab1_bab2
+  ~/.local/bin/tectonic.exe -X compile main.tex --outdir <folder_sementara>
+  ```
+  Pastikan log kompilasi bebas dari `Overfull \hbox` (teks keluar margin) dan periksa tampilan halaman secara visual (render PNG) sebelum diserahkan.
+- **Setiap selesai revisi, WAJIB menyamakan seluruh salinan berkas**:
+  1. `revisi_bab1_bab2/main.tex` → `skripsi_revisi_bab1_bab2.tex`
+  2. PDF hasil kompilasi → `revisi_bab1_bab2/skripsi_revisi_bab1_bab2.pdf` dan `skripsi_revisi_bab1_bab2.pdf`
+  3. `main.tex` di dalam `revisi_bab1_bab2/skripsi_revisi_bab1_bab2_overleaf.zip`
+- **Pengaturan LaTeX yang sudah ditetapkan (jangan dihapus)**:
+  - Judul `DAFTAR ISI`, `DAFTAR GAMBAR`, `DAFTAR TABEL` didefinisikan di dalam `\addto\captionsindonesian{...}` agar tidak tertimpa `babel` menjadi huruf kecil.
+  - Pemenggalan kata diminimalkan (`\hyphenpenalty=9000`, `\exhyphenpenalty=9000`, `\tolerance=2000`, `\emergencystretch=2.5em`) dan kata terakhir di dasar halaman tidak boleh dipenggal (`\brokenpenalty=10000`) sesuai Pedoman 1.6.
+  - `\raggedbottom` WAJIB dipertahankan: opsi `twoside` mengaktifkan `\flushbottom` yang meregangkan jarak antarbutir/paragraf secara tidak wajar (contoh: celah besar antarnomor pada 1.2 Identifikasi Masalah) agar halaman selalu penuh.
+  - Paket `xurl` dipakai agar URL panjang pada Daftar Pustaka dapat berpindah baris; huruf *monospace* (`\texttt`) memakai Courier New.
+
 ## 1. Aturan Indentasi Paragraf (Mengacu pada `DRAFT 10`)
 - **Setiap awal paragraf WAJIB diberi penanda indentasi (menjorok ke dalam) sebesar `1,27 cm` (`36 pt` / `0,5 inci` / 1 *tab stop* standar Word)**:
   - Berlaku untuk seluruh paragraf teks isi (termasuk paragraf pertama tepat di bawah judul bab/subbab, paragraf penjelasan di bawah tiap butir *Metodologi Penelitian* `1.5`, serta paragraf penjelasan di bawah tiap bab pada *Sistematika Penulisan* `1.6`).
@@ -32,6 +51,18 @@
 - **Ketajaman dan Konsistensi Garis Tabel (*Table Borders* Standar Microsoft Word `0.5pt`)**:
   - Seluruh garis tepi tabel (kiri, tengah, kanan, atas, dan bawah) **WAJIB** memiliki ketebalan tipis standar tabel Microsoft Word (`0.5pt` / `1/2 pt`, tidak terlalu tebal/*bold*) serta kepekatan warna hitam (`#000000`) yang sama persis antara sisi kiri, tengah, dan kanan.
   - Pada pembuatan PDF, gunakan lebar kolom yang habis dibagi `12pt` (`width: 528px` = `396pt`, kolom kiri `176px` = `132pt`, kolom kanan `352px` = `264pt`) dan gambar garis tabel menggunakan vektor *stroke* PDF murni (`width=0.5` pt pada `pymupdf`) agar seluruh garis vertikal dan horizontal memiliki ketebalan piksel yang 100% identik di semua tingkat *zoom*.
+  - Isi tabel berspasi 1 (`\begin{spacing}{1.0}`, Pedoman 1.3 butir 3) dan tabel *Literature Review* memakai penempatan `[H]` (paket `float`) agar urutannya tetap. Judul subbab *State of the Art* diikuti satu kalimat pengantar dan tidak boleh tertinggal sendirian di satu halaman.
+  - Pada LaTeX, ukuran tersebut diterapkan dengan `\setlength{\arrayrulewidth}{0.5pt}` dan `\begin{tabular}{|L{119.5pt}|L{251.5pt}|}` (lebar isi + `\tabcolsep` 2×6 pt = `132pt` dan `264pt`, total `396pt` = lebar area teks).
+
+## 3A. Aturan Kebenaran Isi *Literature Review* dan Sitasi (Mengacu pada Pedoman 1.5, 2.4, dan Bab 5)
+- **Isi tabel *Literature Review* WAJIB 100% sesuai dengan isi jurnal asli di folder `jurnal/`**. Sebelum menulis atau mengubah tabel, baca dan cocokkan langsung dengan PDF jurnalnya:
+  - Nama model/algoritma, jumlah dan sumber *dataset*, jumlah kategori/kelas, rasio data, parameter pelatihan, serta seluruh angka hasil (akurasi, presisi, *recall*, *F1-score*) harus tertulis persis seperti di jurnal (gunakan koma desimal, misalnya `96,49%`).
+  - **DILARANG** mengarang atau memperkirakan angka, nama model, maupun klaim yang tidak ada di jurnal (contoh kesalahan yang pernah terjadi: menulis model IndoBERT padahal jurnal memakai `bert-base-uncased`; menulis "3.164 artikel, 7 kategori, Word2Vec" padahal jurnal memakai 5.000 dokumen dalam 3 kategori tanpa Word2Vec; menyebut "menampilkan tingkat keyakinan" padahal tidak dibahas jurnal).
+  - Perubahan pada tabel *Literature Review* wajib diikuti penyesuaian pada Tabel Perbandingan *Literature Review* dan paragraf Latar Belakang yang merujuk jurnal yang sama.
+- **Sitasi IEEE**:
+  - Nomor rujukan `[n]` diberikan berdasarkan urutan kemunculan pertama di naskah; jika rujukan baru disisipkan, nomor rujukan sesudahnya dan seluruh sitasinya di naskah wajib digeser.
+  - Setiap sumber yang disebut di naskah (termasuk nama penulis seperti "Pressman dan Maxim" atau "Fowler dan Scott") WAJIB memiliki nomor sitasi dan tercantum di Daftar Pustaka, dan setiap entri Daftar Pustaka wajib dirujuk di naskah.
+  - Setiap konsep, teori, metode, dan data dari sumber lain wajib disertai sitasi. **DILARANG** membuat referensi fiktif; apabila sumber belum tersedia, laporkan kepada penulis agar ia menyediakan jurnal/bukunya di folder `jurnal/`.
 
 ## 4. Aturan Pemisahan Subbab pada Bab 2 (Mengacu pada `DRAFT 10`)
 - **DILARANG menggabungkan beberapa topik, konsep teori, metode, ataupun perangkat lunak (*tools*) ke dalam satu judul anak subbab gabungan**:
