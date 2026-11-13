@@ -191,14 +191,13 @@ def metodologi():
 def waterfall():
     f = Fig(500)
     steps = [
-        ("System Engineering", "(Rekayasa Sistem)"),
-        ("System Analysis", "(Analisis Kebutuhan Sistem)"),
+        ("Requirements Analysis", "(Analisis Kebutuhan)"),
         ("System & Software Design", "(Perancangan Sistem)"),
-        ("Implementation / Coding", "(Implementasi Kode)"),
-        ("Testing / Verification", "(Pengujian Sistem)"),
-        ("Maintenance", "(Pemeliharaan Sistem)"),
+        ("Implementation", "(Implementasi)"),
+        ("Testing", "(Pengujian)"),
+        ("Maintenance", "(Pemeliharaan)"),
     ]
-    bw, dx = 170, 62
+    bw, dx = 170, 77
     lines0 = [("x", B, True), ("x", N, False)]
     bh = Fig.measure(lines0)
     step_y = bh + 14
@@ -337,8 +336,8 @@ def arsitektur():
     x3 = 350 + (lw - bw) / 2
     s2y, s2h = pos2[1]
     s2m = s2y + s2h / 2
-    aio = [("Google AI", B, True), ("Overview", B, True), ("(Jalur Utama)", N, False)]
-    rss = [("Google News", B, True), ("RSS", B, True), ("(Jalur Cadangan)", N, False)]
+    aio = [("Google AI", B, True), ("Overview", B, True), ("(Sumber Utama)", N, False)]
+    rss = [("Google News", B, True), ("RSS", B, True), ("(Sumber Cadangan)", N, False)]
     ah = Fig.measure(aio)
     ay = round(s2m - 12 - ah, 1)
     f.box(x3, ay, bw, aio)

@@ -30,6 +30,8 @@
   }
 \else
   \usepackage{fontspec}
+  % Jangan memakai opsi WordSpace untuk memperbesar kelonggaran mampat spasi: sudah dicoba (1,25x dan 1,5x) dan
+  % membuat puluhan baris terlalu rapat sampai kata-katanya menempel. Spasi kata memakai nilai bawaan font.
   \setmainfont{Times New Roman}
   \IfFontExistsTF{Courier New}{\setmonofont{Courier New}}{}
 \fi
@@ -46,15 +48,17 @@
 \setlength{\parskip}{6pt}
 \widowpenalty=10000
 \clubpenalty=10000
-% Pemenggalan kata seminimal mungkin dan kata terakhir di dasar halaman tidak dipenggal (Pedoman 1.6)
-\hyphenpenalty=9000
-\exhyphenpenalty=9000
-% Nama produk/teknologi tidak boleh dipenggal sembarangan (Pedoman 1.5 butir n)
-\hyphenation{Fast-API Threads Chrome Google Playwright Express Overview Antigravity TypeScript JavaScript React Kaggle IndoBERT
-  hoax dataset se-dang-kan skrip-si auto-mated sys-tem-at-ic lit-er-a-ture ex-ten-sion}
+% Pemenggalan kata (Pedoman 1.6): diizinkan otomatis, tetapi kata asing/nama/kode tidak dipenggal dan
+% kata Indonesia berakhiran -kan dipenggal menurut suku kata. Daftar pengecualian dibuat otomatis oleh
+% alat_cek/gen_pemenggalan.py (berkas pemenggalan.tex); jalankan ulang setiap kali teks naskah berubah.
+\hyphenpenalty=300
+\exhyphenpenalty=300
+\input{pemenggalan}
 \brokenpenalty=10000
 \tolerance=2000
 \emergencystretch=2.5em
+% Satu spasi sesudah tanda titik/koma seperti di Microsoft Word, bukan spasi kalimat ala TeX (Pedoman 1.3 butir 6)
+\frenchspacing
 
 % --- Paket Tabel, Gambar, Rumus, dan Daftar ---
 \usepackage{graphicx}
@@ -96,6 +100,7 @@
 \captionsetup[figure]{
   name=Gambar,
   labelsep=spasi,
+  labelfont=bf,
   font={normalsize,stretch=1.0},
   justification=centering,
   aboveskip=8pt,
@@ -224,6 +229,7 @@
 
 % Isi sel tabel rata kanan-kiri (justify) agar rapi; baris kepala tetap \centering.
 \newcolumntype{L}[1]{>{\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 
 \begin{document}
@@ -294,40 +300,40 @@
 \section{Latar Belakang}
 
 % Paragraf 1: Suatu fenomena atau tempat penelitian
-Media sosial berbasis teks pendek mengalami pertumbuhan pengguna yang sangat cepat dalam beberapa tahun terakhir, salah satunya adalah platform Threads yang dikembangkan oleh Meta Platforms. Melalui Threads, pengguna dapat membagikan opini, potongan berita, hingga klaim mengenai suatu kejadian publik hanya dalam hitungan detik dan langsung menjangkau banyak pembaca. Di sisi lain, cepatnya arus pertukaran unggahan tersebut membuat kabar bohong (\textit{hoax}), informasi yang sengaja diubah agar menyesatkan (\textit{disinformation}), maupun unggahan sindiran (\textit{satire}) ikut menyebar luas sebelum sempat diperiksa kebenarannya. Penyebaran informasi keliru yang tidak terkendali di ruang digital terbukti dapat memicu kesalahpahaman publik, menimbulkan keresahan sosial, serta menurunkan tingkat kepercayaan masyarakat terhadap sumber informasi resmi [1].
+Media sosial berbasis teks pendek mengalami pertumbuhan pengguna yang sangat cepat dalam beberapa tahun terakhir, salah satunya adalah platform Threads yang dikembangkan oleh Meta Platforms. Melalui Threads, pengguna dapat membagikan opini, potongan berita, hingga klaim mengenai suatu kejadian publik hanya dalam hitungan detik dan langsung menjangkau banyak pembaca. Di sisi lain, unggahan baru muncul begitu cepat sehingga kabar bohong (\textit{hoax}), informasi yang sengaja diubah agar menyesatkan (\textit{disinformation}), maupun unggahan sindiran (\textit{satire}) ikut menyebar luas sebelum sempat diperiksa kebenarannya. Penyebaran informasi keliru yang tidak terkendali di internet terbukti dapat memicu kesalahpahaman publik, menimbulkan keresahan sosial, serta menurunkan tingkat kepercayaan masyarakat terhadap sumber informasi resmi [1].
 
 % Paragraf 2: Kondisi sistem berjalan saat ini (fakta) + hasil kuesioner 60 responden
-Pada kondisi yang berjalan saat ini, halaman \textit{web} Threads belum menyediakan fitur pemeriksa fakta bawaan pada setiap unggahan. Ketika pengguna menemukan sebuah unggahan yang meragukan, pengguna harus menyalin isi teksnya secara manual, membuka \textit{tab} baru di \textit{browser}, mengetikkan kata kunci di mesin pencari, lalu membaca beberapa situs berita satu per satu untuk memastikan kebenarannya. Cara pemeriksaan manual semacam ini membutuhkan waktu yang tidak sebentar dan sulit mengikuti banyaknya unggahan baru di lini masa [2]. Fakta di lapangan tersebut selaras dengan hasil kuesioner awal yang disebarkan kepada 60 responden pengguna Threads dalam penelitian ini, di mana sebagian besar responden menyatakan sering menjumpai unggahan yang belum jelas kebenarannya, merasa enggan apabila harus memeriksa kebenaran berita secara manual di \textit{tab} terpisah, dan membutuhkan alat bantu pemeriksaan fakta yang dapat langsung digunakan di dalam \textit{browser}.
+Pada kondisi yang berjalan saat ini, halaman \textit{web} Threads belum menyediakan fitur pemeriksa fakta bawaan pada setiap unggahan. Ketika pengguna menemukan sebuah unggahan yang meragukan, pengguna harus menyalin isi teksnya secara manual, membuka \textit{tab} baru di \textit{browser}, mengetikkan kata kunci di mesin pencari, lalu membaca beberapa situs berita satu per satu untuk memastikan kebenarannya. Cara pemeriksaan manual semacam ini membutuhkan waktu yang tidak sebentar dan sulit mengikuti banyaknya unggahan baru di beranda [2]. Kondisi tersebut sejalan dengan hasil kuesioner awal yang disebarkan kepada 60 responden pengguna Threads dalam penelitian ini, di mana sebagian besar responden menyatakan sering menjumpai unggahan yang belum jelas kebenarannya, merasa enggan apabila harus memeriksa kebenaran berita secara manual di \textit{tab} terpisah, dan membutuhkan alat bantu pemeriksaan fakta yang dapat langsung digunakan di dalam \textit{browser}.
 
 % Paragraf 3: Dasar masalah 1 (karakteristik bahasa & unggahan sindiran di Threads)
-Dasar permasalahan pertama yang membuat pemeriksaan informasi di Threads menjadi sulit berasal dari gaya penulisan unggahannya yang tidak baku. Berbeda dengan artikel berita di portal media resmi yang ditulis secara terstruktur, unggahan di Threads umumnya memakai bahasa percakapan sehari-hari, singkatan, campuran bahasa asing, hingga huruf tebal atau miring hasil modifikasi karakter \textit{Unicode}. Tidak sedikit pula pengguna yang mengunggah kalimat sindiran (\textit{satire}) atau lelucon yang dilebih-lebihkan untuk mengomentari suatu isu terkini, tetapi menuliskannya seolah-olah laporan kejadian nyata. Tanpa adanya keterangan konteks pembanding yang langsung tampil di layar, pembaca awam sering kali tertipu dan menganggap unggahan sindiran maupun kabar bohong tersebut sebagai fakta [2].
+Dasar permasalahan pertama, yang menyulitkan pemeriksaan informasi di Threads, berasal dari gaya penulisan unggahannya yang tidak baku. Berbeda dengan artikel berita di portal media resmi yang ditulis secara terstruktur, unggahan di Threads umumnya memakai bahasa percakapan sehari-hari, singkatan, campuran bahasa asing, hingga huruf tebal atau miring hasil modifikasi karakter \textit{Unicode}. Tidak sedikit pula pengguna yang mengunggah kalimat sindiran (\textit{satire}) atau lelucon yang dilebih-lebihkan untuk mengomentari suatu isu terkini, tetapi menuliskannya seolah-olah laporan kejadian nyata. Tanpa adanya keterangan konteks pembanding yang langsung tampil di layar, pembaca awam sering kali tertipu dan menganggap unggahan sindiran maupun kabar bohong tersebut sebagai fakta [2].
 
 % Paragraf 4: Dasar masalah 2 (keterbatasan pendekatan deteksi hoax pada dataset statis)
-Dasar permasalahan kedua berkaitan dengan keterbatasan pendekatan deteksi \textit{hoax} otomatis terdahulu yang umumnya mengandalkan pelatihan model \textit{Natural Language Processing} (NLP) pada kumpulan data (\textit{dataset}) statis. Penelitian menggunakan arsitektur \textit{Bidirectional Encoder Representations from Transformers} (BERT) pada 730 artikel berita berbahasa Indonesia [1] maupun metode \textit{Convolutional Long Short-Term Memory} (C-LSTM) pada teks berita portal nasional [3] memang mampu menghasilkan nilai akurasi dan \textit{F1-score} di atas 93\%. Akan tetapi, model klasifikasi yang hanya belajar dari data lama tidak memiliki pengetahuan mengenai peristiwa yang baru saja terjadi pada hari yang sama. Padahal, klaim yang ramai dibicarakan di Threads hampir selalu berkaitan dengan kejadian terbaru yang belum pernah tercatat di dalam \textit{dataset} pelatihan mana pun.
+Dasar permasalahan kedua berkaitan dengan keterbatasan pendekatan deteksi \textit{hoax} otomatis terdahulu yang umumnya melatih model \textit{Natural Language Processing} (NLP) pada kumpulan data (\textit{dataset}) statis. Penelitian menggunakan arsitektur \textit{Bidirectional Encoder Representations from Transformers} (BERT) pada 730 artikel berita berbahasa Indonesia [1] maupun metode \textit{Convolutional Long Short-Term Memory} (C-LSTM) pada teks berita portal nasional [3] memang mampu menghasilkan nilai akurasi dan \textit{F1-score} di atas 93\%. Akan tetapi, model klasifikasi yang hanya belajar dari data lama tidak memiliki pengetahuan mengenai peristiwa yang baru saja terjadi pada hari yang sama. Padahal, klaim yang ramai dibicarakan di Threads hampir selalu berkaitan dengan kejadian terbaru yang belum pernah tercatat di dalam \textit{dataset} pelatihan mana pun.
 
 % Paragraf 5: Dasar masalah 3 (risiko halusinasi rujukan pada model bahasa tanpa penelusuran nyata)
-Dasar permasalahan ketiga muncul apabila sistem pemeriksaan otomatis hanya mengandalkan pembuatan jawaban bebas dari model bahasa besar (\textit{Large Language Model}/LLM) tanpa dihubungkan ke sumber berita nyata di internet. Model bahasa yang menjawab tanpa berpegang pada artikel berita terbaru berisiko menghasilkan penjelasan yang tidak sesuai fakta atau mencantumkan rujukan yang tidak cocok dengan konteks peristiwa yang sedang dibahas (\textit{hallucination}). Padahal, kajian literatur pemeriksaan fakta otomatis menegaskan bahwa alat bantu verifikasi yang baik tidak cukup hanya memberikan label benar atau salah, melainkan wajib menyertakan alasan yang jernih beserta tautan sumber berita asli agar pengguna tetap dapat memeriksa ulang bukti tersebut secara mandiri (\textit{human-in-the-loop}) [2].
+Dasar permasalahan ketiga muncul apabila sistem pemeriksaan otomatis hanya mengandalkan pembuatan jawaban bebas dari model bahasa besar (\textit{Large Language Model}/LLM) tanpa dihubungkan ke sumber berita nyata di internet. Model bahasa yang menjawab tanpa berpegang pada artikel berita terbaru berisiko menghasilkan penjelasan yang tidak sesuai fakta atau mencantumkan rujukan yang tidak cocok dengan konteks peristiwa yang sedang dibahas (\textit{hallucination}). Padahal, kajian literatur pemeriksaan fakta otomatis menegaskan bahwa alat bantu verifikasi yang baik tidak cukup hanya memberikan label benar atau salah, melainkan wajib menyertakan alasan yang jelas beserta tautan sumber berita asli agar pengguna tetap dapat memeriksa ulang bukti tersebut secara mandiri (\textit{human-in-the-loop}) [2].
 
 % Paragraf 6: State of the Art (pemetaan penelitian terdahulu - Pedoman 4.1.1 butir D)
 Apabila dipetakan, penelitian terdahulu yang berkaitan dengan permasalahan tersebut terbagi ke dalam tiga arah. Arah pertama berfokus pada peningkatan akurasi model klasifikasi teks berita berbahasa Indonesia, seperti model BERT yang mencapai akurasi 98\% [1] dan model C-LSTM yang mencapai \textit{F1-score} 93,27\% [3], namun keduanya diuji pada kumpulan data statis dan belum diterapkan langsung pada lingkungan media sosial. Arah kedua berupa kajian literatur pemeriksaan fakta otomatis yang menegaskan pentingnya transparansi bukti serta kolaborasi antara manusia dan mesin, tetapi tidak membangun sistem yang dapat langsung digunakan oleh pengguna [2]. Arah ketiga membuktikan bahwa ekstensi \textit{browser} yang terhubung dengan \textit{server} \textit{backend} efektif memberikan peringatan secara \textit{real-time} saat pengguna menjelajah \textit{web}, namun objek yang diperiksa terbatas pada alamat URL, surel \textit{spam}, dan log jaringan, bukan kebenaran klaim pada teks unggahan [4].
 
 % Paragraf 7: Research Gap dan kontribusi penelitian (Pedoman 4.1.1 butir E dan G)
-Berdasarkan pemetaan tersebut, terdapat kesenjangan penelitian (\textit{research gap}) yang belum terjawab, yaitu belum tersedianya alat pemeriksa fakta yang bekerja langsung di dalam halaman \textit{web} Threads, mampu memeriksa klaim peristiwa terbaru melalui penelusuran bukti \textit{web} secara \textit{real-time}, serta menyertakan alasan analisis beserta tautan berita rujukan yang dapat diperiksa ulang oleh pengguna. Kesenjangan tersebut menjadi posisi sekaligus kontribusi penelitian ini, yaitu memadukan arsitektur ekstensi \textit{browser} dan \textit{server} \textit{backend} dengan penelusuran bukti \textit{web} secara \textit{real-time} untuk memeriksa indikasi \textit{hoax} pada teks unggahan Threads.
+Berdasarkan pemetaan tersebut, terdapat kesenjangan penelitian (\textit{research gap}) yang belum terjawab, yaitu belum tersedianya alat pemeriksa fakta yang bekerja langsung di dalam halaman \textit{web} Threads, mampu memeriksa klaim peristiwa terbaru melalui penelusuran bukti \textit{web} secara \textit{real-time}, serta menyertakan alasan analisis beserta tautan berita rujukan yang dapat diperiksa ulang oleh pengguna. Kesenjangan tersebut menjadi dasar kontribusi penelitian ini, yaitu memadukan arsitektur ekstensi \textit{browser} dan \textit{server} \textit{backend} dengan penelusuran bukti \textit{web} secara \textit{real-time} untuk memeriksa indikasi \textit{hoax} pada teks unggahan Threads.
 
 % Paragraf 8: Teknologi yang digunakan (sisi server: penelusuran real-time dua lapis)
-Untuk mengisi kesenjangan tersebut sekaligus mengatasi ketiga akar masalah di atas, penelitian ini menerapkan teknologi penelusuran bukti \textit{web} secara \textit{real-time} pada sisi \textit{server} (\textit{backend}) menggunakan lingkungan eksekusi Node.js dan kerangka kerja Express.js [5]. Penelusuran fakta dirancang dalam dua lapis, yaitu mengekstraksi fitur Google AI Overview (Ringkasan AI) beserta kartu artikel rujukannya secara otomatis menggunakan pustaka \textit{browser} Playwright [6] sebagai jalur utama, serta memanfaatkan umpan berita Google News RSS sebagai jalur cadangan. Agar daftar bacaan rujukan benar-benar sesuai dengan topik unggahan dan bebas dari halusinasi, \textit{server} membuka tautan hasil pencarian sampai ke alamat situs berita aslinya, menormalisasi karakter \textit{Unicode} pada teks unggahan, serta menyaring kecocokan kata kunci antara isi klaim, ringkasan peristiwa, dan judul berita.
+Untuk mengisi kesenjangan tersebut sekaligus mengatasi ketiga masalah di atas, penelitian ini menerapkan teknologi penelusuran bukti \textit{web} secara \textit{real-time} pada sisi \textit{server} (\textit{backend}) menggunakan lingkungan eksekusi Node.js dan kerangka kerja Express.js [5]. Penelusuran fakta dirancang dengan dua sumber, yaitu mengekstraksi fitur Google AI Overview (Ringkasan AI) beserta artikel rujukannya secara otomatis menggunakan pustaka \textit{browser} Playwright [6] sebagai sumber utama, serta memanfaatkan umpan berita Google News RSS sebagai sumber cadangan. Agar daftar bacaan rujukan benar-benar sesuai dengan topik unggahan dan bebas dari halusinasi, \textit{server} membuka tautan hasil pencarian sampai ke alamat situs berita aslinya, menormalisasi karakter \textit{Unicode} pada teks unggahan, serta menyaring kecocokan kata kunci antara isi klaim, ringkasan peristiwa, dan judul berita.
 
 % Paragraf 9: Teknologi yang digunakan (sisi klien: Chrome Extension Manifest V3)
-Agar fitur pemeriksaan ini dapat dipakai tanpa mengganggu kenyamanan membaca lini masa, sisi antarmuka pengguna dibangun sebagai ekstensi \textit{browser} Google Chrome berbasis standar \textit{Manifest V3} [7] dengan memanfaatkan bahasa pemrograman TypeScript dan pustaka antarmuka React [8]. Pemilihan arsitektur ini mengacu pada penelitian sebelumnya yang membuktikan bahwa ekstensi \textit{browser} yang berkomunikasi dengan \textit{server} analisis melalui antarmuka pemrograman aplikasi (\textit{Application Programming Interface}/API) efektif menyajikan peringatan secara langsung di halaman \textit{web} [4]. Dengan pendekatan ini, pengguna cukup mengklik kanan pada suatu unggahan di halaman \textit{web} Threads untuk mengambil teks dari struktur \textit{Document Object Model} (DOM), lalu sistem akan memasang lencana (\textit{badge}) status beserta jendela keterangan (\textit{tooltip}) berisi tingkat keyakinan, alasan analisis, dan tautan berita rujukan tepat di samping unggahan tersebut.
+Agar fitur pemeriksaan ini dapat dipakai tanpa mengganggu kenyamanan membaca beranda, sisi antarmuka pengguna dibangun sebagai ekstensi \textit{browser} Google Chrome berbasis standar \textit{Manifest V3} [7] dengan memanfaatkan bahasa pemrograman TypeScript dan pustaka antarmuka React [8]. Pemilihan arsitektur ini mengacu pada penelitian sebelumnya yang membuktikan bahwa ekstensi \textit{browser} yang berkomunikasi dengan \textit{server} analisis melalui antarmuka pemrograman aplikasi (\textit{Application Programming Interface}/API) efektif menyajikan peringatan secara langsung di halaman \textit{web} [4]. Dengan pendekatan ini, pengguna cukup mengklik kanan pada suatu unggahan di halaman \textit{web} Threads untuk mengambil teks dari struktur \textit{Document Object Model} (DOM), lalu sistem akan memasang lencana (\textit{badge}) status beserta jendela keterangan (\textit{tooltip}) berisi tingkat keyakinan, alasan analisis, dan tautan berita rujukan di samping unggahan tersebut.
 
 % Paragraf 10: Penutup
-Berdasarkan uraian permasalahan, temuan kuesioner pengguna, kesenjangan penelitian terdahulu, dan dukungan teknologi di atas, penelitian ini berfokus pada pengembangan ekstensi Google Chrome untuk deteksi indikasi \textit{hoax} berbasis teks pada platform Threads. Kehadiran ekstensi \textit{browser} ini diharapkan dapat mempersingkat waktu pemeriksaan manual, menyediakan sumber rujukan cek fakta yang relevan dengan konteks berita terkini, serta membantu pengguna bersikap lebih kritis sebelum mempercayai atau menyebarkan ulang suatu unggahan di media sosial.
+Berdasarkan uraian permasalahan, temuan kuesioner pengguna, kesenjangan penelitian terdahulu, dan pilihan teknologi di atas, penelitian ini berfokus pada pengembangan ekstensi Google Chrome untuk deteksi indikasi \textit{hoax} berbasis teks pada platform Threads. Ekstensi \textit{browser} ini diharapkan dapat mempersingkat waktu pemeriksaan manual, menyediakan sumber rujukan cek fakta yang relevan dengan konteks berita terkini, serta membantu pengguna bersikap lebih kritis sebelum mempercayai atau menyebarkan ulang suatu unggahan di media sosial.
 
 \section{Identifikasi Masalah}
 
 Berdasarkan pemaparan pada latar belakang di atas, permasalahan yang diidentifikasi dalam penelitian ini adalah sebagai berikut:
 \begin{enumerate}[leftmargin=0.8cm,itemsep=3pt,topsep=2pt]
-  \item Belum adanya sistem atau fitur pemeriksa fakta yang terintegrasi langsung pada tampilan halaman \textit{web} Threads, sehingga pengguna masih harus memeriksa kebenaran informasi secara manual dengan berpindah \textit{tab} \textit{browser} yang memakan waktu lama.
+  \item Pengguna harus memeriksa kebenaran informasi secara manual dengan berpindah \textit{tab} \textit{browser} sehingga memakan waktu lama, karena belum ada fitur pemeriksa fakta yang terintegrasi langsung pada halaman \textit{web} Threads.
   \item Sulitnya pengguna membedakan antara unggahan fakta, kabar bohong (\textit{hoax}), dan kalimat sindiran (\textit{satire}) pada platform Threads akibat gaya penulisan teks yang tidak baku serta tidak tersedianya keterangan konteks pembanding secara langsung di layar.
   \item Terbatasnya kemampuan metode deteksi \textit{hoax} berbasis \textit{dataset} statis dalam mengenali kebenaran klaim peristiwa baru yang sedang viral pada hari yang sama di halaman Threads.
   \item Adanya risiko munculnya sumber rujukan cek fakta yang keliru atau tidak sesuai konteks klaim (halusinasi rujukan) apabila sistem pemeriksaan tidak didukung oleh penelusuran berita \textit{web} nyata dan penyaringan kesesuaian kata kunci.
@@ -335,21 +341,25 @@ Berdasarkan pemaparan pada latar belakang di atas, permasalahan yang diidentifik
 
 \section{Maksud dan Tujuan}
 
+\subsection{Maksud}
+
 Maksud dari penelitian ini adalah membangun sistem ekstensi \textit{browser} Google Chrome yang terhubung dengan \textit{server} penelusuran fakta \textit{real-time} untuk membantu pengguna mengidentifikasi unggahan teks yang berindikasi \textit{hoax} pada platform Threads secara cepat, mudah dipahami, dan disertai sumber rujukan berita yang relevan.
 
-Adapun tujuan yang ingin dicapai untuk menjawab identifikasi masalah dalam penelitian ini adalah sebagai berikut:
+\subsection{Tujuan Penelitian}
+
+Adapun tujuan yang ingin dicapai untuk menjawab identifikasi masalah dalam penelitian ini adalah sebagai berikut. Setiap tujuan menjawab masalah dengan nomor yang sama pada Subbab 1.2:
 \begin{enumerate}[leftmargin=0.8cm,itemsep=3pt,topsep=2pt]
-  \item Membangun ekstensi Google Chrome berbasis \textit{Manifest V3} yang menyediakan fitur pemeriksaan satu langkah melalui menu klik kanan pada halaman \textit{web} Threads serta langsung menampilkan lencana (\textit{badge}) status dan jendela keterangan (\textit{tooltip}) di samping unggahan tanpa perlu berpindah \textit{tab}.
-  \item Menyediakan mekanisme pembacaan teks unggahan otomatis beserta penyusunan alasan analisis yang mampu mengenali sinyal kabar bohong maupun menjelaskan konteks unggahan sindiran (\textit{satire}) pada teks berbahasa tidak baku di Threads.
-  \item Membangun layanan \textit{server} \textit{backend} dengan penelusuran \textit{web} dua lapis secara \textit{real-time} menggunakan ekstraksi Google AI Overview melalui Playwright dan umpan Google News RSS agar sistem dapat memeriksa klaim peristiwa terbaru.
-  \item Menerapkan mekanisme penyaringan kata kunci konteks dan pelacakan tautan berita asli guna mencegah rujukan yang salah konteks, serta menguji fungsi dan kinerja deteksi sistem menggunakan pengujian \textit{black-box} dan \textit{confusion matrix}.
+  \item Mempercepat pemeriksaan kebenaran informasi dengan membangun ekstensi Google Chrome berbasis \textit{Manifest V3} yang menyediakan fitur pemeriksaan melalui menu klik kanan pada halaman \textit{web} Threads serta langsung menampilkan lencana (\textit{badge}) status dan jendela keterangan (\textit{tooltip}) di samping unggahan tanpa perlu berpindah \textit{tab}.
+  \item Mempermudah pengguna membedakan unggahan fakta, kabar bohong, dan sindiran (\textit{satire}) dengan menyediakan mekanisme pembacaan teks unggahan otomatis beserta penyusunan alasan analisis yang mampu mengenali ciri kabar bohong maupun menjelaskan konteks unggahan sindiran pada teks berbahasa tidak baku di Threads.
+  \item Meningkatkan kemampuan sistem dalam memeriksa klaim peristiwa terbaru dengan membangun layanan \textit{server} \textit{backend} yang menelusuri \textit{web} dari dua sumber secara \textit{real-time}, yaitu ekstraksi Google AI Overview melalui Playwright dan umpan Google News RSS.
+  \item Mengurangi rujukan yang salah konteks dengan menerapkan mekanisme penyaringan kata kunci konteks dan pelacakan tautan berita asli, serta menguji fungsi dan kinerja deteksi sistem menggunakan pengujian \textit{black-box} dan \textit{confusion matrix}.
 \end{enumerate}
 
 \section{Batasan Masalah}
 
 Agar pengerjaan dan pembahasan penelitian tetap terarah sesuai ruang lingkup sistem yang dibangun, ditetapkan batasan-batasan masalah sebagai berikut:
 \begin{enumerate}[leftmargin=0.8cm,itemsep=3pt,topsep=2pt]
-  \item Ekstensi hanya digunakan pada media sosial Threads versi \textit{web} (\texttt{threads.com}) yang dibuka melalui \textit{browser} Google Chrome pada perangkat komputer (\textit{desktop}).
+  \item Ekstensi hanya digunakan pada media sosial Threads versi \textit{web} (\url{threads.com}) yang dibuka melalui \textit{browser} Google Chrome pada perangkat komputer (\textit{desktop}).
   \item Pemeriksaan hanya dilakukan pada isi teks unggahan, sehingga sistem belum menangani pembacaan teks di dalam gambar, rekaman suara, maupun video.
   \item Teks unggahan yang dapat diperiksa berbahasa Indonesia dan bahasa Inggris, dengan pengolahan kata kunci pencarian serta aturan penentuan status yang diutamakan untuk bahasa Indonesia.
   \item Penelusuran bukti kebenaran informasi mengandalkan hasil pencarian dari layanan Google AI Overview dan Google News RSS pada saat pemeriksaan dijalankan, tanpa mengubah cara kerja internal dari mesin pencari Google.
@@ -357,68 +367,23 @@ Agar pengerjaan dan pembahasan penelitian tetap terarah sesuai ruang lingkup sis
   \item Status hasil pemeriksaan dan persentase keyakinan yang ditampilkan bersifat sebagai petunjuk awal (\textit{indikasi awal}) untuk membantu pertimbangan pengguna, bukan sebagai putusan mutlak pengganti lembaga pemeriksa fakta resmi.
 \end{enumerate}
 
-\section{Metodologi Penelitian}
-
-Pelaksanaan penelitian ini disusun mengikuti kerangka tahapan penelitian yang terstruktur mulai dari perumusan masalah hingga menghasilkan perangkat lunak ekstensi \textit{browser} yang telah diuji. Alur tahapan metodologi penelitian tersebut ditunjukkan pada Gambar~\ref{fig:metodologi}.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{gambar/metodologi_penelitian.png}
-  \caption{Diagram alur metodologi penelitian}
-  \label{fig:metodologi}
-\end{figure}
-
-Penjelasan mengenai masing-masing tahapan pada Gambar~\ref{fig:metodologi} diuraikan sebagai berikut:
-\begin{enumerate}[leftmargin=1.27cm,itemsep=4pt,topsep=3pt]
-  \item \tocsub{1.}{Identifikasi Masalah}\textbf{Identifikasi Masalah}\par
-  \hspace*{1.27cm}Tahap awal penelitian dilakukan dengan mengamati fenomena penyebaran kabar bohong dan sindiran pada lini masa Threads versi \textit{web}, serta mengidentifikasi kendala yang dialami pengguna ketika harus memeriksa kebenaran informasi secara manual di luar halaman Threads.
-
-  \item \tocsub{2.}{Pengumpulan Data}\textbf{Pengumpulan Data}\par
-  \hspace*{1.27cm}Pengumpulan data dilakukan melalui dua kegiatan pendukung untuk memperkuat dasar perancangan sistem:
-  \begin{enumerate}[label=\alph*.,leftmargin=0.7cm,itemsep=3pt,topsep=2pt]
-    \item \tocsubsub{a.}{Studi Pustaka}\textbf{Studi Pustaka}\par
-    \hspace*{1.27cm}Mempelajari artikel jurnal ilmiah dan dokumentasi resmi yang berkaitan dengan pemeriksaan fakta otomatis (\textit{automated fact-checking}), deteksi berita \textit{hoax} berbahasa Indonesia, arsitektur ekstensi Google Chrome \textit{Manifest V3}, serta otomasi \textit{browser} menggunakan Playwright.
-    \item \tocsubsub{b.}{Kuesioner}\textbf{Kuesioner}\par
-    \hspace*{1.27cm}Menyebarkan kuesioner kepada 60 responden pengguna Threads untuk mengetahui kebiasaan responden saat menemukan informasi meragukan serta memastikan tingginya kebutuhan terhadap alat bantu pemeriksaan fakta yang terpasang langsung di \textit{browser}.
-  \end{enumerate}
-
-  \item \tocsub{3.}{Analisis dan Perancangan Sistem}\textbf{Analisis dan Perancangan Sistem}\par
-  \hspace*{1.27cm}Tahap pengembangan perangkat lunak mengacu pada alur sistematis model \textit{Waterfall} yang pada bagian analisis dan perancangannya dibagi menjadi empat subtahap:
-  \begin{enumerate}[label=3.\arabic*,leftmargin=0.9cm,itemsep=3pt,topsep=2pt]
-    \item \tocsubsub{3.1}{Analisis Masalah}\textbf{Analisis Masalah}\par
-    \hspace*{1.27cm}Menguraikan secara mendalam akar kendala teknis yang hendak diselesaikan, meliputi variasi penulisan teks dan kalimat sindiran di Threads, keterbatasan data statis terhadap isu baru, serta pencegahan rujukan berita yang tidak sesuai konteks.
-    \item \tocsubsub{3.2}{Analisis Sistem yang Berjalan}\textbf{Analisis Sistem yang Berjalan}\par
-    \hspace*{1.27cm}Menggambarkan alur kerja manual pengguna saat ini mulai dari menyalin teks unggahan di Threads hingga mencari klarifikasi sendiri di mesin pencari pada \textit{tab} terpisah.
-    \item \tocsubsub{3.3}{Analisis Kebutuhan Sistem}\textbf{Analisis Kebutuhan Sistem}\par
-    \hspace*{1.27cm}Menentukan daftar kebutuhan fungsional pada sisi ekstensi maupun sisi \textit{server} \textit{backend}, struktur elemen HTML/DOM halaman Threads yang perlu diekstraksi, serta spesifikasi perangkat keras dan perangkat lunak yang dibutuhkan.
-    \item \tocsubsub{3.4}{Perancangan Sistem}\textbf{Perancangan Sistem}\par
-    \hspace*{1.27cm}Merancang arsitektur komunikasi klien-\textit{server}, alur penelusuran fakta dua lapis (Google AI Overview dan Google News RSS), pemodelan visual menggunakan \textit{Unified Modeling Language} (UML) yang mencakup \textit{Use Case Diagram}, \textit{Activity Diagram}, dan \textit{Sequence Diagram}, serta perancangan tampilan lencana (\textit{badge}), \textit{tooltip}, dan jendela \textit{popup}.
-  \end{enumerate}
-
-  \item \tocsub{4.}{Implementasi dan Pengujian}\textbf{Implementasi dan Pengujian}\par
-  \hspace*{1.27cm}Hasil perancangan diterjemahkan ke dalam kode program ekstensi Google Chrome (TypeScript dan React) serta layanan \textit{server} \textit{backend} (Node.js, Express.js, dan Playwright). Selanjutnya dilakukan pengujian fungsional dengan metode \textit{black-box testing} pada antarmuka ekstensi maupun REST API, diikuti pengujian kinerja klasifikasi pada sekumpulan klaim uji berbahasa Indonesia menggunakan \textit{confusion matrix} (akurasi, presisi, \textit{recall}, dan \textit{F1-score}) beserta evaluasi kesesuaian sumber rujukan dan waktu respons.
-
-  \item \tocsub{5.}{\textit{Output}}\textbf{\textit{Output}}\par
-  \hspace*{1.27cm}Tahap akhir menghasilkan luaran berupa perangkat lunak ekstensi Google Chrome pendeteksi indikasi \textit{hoax} berbasis teks pada platform Threads yang terintegrasi dengan \textit{server} penelusuran fakta \textit{real-time}, lengkap dengan laporan hasil pengujian fungsional dan evaluasi akurasinya.
-\end{enumerate}
-
 \section{Sistematika Penulisan}
 
 Sistematika penulisan skripsi ini disusun ke dalam lima bab yang saling berkaitan guna memberikan gambaran utuh mengenai jalannya penelitian:
 
-\noindent\textbf{BAB 1 PENDAHULUAN}\par
-Menguraikan latar belakang masalah penyebaran informasi \textit{hoax} pada platform Threads, kondisi pemeriksaan manual berdasarkan fakta dan kuesioner 60 responden, akar permasalahan, pemetaan penelitian terdahulu (\textit{state of the art}) beserta kesenjangan penelitian (\textit{research gap}), pemilihan teknologi penelusuran \textit{real-time} dan ekstensi Chrome, identifikasi masalah, maksud dan tujuan, batasan masalah, metodologi penelitian, serta sistematika penulisan.
+\noindent\textbf{BAB 1 PENDAHULUAN}\par\nopagebreak
+Menguraikan latar belakang masalah penyebaran informasi \textit{hoax} pada platform Threads, kondisi pemeriksaan manual berdasarkan fakta dan kuesioner 60 responden, dasar permasalahan, pemetaan penelitian terdahulu (\textit{state of the art}) beserta kesenjangan penelitian (\textit{research gap}), pemilihan teknologi penelusuran \textit{real-time} dan ekstensi Chrome, identifikasi masalah, maksud dan tujuan, batasan masalah, serta sistematika penulisan.
 
-\noindent\textbf{BAB 2 TINJAUAN PUSTAKA}\par
-Memaparkan landasan teori umum yang mendukung pembangunan sistem (konsep umum sistem, informasi, dan deteksi \textit{hoax}, klasifikasi \textit{hoax} dan \textit{satire}, struktur halaman \textit{web} Threads, arsitektur ekstensi Chrome \textit{Manifest V3}, \textit{server} \textit{backend}, serta penelusuran Google AI Overview dan Google News RSS), penjelasan metode penelitian (pengolahan kuesioner, \textit{system engineering}, \textit{system analysis}, metode pengembangan perangkat lunak \textit{Waterfall}, pemodelan UML, \textit{black-box testing}, dan \textit{confusion matrix}), perangkat lunak (\textit{tools}) yang digunakan termasuk \textit{Integrated Development Environment} (IDE) Google Antigravity, serta kajian penelitian terdahulu (\textit{state of the art}).
+\noindent\textbf{BAB 2 TINJAUAN PUSTAKA}\par\nopagebreak
+Memaparkan landasan teori umum yang mendukung pembangunan sistem (konsep umum sistem, informasi, dan deteksi \textit{hoax}, klasifikasi \textit{hoax} dan \textit{satire}, struktur halaman \textit{web} Threads, arsitektur ekstensi Chrome \textit{Manifest V3}, \textit{server} \textit{backend}, serta penelusuran Google AI Overview dan Google News RSS) beserta teori metode penelitian (metode pengembangan perangkat lunak \textit{Waterfall}, \textit{black-box testing}, dan \textit{confusion matrix}), pemodelan UML (\textit{use case}, \textit{activity}, \textit{sequence}, dan \textit{class diagram}), perangkat lunak (\textit{tools}) yang digunakan termasuk \textit{Integrated Development Environment} (IDE) Google Antigravity, serta kajian penelitian terdahulu (\textit{state of the art}).
 
-\noindent\textbf{BAB 3 METODE PENELITIAN}\par
+\noindent\textbf{BAB 3 METODE PENELITIAN}\par\nopagebreak
 Menjelaskan secara rinci tahapan analisis dan perancangan sistem, mencakup analisis masalah, analisis prosedur berjalan, analisis struktur DOM halaman Threads, spesifikasi kebutuhan fungsional dan nonfungsional, perancangan arsitektur dan alur penelusuran fakta, pemodelan UML, kontrak data API, serta rancangan antarmuka pengguna.
 
-\noindent\textbf{BAB 4 HASIL DAN PEMBAHASAN}\par
-Menyajikan hasil implementasi kode program dan antarmuka ekstensi Google Chrome beserta \textit{server} \textit{backend}, diikuti hasil pengujian fungsional \textit{black-box}, hasil pengukuran kinerja deteksi menggunakan \textit{confusion matrix}, evaluasi kesesuaian sumber berita rujukan, serta pembahasan mendalam atas temuan pengujian.
+\noindent\textbf{BAB 4 HASIL DAN PEMBAHASAN}\par\nopagebreak
+Menyajikan hasil implementasi kode dan antarmuka dari ekstensi Google Chrome beserta \textit{server} \textit{backend}, diikuti hasil pengujian fungsional \textit{black-box}, hasil pengukuran kinerja deteksi menggunakan \textit{confusion matrix}, evaluasi kesesuaian sumber berita rujukan, serta pembahasan mendalam atas temuan pengujian.
 
-\noindent\textbf{BAB 5 KESIMPULAN DAN SARAN}\par
+\noindent\textbf{BAB 5 KESIMPULAN DAN SARAN}\par\nopagebreak
 Berisi kesimpulan yang merangkum capaian penelitian dalam menjawab seluruh tujuan pada Bab 1 berdasarkan bukti hasil pengujian pada Bab 4, disertai saran pengembangan untuk penelitian berikutnya.
 
 % ==============================================================================
@@ -428,51 +393,51 @@ Berisi kesimpulan yang merangkum capaian penelitian dalam menjawab seluruh tujua
 
 \section{Landasan Teori Umum}
 
-Landasan teori umum pada bagian ini disusun selaras dengan permasalahan dan teknologi penyelesaian yang telah dirumuskan pada Bab 1, mulai dari konsep dasar sistem, informasi, dan karakteristik konten bermasalah di media sosial Threads hingga arsitektur ekstensi \textit{browser} dan penelusuran bukti \textit{web} secara \textit{real-time}.
+Landasan teori umum pada bagian ini disusun selaras dengan permasalahan dan teknologi penyelesaian yang telah dirumuskan pada Bab 1, mulai dari konsep dasar sistem, informasi, dan karakteristik konten bermasalah di media sosial Threads hingga arsitektur ekstensi \textit{browser} dan penelusuran bukti \textit{web} secara \textit{real-time}. Bagian ini juga memuat teori metode yang menjadi landasan tahapan penelitian pada Bab 3, yaitu model pengembangan perangkat lunak \textit{Waterfall}, pengujian \textit{black-box}, serta evaluasi \textit{confusion matrix}.
 
 \subsection{Sistem}
 
-Secara umum, sistem merupakan sekumpulan elemen, komponen, atau prosedur yang saling terhubung dan berinteraksi secara teratur untuk mencapai suatu tujuan tertentu. Dalam bidang rekayasa perangkat lunak, sebuah sistem berbasis komputer bekerja dengan menerima masukan (\textit{input}) dari pengguna atau lingkungan luar, memproses masukan tersebut melalui serangkaian aturan logika yang terstruktur, serta menghasilkan keluaran (\textit{output}) yang dapat dimanfaatkan kembali oleh penggunanya. Keberhasilan suatu sistem sangat bergantung pada kerja sama antarkomponen penyusunnya, sehingga hambatan pada salah satu bagian ikut memengaruhi kinerja sistem.
+Secara umum, sistem merupakan sekumpulan elemen atau komponen yang saling berinteraksi untuk mencapai suatu tujuan, dan setiap komponennya berhubungan dengan sedikitnya satu komponen lain dalam sistem tersebut~[9]. Sebuah sistem memiliki masukan (\textit{input}), mekanisme pemrosesan, keluaran (\textit{output}), dan umpan balik (\textit{feedback}); masukan diproses menjadi keluaran, dan keluaran satu sistem dapat menjadi masukan bagi sistem lain~[9]. Cara kerja suatu sistem ditentukan oleh komponen penyusunnya beserta hubungan antarkomponen tersebut~[9], sehingga hambatan pada salah satu bagian ikut memengaruhi kinerja sistem.
 
 \subsection{Informasi}
 
-Informasi adalah sekumpulan data mentah yang telah diolah, diklasifikasikan, dan dipahami dalam suatu konteks sehingga bermakna dan memiliki nilai guna bagi penerimanya dalam mengambil keputusan. Nilai dari suatu informasi ditentukan oleh tiga karakteristik utama, yaitu keakuratan (bebas dari kesalahan atau manipulasi fakta), ketepatan waktu (tersedia pada saat dibutuhkan), dan relevansi (sesuai dengan topik persoalan yang sedang dihadapi oleh pengguna). Di lingkungan digital yang terbuka, informasi yang belum teruji kebenarannya dapat memicu kesalahpahaman apabila langsung dijadikan dasar tindakan oleh pembaca.
-
-\subsection{Deteksi \textit{Hoax}}
-
-Deteksi \textit{hoax} merupakan proses pemeriksaan dan pengujian klaim informasi untuk membedakan antara pernyataan faktual yang terverifikasi dengan kabar bohong yang tidak memiliki dasar bukti yang sah. Dalam pendekatan komputasi modern, deteksi \textit{hoax} otomatis (\textit{automated fact-checking}) dilakukan dengan mengekstraksi inti pernyataan dari suatu teks, menelusuri bukti pembanding dari sumber rujukan tepercaya, serta menyimpulkan tingkat kebenaran klaim tersebut disertai alasan dan tautan buktinya agar pengguna dapat menilai kebenaran informasi secara objektif.
+Informasi adalah data yang diberi makna melalui hubungan antardata sehingga berguna bagi penerimanya; data sendiri hanyalah fakta atau kejadian yang belum bermakna~[9]. Dalam praktiknya, organisasi memakai sistem informasi agar informasi yang akurat dan terbaru tersedia pada saat dibutuhkan~[9], sehingga keakuratan dan ketepatan waktu menjadi ciri penting informasi yang baik. Di lingkungan digital yang terbuka, informasi yang belum teruji kebenarannya dapat memicu kesalahpahaman apabila langsung dijadikan dasar tindakan oleh pembaca.
 
 \subsection{\textit{Hoax}}
 
-\textit{Hoax} (kabar bohong) adalah informasi atau berita palsu yang tidak didasarkan pada kenyataan, namun disusun dengan kalimat yang menggugah emosi atau meyakinkan agar dianggap sebagai peristiwa nyata oleh masyarakat. Penyebaran \textit{hoax} di media sosial umumnya memanfaatkan judul yang dibuat heboh, pemakaian nama tokoh atau lembaga resmi tanpa izin, serta klaim darurat yang memancing reaksi emosional pembaca untuk segera membagikannya kembali tanpa memeriksa sumber aslinya.
+\textit{Hoax} (kabar bohong) adalah informasi atau berita palsu yang tidak didasarkan pada kenyataan, namun disusun agar dianggap sebagai peristiwa nyata oleh masyarakat. Di Indonesia, istilah \textit{hoax} sering dipakai sebagai istilah payung yang mencakup berita palsu, misinformasi, dan disinformasi~[10]. Salah satu bentuknya dibuat dengan sengaja melalui situs yang menyerupai berita media arus utama, lalu disebarkan sebagai propaganda lewat media sosial dan aplikasi pesan~[10]. Analisis konten dari situs turnbackhoax.id pada 18 Juli sampai 26 September 2023 juga menemukan bahwa konten politik di media sosial menjelang Pemilu 2024 didominasi oleh \textit{hoax} dan \textit{clickbait}~[11].
+
+\subsection{Deteksi \textit{Hoax}}
+
+Deteksi \textit{hoax} merupakan proses pemeriksaan dan pengujian klaim informasi untuk membedakan antara pernyataan faktual yang terverifikasi dengan kabar bohong yang tidak memiliki dasar bukti yang sah. Dalam pendekatan komputasi modern, deteksi \textit{hoax} otomatis (\textit{automated fact-checking}) dilakukan dengan mengekstraksi inti pernyataan dari suatu teks, menelusuri bukti pembanding dari sumber rujukan tepercaya, serta menyimpulkan tingkat kebenaran klaim tersebut disertai alasan dan tautan buktinya agar pengguna dapat menilai kebenaran informasi secara objektif~[2]. Pada teks berbahasa Indonesia, penelitian terdahulu memakai model pembelajaran mendalam seperti LSTM, CNN, dan gabungan CNN-LSTM untuk mendeteksi \textit{hoax} politik di media sosial~[12], serta LSTM dan RoBERTa untuk mendeteksi berita palsu tentang COVID-19~[13].
 
 \subsection{Misinformasi}
 
-Misinformasi (\textit{misinformation}) adalah informasi tidak akurat atau keliru yang disebarkan oleh pengguna tanpa adanya niat jahat untuk menipu orang lain. Kondisi ini sering terjadi ketika pengguna media sosial salah menafsirkan isi berita, mempercayai kabar lama yang diunggah ulang seolah-olah baru terjadi, atau terburu-buru meneruskan pesan berantai kepada rekan-rekannya karena mengira informasi tersebut bermanfaat.
+Misinformasi (\textit{misinformation}) adalah informasi palsu yang dibagikan tanpa maksud untuk menyesatkan~[11]. Para peneliti belum sepakat tentang batasan istilah ini. Tinjauan terhadap 75 definisi dalam literatur kesehatan menemukan bahwa tujuh definisi misinformasi menyebut unsur ``tidak disengaja'' sedangkan lima definisi lain menyebut unsur ``disengaja''~[14], dan satu teori tunggal tentang misinformasi dinilai tidak mungkin sekaligus tidak perlu~[15].
 
 \subsection{Disinformasi}
 
-Disinformasi (\textit{disinformation}) merupakan informasi palsu yang secara sadar dan sengaja dibuat serta disebarkan untuk menyesatkan publik, mengarahkan opini masyarakat, merugikan reputasi pihak tertentu, atau memperoleh keuntungan materi secara tidak sah. Contoh disinformasi yang marak ditemukan di media sosial meliputi pengumuman pendaftaran bantuan pemerintah palsu, rekayasa kutipan pernyataan pejabat publik, hingga penyebaran kabar krisis palsu.
+Disinformasi (\textit{disinformation}) merupakan informasi palsu yang sengaja dibagikan untuk menyesatkan~[11]. Perbedaan niat penyebar inilah yang membedakan disinformasi dari misinformasi. Tinjauan sistematis terhadap 756 publikasi menyebut kedua gejala ini mengancam keutuhan masyarakat dan keselamatan warga pada masa pandemi COVID-19~[16].
 
 \subsection{\textit{Satire}}
 
-\textit{Satire} atau sindiran (\textit{satire/parody}) adalah gaya penyampaian pesan yang menggunakan perumpamaan yang dilebih-lebihkan, ironi, nama lembaga yang diplesetkan, atau cerita rekaan sebagai sarana humor maupun kritik sosial. Meskipun pembuat unggahan \textit{satire} tidak berniat menipu pembaca, pengguna media sosial yang tidak memahami latar belakang candaan tersebut sering kali menganggap isi kalimatnya sebagai kejadian sungguhan. Oleh sebab itu, sistem pemeriksa fakta pada media sosial perlu mengenali konteks sindiran agar dapat memberi tahu pengguna bahwa unggahan tersebut bukan merupakan klaim berita faktual.
+\textit{Satire} atau sindiran termasuk dalam bahasa kiasan (\textit{figurative language}) yang kini sering muncul pada konten buatan pengguna di media sosial, dan cakupannya meliputi ironi serta humor~[17]. \textit{Satire} dipakai untuk menunjukkan kelemahan kebiasaan, perilaku, atau pandangan tertentu, tetapi karena kerap disebarkan sebagai kabar yang tampak serius, \textit{satire} juga dapat ikut menyebarkan informasi palsu di internet~[17]. Akibatnya, pengguna yang tidak memahami latar belakang candaan tersebut sering kali menganggap isi kalimatnya sebagai kejadian sungguhan. Oleh sebab itu, sistem pemeriksa fakta pada media sosial perlu mengenali konteks sindiran agar dapat memberi tahu pengguna bahwa unggahan tersebut bukan merupakan klaim berita faktual.
 
 \subsection{Platform Media Sosial Threads}
 
-Threads merupakan layanan jejaring sosial mikroblog berbasis teks yang dikembangkan oleh Meta Platforms dan dapat diakses melalui \textit{browser} komputer pada alamat \texttt{https://www.threads.com}. Berbeda dengan Instagram yang berfokus pada berbagi foto dan video, Threads dirancang khusus untuk percakapan publik melalui unggahan teks singkat hingga 500 karakter per bagian utas (\textit{thread}). Karakteristik unggahan yang ringkas dan menyebar cepat melalui algoritma rekomendasi menjadikan Threads banyak digunakan untuk mendiskusikan berita terkini, namun hingga saat ini antarmuka halaman \textit{web} Threads belum menyediakan fitur pemeriksa fakta bawaan pada setiap kartu unggahan.
+Threads merupakan layanan jejaring sosial mikroblog yang dikembangkan oleh Meta Platforms dan diluncurkan pada 5 Juli 2023. Berbeda dengan jejaring sosial baru lainnya, Threads dibangun dari Instagram sehingga setiap penggunanya sudah harus memiliki akun Instagram~[18]. Threads dapat diakses melalui \textit{browser} komputer pada alamat \url{https://www.threads.com}. Berbeda dengan Instagram yang berfokus pada berbagi foto dan video, Threads dirancang khusus untuk percakapan publik melalui unggahan teks singkat hingga 500 karakter per bagian utas (\textit{thread}). Karakteristik unggahan yang ringkas dan menyebar cepat melalui algoritma rekomendasi menjadikan Threads banyak digunakan untuk mendiskusikan berita terkini, namun hingga saat ini antarmuka halaman \textit{web} Threads belum menyediakan fitur pemeriksa fakta bawaan pada setiap unggahan.
 
 \subsection{\textit{Document Object Model} (DOM)}
 
-\textit{Document Object Model} (DOM) adalah antarmuka pemrograman standar bagi dokumen HTML yang menggambarkan seluruh elemen halaman \textit{web} ke dalam struktur pohon objek (\textit{tree structure}) sehingga isi, struktur, dan tampilannya dapat dibaca maupun diubah secara dinamis menggunakan JavaScript. Pada halaman \textit{web} Threads yang berjalan sebagai \textit{Single-Page Application} (SPA), daftar unggahan baru dimuat secara terus-menerus ketika pengguna menggulir layar dan nama kelas tampilannya (\textit{CSS class}) diacak saat proses kompilasi. Akibatnya, pembacaan data unggahan oleh ekstensi \textit{browser} harus menargetkan struktur simpul DOM yang stabil seperti elemen \texttt{article}, atribut \texttt{data-pressable-container}, tautan akun \texttt{/@username}, elemen waktu \texttt{<time datetime="...">}, serta blok teks beratribut \texttt{dir="auto"}.
+\textit{Document Object Model} (DOM) adalah antarmuka pemrograman standar bagi dokumen HTML yang menggambarkan seluruh elemen halaman \textit{web} ke dalam struktur pohon objek (\textit{tree structure}) sehingga isi, struktur, dan tampilannya dapat dibaca maupun diubah secara dinamis menggunakan JavaScript~[19]. Dalam pohon tersebut, setiap simpul mewakili satu \textit{tag} HTML dan tingkat susunannya menunjukkan elemen mana yang bersarang di dalam elemen lain. Pada halaman \textit{web} Threads yang berjalan sebagai \textit{Single-Page Application} (SPA), daftar unggahan baru dimuat secara terus-menerus ketika pengguna menggulir layar dan nama kelas tampilannya (\textit{CSS class}) diacak saat proses kompilasi. Akibatnya, pembacaan data unggahan oleh ekstensi \textit{browser} harus menargetkan struktur simpul DOM yang stabil seperti elemen \texttt{article}, atribut \texttt{data-pressable-container}, tautan akun \texttt{/@username}, elemen waktu \texttt{<time datetime="...">}, serta blok teks beratribut \texttt{dir="auto"}.
 
 \subsection{Ekstensi \textit{Browser} Google Chrome \textit{Manifest V3}}
 
-Ekstensi Google Chrome adalah perangkat lunak tambahan berbasis teknologi \textit{web} (HTML, CSS, dan JavaScript/TypeScript) yang dipasang pada \textit{browser} Google Chrome untuk menambahkan fitur khusus dan berinteraksi langsung dengan halaman situs yang sedang dibuka pengguna. Spesifikasi terbaru yang ditetapkan oleh Google adalah \textit{Manifest V3}, yang menggantikan halaman latar belakang terus-menerus (\textit{persistent background page}) dengan \textit{Service Worker} berbasis kejadian (\textit{event-driven}) guna menghemat penggunaan memori serta meningkatkan keamanan izin akses domain.
+Ekstensi Google Chrome adalah perangkat lunak tambahan berbasis teknologi \textit{web} (HTML, CSS, dan JavaScript/TypeScript) yang dipasang pada \textit{browser} Google Chrome untuk menambahkan fitur khusus dan berinteraksi langsung dengan halaman situs yang sedang dibuka pengguna. Spesifikasi terbaru yang ditetapkan oleh Google adalah \textit{Manifest V3}~[7], yang menggantikan skrip latar belakang dengan \textit{Service Worker} berbasis kejadian (\textit{event-driven}) guna meningkatkan kinerja \textit{browser}. Perubahan ini bertujuan memperkuat tiga hal, yaitu privasi, keamanan, dan kinerja, melalui aturan kebijakan keamanan konten (\textit{Content Security Policy}) yang lebih ketat serta larangan memuat kode JavaScript dari pihak ketiga~[20].
 
 Dalam sistem deteksi \textit{hoax} berarsitektur klien-\textit{server} yang dirancang pada penelitian ini, komunikasi antara komponen internal ekstensi Chrome \textit{Manifest V3}, layanan \textit{server} \textit{backend}, dan sumber pencarian \textit{web} berjalan sebagaimana digambarkan pada Gambar~\ref{fig:arsitektur}.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{gambar/arsitektur_umum.png}
   \caption{Arsitektur komunikasi ekstensi Chrome dan \textit{server} \textit{backend}}
@@ -488,109 +453,55 @@ Berdasarkan Gambar~\ref{fig:arsitektur}, arsitektur sisi klien pada ekstensi Goo
 
 \subsection{Layanan \textit{Server} \textit{Backend}}
 
-Layanan \textit{server} \textit{backend} merupakan komponen perangkat lunak di sisi \textit{server} yang bertugas menangani logika pemrosesan data, menjalankan otomasi penelusuran bukti ke mesin pencari, serta menyusun kesimpulan analisis di luar lingkungan \textit{tab} \textit{browser} pengguna. Pemisahan proses penelusuran fakta ke dalam \textit{server} \textit{backend} terpisah bertujuan agar kinerja \textit{browser} pengguna tetap ringan saat menjelajahi Threads dan proses pengambilan data dari berbagai situs berita tidak terhalang oleh pembatasan keamanan lintas domain (\textit{Cross-Origin Resource Sharing}/CORS).
+Layanan \textit{server} \textit{backend} merupakan komponen perangkat lunak di sisi \textit{server} yang bertugas menangani logika pemrosesan data, menjalankan otomasi penelusuran bukti ke mesin pencari, serta menyusun kesimpulan analisis di luar lingkungan \textit{tab} \textit{browser} pengguna. Pada sistem informasi lain, \textit{server} \textit{backend} berbasis Express JS dan Node.js berperan sebagai perantara pertukaran data antara antarmuka pengguna dan \textit{server}, dengan Node.js sebagai lingkungan eksekusi JavaScript di sisi \textit{server}~[21]. Pemisahan proses penelusuran fakta ke dalam \textit{server} \textit{backend} terpisah bertujuan agar kinerja \textit{browser} pengguna tetap ringan saat menjelajahi Threads dan proses pengambilan data dari berbagai situs berita tidak terhalang oleh pembatasan keamanan lintas domain (\textit{Cross-Origin Resource Sharing}/CORS).
 
 \subsection{REST API}
 
-\textit{Representational State Transfer Application Programming Interface} (REST API) adalah standar arsitektur komunikasi jaringan yang memungkinkan pertukaran data antara aplikasi klien (ekstensi \textit{browser}) dan aplikasi \textit{server} melalui protokol HTTP menggunakan metode standar seperti \texttt{GET}, \texttt{POST}, dan \texttt{DELETE}. Dalam sistem ini, REST API menggunakan format pertukaran data \textit{JavaScript Object Notation} (JSON) yang ringan dan terstruktur untuk mengirimkan teks unggahan yang akan diperiksa serta mengembalikan hasil analisis beserta daftar tautan sumber rujukan ke ekstensi.
+\textit{Representational State Transfer Application Programming Interface} (REST API) adalah gaya arsitektur, yaitu seperangkat prinsip dan panduan untuk merancang sistem yang dapat diskalakan dan andal agar saling berkomunikasi melalui \textit{web}~[22]. Komunikasi \textit{stateless} dan operasi standar pada REST meningkatkan kemampuan sistem untuk saling bertukar data~[22]. REST API memungkinkan pertukaran data antara aplikasi klien (ekstensi \textit{browser}) dan aplikasi \textit{server} melalui protokol HTTP menggunakan metode standar seperti \texttt{GET}, \texttt{POST}, dan \texttt{DELETE}~[21]. Dalam sistem ini, REST API menggunakan format pertukaran data \textit{JavaScript Object Notation} (JSON) yang ringan dan terstruktur untuk mengirimkan teks unggahan yang akan diperiksa serta mengembalikan hasil analisis beserta daftar tautan sumber rujukan ke ekstensi.
 
 \subsection{Normalisasi Teks \textit{Unicode}}
 
-Normalisasi teks \textit{Unicode} adalah proses transformasi deretan karakter ke dalam bentuk kode standar yang seragam sebelum teks diolah oleh algoritma pencarian maupun pencocokan kata kunci. Banyak unggahan viral di media sosial menggunakan huruf berhias atau huruf tebal matematika \textit{Unicode} agar tampak mencolok di lini masa. Melalui standar \textit{Normalization Form Compatibility Composition} (NFKC), seluruh karakter bergaya khusus tersebut diuraikan lalu disusun kembali menjadi huruf alfabet ASCII standar sehingga kalimat klaim dapat dibaca secara utuh oleh mesin pencari.
+Normalisasi teks \textit{Unicode} adalah proses transformasi deretan karakter ke dalam bentuk kode standar yang seragam sebelum teks diolah oleh algoritma pencarian maupun pencocokan kata kunci. Dengan normalisasi, string yang setara memiliki satu bentuk biner yang sama sehingga perbandingan antarteks cukup dilakukan pada tingkat \textit{byte}; bentuk kompatibilitas NFKD dan NFKC tidak boleh diterapkan sembarangan pada semua teks~[23]. Banyak unggahan viral di media sosial menggunakan huruf berhias atau huruf tebal matematika \textit{Unicode} agar tampak mencolok di beranda. Melalui standar \textit{Normalization Form Compatibility Composition} (NFKC), seluruh karakter bergaya khusus tersebut diuraikan lalu disusun kembali menjadi huruf alfabet ASCII standar sehingga kalimat klaim dapat dibaca secara utuh oleh mesin pencari.
 
 \subsection{Penelusuran Bukti Fakta \textit{Real-Time}}
 
-Penelusuran bukti fakta \textit{real-time} (\textit{real-time web retrieval}) adalah pendekatan verifikasi klaim yang mengambil bukti langsung dari indeks mesin pencari dan portal berita daring pada saat permintaan pemeriksaan diterima. Pendekatan ini menggabungkan ekstraksi Google AI Overview (Ringkasan AI) menggunakan otomasi \textit{browser} tanpa tampilan (\textit{headless browser}) serta penelusuran umpan berita Google News RSS sebagai jalur cadangan. Dengan mengambil bukti secara langsung dari \textit{web}, sistem dapat memeriksa kebenaran peristiwa atau isu viral yang baru saja terjadi pada hari yang sama tanpa bergantung pada pelatihan ulang \textit{dataset} statis.
+Penelusuran bukti fakta \textit{real-time} (\textit{real-time web retrieval}) adalah pendekatan verifikasi klaim yang mengambil bukti langsung dari indeks mesin pencari dan portal berita daring pada saat permintaan pemeriksaan diterima. Pendekatan ini menggabungkan ekstraksi Google AI Overview (Ringkasan AI) menggunakan otomasi \textit{browser} tanpa tampilan (\textit{headless browser}) serta penelusuran umpan berita Google News RSS sebagai sumber cadangan. Pendekatan ini sejalan dengan penelitian yang membangun alur pemeriksaan klaim dari bukti mentah di \textit{web} dengan membatasi pencarian pada dokumen yang terbit sebelum klaim dibuat agar sesuai dengan kondisi klaim yang baru muncul; alur tersebut terdiri atas lima komponen, yaitu penguraian klaim, pengambilan dokumen mentah, pengambilan bukti rinci, ringkasan berfokus klaim, dan penilaian kebenaran~[24]. Dengan mengambil bukti secara langsung dari \textit{web}, sistem dapat memeriksa kebenaran peristiwa atau isu viral yang baru saja terjadi pada hari yang sama tanpa bergantung pada pelatihan ulang \textit{dataset} statis.
 
 \subsection{Pencegahan Halusinasi Rujukan}
 
-Halusinasi rujukan merupakan kondisi ketika suatu sistem kecerdasan buatan menghasilkan tautan berita fiktif atau menyertakan artikel rujukan yang sebenarnya membahas topik lain di luar isi klaim yang sedang diperiksa. Untuk mencegah hal tersebut, setiap calon tautan rujukan yang diperoleh dari mesin pencari harus melalui proses pelacakan alamat URL asli dan penyaringan kesesuaian konteks menggunakan pencocokan kata kunci yang sama antara klaim dan peristiwa. Hanya artikel berita yang memiliki keterkaitan langsung dengan pokok bahasan unggahan yang disertakan sebagai bukti pendukung pada hasil akhir.
-
-\section{Metode Penelitian}
-
-Uraian metode pada bagian ini menjadi landasan teori bagi tahapan metodologi penelitian yang telah digambarkan pada Subbab 1.5, meliputi kuesioner, rekayasa sistem (\textit{system engineering}), analisis sistem (\textit{system analysis}), model pengembangan perangkat lunak \textit{Waterfall}, pemodelan \textit{Unified Modeling Language} (UML), pengujian \textit{black-box}, serta evaluasi \textit{confusion matrix}.
-
-\subsection{Kuesioner}
-
-Kuesioner merupakan teknik pengumpulan data yang dilakukan dengan memberikan sejumlah pertanyaan tertulis kepada responden untuk memperoleh informasi mengenai pengalaman, kebiasaan, serta kebutuhan pengguna terhadap sistem yang akan dibangun. Dalam penelitian ini, kuesioner disebarkan kepada 60 responden pengguna Threads, kemudian data jawaban dari setiap butir pertanyaan tertutup diolah menggunakan perhitungan distribusi persentase deskriptif sebagaimana dituliskan pada Persamaan~(II.1):
-
-\begin{equation}
-  P = \frac{f}{N} \times 100\%
-  \tag{II.1}
-\end{equation}
-
-dengan keterangan $P$ menyatakan nilai persentase untuk suatu pilihan jawaban (\%), $f$ menyatakan frekuensi atau banyaknya responden yang memilih jawaban tersebut, dan $N$ menyatakan jumlah seluruh responden kuesioner ($N = 60$).
-
-\subsection{\textit{System Engineering} (Rekayasa Sistem)}
-
-\textit{System engineering} (rekayasa sistem) merupakan tahapan pada keseluruhan sistem yang bertujuan menetapkan hubungan timbal balik antara perangkat lunak yang akan dibangun dengan seluruh elemen pembentuk sistem lainnya, meliputi perangkat keras (\textit{hardware}), perangkat lunak (\textit{software}), pengguna (\textit{brainware}), serta data dan jaringan komunikasi (\textit{data and network}). Karena perangkat lunak ekstensi \textit{browser} tidak berdiri sendiri melainkan beroperasi di dalam lingkungan halaman \textit{web} dan berkomunikasi dengan \textit{server} eksternal, perumusan batas sistem pada tahap \textit{system engineering} sangat penting agar seluruh komponen dapat bekerja secara selaras sebagaimana ditunjukkan pada Gambar~\ref{fig:syseng}.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{gambar/system_engineering.png}
-  \caption{Diagram alur \textit{system engineering} pada pengembangan sistem}
-  \label{fig:syseng}
-\end{figure}
-
-Berdasarkan Gambar~\ref{fig:syseng}, tahap \textit{system engineering} menyatukan empat elemen utama, yaitu perangkat keras komputer klien dan \textit{server}, perangkat lunak ekstensi Chrome dan layanan REST API, pengguna media sosial Threads sebagai aktor pemicu verifikasi, serta aliran data DOM, objek JSON, dan bukti pencarian \textit{web} menjadi satu spesifikasi arsitektur sistem yang siap dianalisis pada tahap berikutnya.
-
-\subsection{\textit{System Analysis} (Analisis Sistem)}
-
-\textit{System analysis} (analisis sistem) adalah proses penguraian suatu sistem secara menyeluruh ke dalam bagian-bagian komponennya dengan tujuan mengidentifikasi permasalahan yang terjadi, memahami karakteristik sistem yang sedang berjalan, serta merumuskan kebutuhan fungsional dan nonfungsional secara tepat sebelum tahap perancangan dimulai. Alur tahapan \textit{system analysis} yang diterapkan pada penelitian ini mengikuti empat langkah sistematis sebagaimana digambarkan pada Gambar~\ref{fig:sysana}.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{gambar/system_analysis.png}
-  \caption{Diagram tahapan \textit{system analysis} pada penelitian}
-  \label{fig:sysana}
-\end{figure}
-
-Berdasarkan Gambar~\ref{fig:sysana}, keempat tahapan \textit{system analysis} dalam penelitian ini meliputi:
-\begin{enumerate}[leftmargin=0.8cm,itemsep=2pt,topsep=2pt]
-  \item \textit{Identify} (Identifikasi Masalah): Mengidentifikasi akar permasalahan pada sistem yang berjalan saat ini, yaitu ketiadaan fitur pemeriksaan fakta langsung pada halaman \textit{web} Threads sehingga pengguna harus memeriksa klaim secara manual di luar \textit{tab} \textit{browser}.
-  \item \textit{Understand} (Pemahaman Karakteristik Objek dan Pengguna): Mempelajari struktur elemen DOM unggahan pada halaman \textit{web} Threads serta memahami kebutuhan pengguna berdasarkan hasil kuesioner terhadap 60 responden.
-  \item \textit{Analyze} (Analisis Kebutuhan dan Mekanisme Verifikasi): Menganalisis daftar kebutuhan fungsional dan nonfungsional, aturan normalisasi teks \textit{Unicode} bentuk NFKC, serta alur ekstraksi bukti \textit{real-time} dari Google AI Overview dan Google News RSS.
-  \item \textit{Report} (Penyusunan Spesifikasi Kebutuhan Sistem): Merangkum seluruh temuan analisis menjadi spesifikasi kebutuhan sistem yang terstruktur sebagai acuan langsung pada tahap perancangan UML dan antarmuka.
-\end{enumerate}
+Dalam penelitian pembangkitan bahasa alami (\textit{natural language generation}), halusinasi (\textit{hallucination}) adalah keluaran model yang tidak masuk akal atau tidak setia pada sumber masukannya~[25]. Tinjauan terhadap penerapan model bahasa besar pada pemeriksaan fakta menegaskan pentingnya bukti eksternal yang telah divalidasi serta pemanfaatan \textit{retrieval-augmented generation} (RAG) untuk mengurangi halusinasi~[26]. Halusinasi rujukan merupakan kondisi ketika suatu sistem kecerdasan buatan menghasilkan tautan berita fiktif atau menyertakan artikel rujukan yang sebenarnya membahas topik lain di luar isi klaim yang sedang diperiksa. Untuk mencegah hal tersebut, setiap calon tautan rujukan yang diperoleh dari mesin pencari harus melalui proses pelacakan alamat URL asli dan penyaringan kesesuaian konteks menggunakan pencocokan kata kunci yang sama antara klaim dan peristiwa. Hanya artikel berita yang memiliki keterkaitan langsung dengan pokok bahasan unggahan yang disertakan sebagai bukti pendukung pada hasil akhir.
 
 \subsection{Metode Pengembangan Perangkat Lunak \textit{Waterfall}}
 
-Proses rekayasa perangkat lunak dalam penelitian ini mengikuti model \textit{Waterfall} yang diperkenalkan oleh Pressman dan Maxim~[9]. Model \textit{Waterfall} dipilih karena spesifikasi masalah, batasan fitur ekstensi, serta alur komunikasi antara \textit{browser} dan \textit{server} sudah ditetapkan dengan jelas sejak awal penelitian, sehingga pengerjaan dapat dilakukan secara runtut dari tahap \textit{system engineering} dan \textit{system analysis} hingga tahap pemeliharaan sebagaimana ditunjukkan pada Gambar~\ref{fig:waterfall}.
+Proses rekayasa perangkat lunak dalam penelitian ini mengikuti model \textit{Waterfall}, yaitu model pengembangan yang menjalankan tahapannya secara berurutan~[27]. Model ini lazim dikaitkan dengan karya Royce pada tahun 1970, sedangkan penggunaan istilah \textit{waterfall} untuk menamai model tersebut paling awal ditemukan pada karya Bell dan Thayer tahun 1976~[27]. Pembagian fasenya sendiri banyak diadaptasi dalam literatur~[27], sehingga penelitian ini memakai lima tahap yang mengacu pada adaptasi tersebut.
 
-\begin{figure}[htbp]
+Model \textit{Waterfall} dipilih karena spesifikasi masalah, batasan fitur ekstensi, serta alur komunikasi antara \textit{browser} dan \textit{server} sudah ditetapkan dengan jelas sejak awal penelitian. Kebutuhan yang sudah jelas seperti ini sesuai dengan pendekatan yang sistematis dan terstruktur, alasan yang sama dengan penerapan model ini pada pengembangan sistem berbasis \textit{web} lainnya~[28]. Kelima tahap tersebut ditunjukkan pada Gambar~\ref{fig:waterfall}.
+
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{gambar/metode_waterfall.png}
   \caption{Tahapan metode pengembangan perangkat lunak \textit{Waterfall}}
   \label{fig:waterfall}
+  \par\nopagebreak\vspace{2pt}
+  Diadaptasi dari~[27]
 \end{figure}
 
-Keenam tahapan pada Gambar~\ref{fig:waterfall} memiliki keterkaitan langsung dengan langkah kerja penelitian pada Bab 1, yaitu:
+Kelima tahapan pada Gambar~\ref{fig:waterfall} memiliki keterkaitan langsung dengan langkah kerja penelitian, yaitu:
 \begin{enumerate}[leftmargin=0.8cm,itemsep=2pt,topsep=2pt]
-  \item \textit{System Engineering} (Rekayasa Sistem): Menetapkan batas sistem secara menyeluruh serta menyelaraskan hubungan antara ekstensi \textit{browser} pada sisi klien, layanan \textit{server} \textit{backend}, pengguna Threads, dan sumber pencarian \textit{web}.
-  \item \textit{System Analysis} (Analisis Kebutuhan Sistem): Mengumpulkan dan menganalisis kebutuhan fungsional serta nonfungsional perangkat lunak berdasarkan identifikasi masalah, pengamatan struktur DOM halaman Threads, dan hasil kuesioner pengguna.
-  \item \textit{System and Software Design} (Perancangan Sistem): Menyusun arsitektur sistem tiga lapis, rancangan alur penelusuran dan penyaringan rujukan, diagram UML, struktur pertukaran data JSON, serta rancangan tampilan antarmuka.
-  \item \textit{Implementation / Coding} (Implementasi Kode): Menerjemahkan seluruh rancangan ke dalam kode sumber ekstensi Chrome \textit{Manifest V3} dan layanan \textit{server} \textit{backend}.
-  \item \textit{Testing / Verification} (Pengujian Sistem): Memeriksa kesesuaian seluruh fungsi sistem menggunakan pengujian \textit{black-box} serta mengukur ketepatan deteksi klaim uji menggunakan \textit{confusion matrix}.
-  \item \textit{Maintenance} (Pemeliharaan Sistem): Mengevaluasi temuan batas hasil pengujian dan menyiapkan penyesuaian apabila terjadi perubahan struktur tampilan pada halaman \textit{web} Threads maupun halaman pencarian Google.
-\end{enumerate}
-
-\subsection{\textit{Unified Modeling Language} (UML)}
-
-Merujuk pada Fowler dan Scott dalam buku \textit{UML Distilled: A Brief Guide to the Standard Object Modeling Language}, \textit{Unified Modeling Language} (UML) adalah keluarga notasi grafis standar berbasis satu model acuan (\textit{metamodel}) milik \textit{Object Management Group} (OMG) yang digunakan untuk mendeskripsikan, memvisualisasikan, dan merancang sistem perangkat lunak berorientasi objek sebelum tahap penulisan kode dilakukan~[10]. Empat jenis diagram UML yang relevan dalam perancangan sistem ini meliputi:
-\begin{enumerate}[leftmargin=0.8cm,itemsep=2pt,topsep=2pt]
-  \item \textit{Use Case Diagram}: Memodelkan interaksi fungsional antara aktor eksternal (pengguna Threads) dan sekumpulan skenario penggunaan (\textit{use case}) yang disediakan oleh sistem ekstensi \textit{browser}~[10].
-  \item \textit{Activity Diagram}: Menggambarkan alur kerja dan urutan aktivitas, baik yang berurutan maupun bercabang, menggunakan pembagian lajur komponen (\textit{swimlane}), mulai dari tindakan klik kanan pengguna pada unggahan hingga lencana hasil verifikasi tampil di layar~[10].
-  \item \textit{Sequence Diagram}: Menjelaskan interaksi antarobjek berdasarkan urutan waktu melalui garis hidup (\textit{lifeline}), kotak aktivasi (\textit{activation box}), dan pertukaran pesan (\textit{message passing}) antara \textit{Content Script}, \textit{Background Service Worker}, REST API pada \textit{server} \textit{backend}, serta modul penelusuran \textit{web}~[10].
-  \item \textit{Class Diagram}: Mendeskripsikan jenis-jenis objek atau modul di dalam sistem beserta atribut, operasi, dan berbagai hubungan statis (asosiasi maupun ketergantungan) yang ada di antara komponen-komponen tersebut~[10].
+  \item \textit{Requirements Analysis} (Analisis Kebutuhan): Menetapkan layanan, batasan, dan tujuan sistem melalui konsultasi dengan pengguna, lalu merumuskannya secara rinci sebagai spesifikasi sistem~[27]. Pada penelitian ini, tahap tersebut mencakup penetapan batas sistem dan pengamatan struktur DOM halaman Threads.
+  \item \textit{System and Software Design} (Perancangan Sistem): Mengalokasikan kebutuhan ke perangkat keras atau perangkat lunak melalui penetapan arsitektur sistem secara umum, lalu menguraikan abstraksi dasar perangkat lunak beserta hubungannya~[27]. Pada penelitian ini, tahap tersebut berupa arsitektur sistem tiga lapis, rancangan alur penelusuran dan penyaringan rujukan, diagram UML, struktur pertukaran data JSON, serta rancangan tampilan antarmuka.
+  \item \textit{Implementation} (Implementasi): Mengubah rancangan perangkat lunak menjadi sekumpulan program atau unit program~[27]. Pada penelitian ini, rancangan diterjemahkan ke dalam kode sumber ekstensi Chrome \textit{Manifest V3} dan layanan \textit{server} \textit{backend}.
+  \item \textit{Testing} (Pengujian): Menggabungkan unit-unit program lalu menguji sistem secara utuh untuk memastikan kebutuhan perangkat lunak terpenuhi~[27]. Pada penelitian ini, pengujian memakai \textit{black-box testing} untuk memeriksa kesesuaian fungsi dan \textit{confusion matrix} untuk mengukur ketepatan deteksi klaim uji.
+  \item \textit{Maintenance} (Pemeliharaan): Sistem dipasang dan dipakai, lalu dipelihara dengan memperbaiki kesalahan yang belum ditemukan pada tahap sebelumnya, memperbaiki implementasi tiap unit sistem, dan meningkatkan layanan ketika kebutuhan baru muncul~[27]. Pada penelitian ini, tahap tersebut berupa evaluasi temuan batas hasil pengujian dan penyiapan penyesuaian apabila struktur tampilan halaman \textit{web} Threads maupun halaman pencarian Google berubah.
 \end{enumerate}
 
 \subsection{Pengujian \textit{Black-Box}}
 
-Pengujian \textit{black-box} (\textit{black-box testing}) adalah metode pengujian perangkat lunak yang berfokus pada pemeriksaan kesesuaian fungsi masukan (\textit{input}) dan keluaran (\textit{output}) berdasarkan spesifikasi kebutuhan fungsional tanpa menguji struktur kode internal secara langsung. Dalam penelitian ini, pengujian \textit{black-box} digunakan untuk memverifikasi keberhasilan pembacaan unggahan pada DOM halaman Threads, penyuntikan lencana status dan \textit{tooltip} bukti rujukan, fungsi jendela \textit{popup} riwayat pemeriksaan, serta validasi respons \textit{endpoint} REST API pada \textit{server} \textit{backend}.
+Pengujian \textit{black-box} (\textit{black-box testing}) adalah pengujian yang memeriksa perilaku sistem berdasarkan masukan (\textit{input}) dan keluaran (\textit{output}) tertentu terhadap kebutuhan pengguna atau spesifikasi yang telah disetujui, tanpa memperhatikan struktur kode maupun arsitektur internalnya~[29]. Teknik ini berguna untuk menguji fungsi perangkat lunak dari sudut pandang pengguna tanpa perlu memahami cara kerja bagian dalam sistem~[30]. Penguji menyusun berbagai skenario masukan untuk menemukan kesalahan atau perilaku yang tidak diinginkan, dan metode ini banyak dipakai pada pengujian penerimaan (\textit{acceptance testing}) karena mengamati perilaku sistem dari sisi pengguna akhir~[29]. Dua teknik yang umum dipakai adalah \textit{equivalence partitioning}, yaitu mengelompokkan nilai yang serupa ke dalam kategori yang dianggap menghasilkan keluaran sama sehingga jumlah pengujian berkurang, dan \textit{boundary value analysis}, yaitu menguji nilai batas pada awal dan akhir setiap kelompok masukan karena di sanalah sebagian besar kesalahan ditemukan~[29]. Pengujian aplikasi \textit{e-commerce} OpenCart dengan kedua teknik tersebut menghasilkan 14 kasus uji untuk masing-masing teknik~[30]. Dalam penelitian ini, pengujian \textit{black-box} digunakan untuk memverifikasi keberhasilan pembacaan unggahan pada DOM halaman Threads, penampilan lencana status dan \textit{tooltip} bukti rujukan, fungsi jendela \textit{popup} riwayat pemeriksaan, serta validasi respons \textit{endpoint} REST API pada \textit{server} \textit{backend}.
 
 \subsection{\textit{Confusion Matrix}}
 
-\textit{Confusion matrix} adalah tabel evaluasi kinerja klasifikasi yang membandingkan hasil prediksi sistem terhadap label kebenaran sebenarnya (\textit{ground truth}) pada sekumpulan data uji. Dalam penelitian ini, \textit{confusion matrix} digunakan untuk mengukur ketepatan sistem dalam membedakan unggahan yang berindikasi \textit{hoax}/\textit{satire} (kelas positif) dan unggahan fakta yang valid (kelas negatif). Empat komponen utama pada \textit{confusion matrix} terdiri atas:
+\textit{Confusion matrix} adalah tabel evaluasi kinerja klasifikasi yang membandingkan hasil prediksi sistem terhadap label kebenaran sebenarnya (\textit{ground truth}) pada sekumpulan data uji. Tabel ini menguraikan prediksi menjadi empat kategori, yaitu \textit{true positive}, \textit{true negative}, \textit{false positive}, dan \textit{false negative}, sehingga terlihat kemampuan model membedakan berita palsu dan berita asli serta bagian yang masih perlu diperbaiki~[31]. Penelitian deteksi berita palsu COVID-19 di Indonesia juga membaca hasil ujinya dari tabel yang sama~[13]. Dalam penelitian ini, \textit{confusion matrix} digunakan untuk mengukur ketepatan sistem dalam membedakan unggahan yang berindikasi \textit{hoax}/\textit{satire} (kelas positif) dan unggahan fakta yang valid (kelas negatif). Empat komponen utama pada \textit{confusion matrix} terdiri atas:
 \begin{itemize}[leftmargin=0.8cm,itemsep=2pt,topsep=2pt]
   \item \textit{True Positive} (TP): Jumlah unggahan \textit{hoax}/\textit{satire} yang berhasil dideteksi dengan tepat sebagai terindikasi \textit{hoax}.
   \item \textit{True Negative} (TN): Jumlah unggahan fakta/valid yang berhasil dikenali dengan tepat sebagai terverifikasi benar.
@@ -598,39 +509,59 @@ Pengujian \textit{black-box} (\textit{black-box testing}) adalah metode pengujia
   \item \textit{False Negative} (FN): Jumlah unggahan \textit{hoax}/\textit{satire} yang gagal terdeteksi dan keliru ditandai sebagai terverifikasi benar.
 \end{itemize}
 
-Berdasarkan nilai $TP$, $TN$, $FP$, dan $FN$ tersebut, kinerja klasifikasi sistem dihitung menggunakan empat metrik utama, yaitu akurasi pada Persamaan~(II.2), presisi pada Persamaan~(II.3), \textit{recall} (sensitivitas) pada Persamaan~(II.4), dan \textit{F1-score} pada Persamaan~(II.5):
+Berdasarkan nilai $TP$, $TN$, $FP$, dan $FN$ tersebut, kinerja klasifikasi dinilai dengan akurasi, yaitu rasio prediksi yang benar terhadap seluruh data uji; presisi, yaitu rasio prediksi positif yang benar terhadap seluruh prediksi positif; \textit{recall}, yaitu rasio prediksi positif yang benar terhadap seluruh data yang sebenarnya positif; dan \textit{F1-score}, yaitu rata-rata harmonik presisi dan \textit{recall}~[31]. Keempat metrik tersebut dihitung menggunakan rumus berikut, yaitu akurasi pada Persamaan~(II.1), presisi pada Persamaan~(II.2), \textit{recall} (sensitivitas) pada Persamaan~(II.3), dan \textit{F1-score} pada Persamaan~(II.4):
 
 \begin{equation}
   \text{Akurasi} = \frac{TP + TN}{TP + TN + FP + FN} \times 100\%
-  \tag{II.2}
+  \tag{II.1}
 \end{equation}
 
 \begin{equation}
   \text{Presisi} = \frac{TP}{TP + FP} \times 100\%
-  \tag{II.3}
+  \tag{II.2}
 \end{equation}
 
 \begin{equation}
   \text{\textit{Recall}} = \frac{TP}{TP + FN} \times 100\%
-  \tag{II.4}
+  \tag{II.3}
 \end{equation}
 
 \begin{equation}
   \text{\textit{F1-Score}} = \frac{2 \times (\text{Presisi} \times \text{\textit{Recall}})}{\text{Presisi} + \text{\textit{Recall}}}
-  \tag{II.5}
+  \tag{II.4}
 \end{equation}
+
+\section{\textit{Unified Modeling Language} (UML)}
+
+Merujuk pada Fowler dan Scott dalam buku \textit{UML Distilled: A Brief Guide to the Standard Object Modeling Language}, \textit{Unified Modeling Language} (UML) adalah keluarga notasi grafis standar berbasis satu model acuan (\textit{metamodel}) milik \textit{Object Management Group} (OMG) yang digunakan untuk mendeskripsikan, memvisualisasikan, dan merancang sistem perangkat lunak berorientasi objek sebelum tahap penulisan kode dilakukan~[32]. Penelitian ini memakai empat jenis diagram UML dalam perancangan sistem, yaitu \textit{Use Case Diagram}, \textit{Activity Diagram}, \textit{Sequence Diagram}, dan \textit{Class Diagram}, sebagaimana penelitian lain yang merepresentasikan alur sistem penerimaan anggota baru dengan keempat diagram tersebut~[33]. Masing-masing diagram dijelaskan satu per satu pada subbab berikut.
+
+\subsection{\textit{Use Case Diagram}}
+
+\textit{Use Case Diagram} adalah alat untuk mengembangkan sistem dengan menjelaskan hubungan antara aktor yang terlibat dalam sistem~[33]. Diagram ini merupakan visualisasi dari beberapa komponen, yaitu aktor, \textit{use case}, dan relasi antarkomponen, serta membantu analis menyusun kebutuhan pengembangan sistem~[34]. Sebuah \textit{use case} menjelaskan fungsi yang disediakan sistem dan menghasilkan keluaran yang terlihat bagi seorang aktor, sedangkan aktor adalah setiap entitas yang berinteraksi dengan sistem; aktor berada di luar batas sistem (\textit{system boundary}), sementara \textit{use case} berada di dalamnya~[33]. Menurut Fowler dan Scott, \textit{use case} adalah kumpulan skenario yang diikat oleh satu tujuan pengguna yang sama, dan aktor tidak harus manusia karena sistem eksternal pun dapat menjadi aktor~[32]. Pada penelitian ini, \textit{Use Case Diagram} dipakai untuk memodelkan interaksi antara pengguna Threads sebagai aktor dan layanan yang disediakan ekstensi \textit{browser}.
+
+\subsection{\textit{Activity Diagram}}
+
+\textit{Activity Diagram} menunjukkan alur kerja atau aktivitas yang berjalan pada suatu sistem dan berfokus pada aliran kontrol dari satu aktivitas ke aktivitas lainnya~[33]. Diagram ini merepresentasikan aliran proses mulai dari proses awal, keputusan yang terjadi di dalam sistem, hingga proses berakhir, serta dapat menggambarkan proses paralel; setiap \textit{use case} paling sedikit memiliki satu \textit{Activity Diagram}~[34]. Diagram aktivitas juga menentukan tempat alur kerja dimulai, aktivitas yang terjadi, dan urutan pelaksanaannya~[35]. Menurut Fowler dan Scott, perilaku paralel ditunjukkan dengan percabangan (\textit{fork}) dan penggabungan (\textit{join}), sedangkan lajur renang (\textit{swimlane}) membagi diagram menjadi zona vertikal yang masing-masing mewakili tanggung jawab sebuah kelas atau bagian tertentu~[32]. Pada penelitian ini, diagram aktivitas dipakai untuk menggambarkan alur kerja dari tindakan klik kanan pengguna pada unggahan hingga lencana hasil verifikasi tampil di layar.
+
+\subsection{\textit{Sequence Diagram}}
+
+\textit{Sequence Diagram} merepresentasikan cara objek berinteraksi dan bertukar pesan dari waktu ke waktu, dan menggambarkan bagaimana peristiwa dalam \textit{use case} dipetakan ke operasi kelas objek pada \textit{Class Diagram}~[33]. Diagram ini memvisualisasikan objek yang berkaitan dalam sebuah \textit{use case} serta memperlihatkan rangkaian pesan yang dikirim antarobjek~[34]. Interaksi antarobjek di dalam dan di sekitar sistem digambarkan terhadap waktu~[35]. Menurut Fowler dan Scott, setiap objek ditampilkan sebagai kotak di ujung atas garis putus-putus vertikal yang disebut garis hidup (\textit{lifeline}), pesan digambarkan sebagai panah antargaris hidup dengan urutan waktu dari atas ke bawah, dan kotak aktivasi (\textit{activation box}) menunjukkan saat objek sedang aktif~[32]. Pada penelitian ini, diagram urutan dipakai untuk menjelaskan pertukaran pesan antara \textit{Content Script}, \textit{Background Service Worker}, REST API pada \textit{server} \textit{backend}, dan modul penelusuran \textit{web}.
+
+\subsection{\textit{Class Diagram}}
+
+\textit{Class Diagram} menggambarkan struktur dan penjelasan kelas, paket, dan objek beserta hubungan satu sama lain, dan merepresentasikan struktur statis sistem~[33]. Diagram ini umumnya memuat kelas, relasi asosiasi, generalisasi dan agregasi, atribut, operasi, serta visibilitas dan kardinalitas (\textit{multiplicity}) hubungan antarkelas~[36]. Diagram kelas juga dapat dipakai untuk merancang properti dan fungsi yang akan digunakan membangun sistem baru~[35], dan berfungsi sebagai sarana merencanakan serta berkomunikasi antarpengembang~[33]. Menurut Fowler dan Scott, dua hubungan statis utamanya adalah asosiasi dan subtipe~[32]. Pada penelitian ini, diagram kelas dipakai untuk mendeskripsikan modul-modul sistem beserta atribut, operasi, dan hubungan antarmodul tersebut.
 
 \section{Perangkat Lunak (\textit{Tools}) yang Digunakan}
 
-Pengembangan dan pengujian perangkat lunak pada penelitian ini memanfaatkan lingkungan pengembangan terpadu (\textit{Integrated Development Environment}) beserta masing-masing bahasa pemrograman, kerangka kerja, pustaka, dan perkakas pemodelan yang dijelaskan secara terpisah pada subbab berikut.
+Pengembangan dan pengujian perangkat lunak pada penelitian ini memanfaatkan lingkungan pengembangan terpadu beserta masing-masing bahasa pemrograman, kerangka kerja, pustaka, dan perkakas pemodelan yang dijelaskan secara terpisah pada subbab berikut.
 
 \subsection{Google Antigravity}
 
-Google Antigravity merupakan perangkat lunak \textit{Integrated Development Environment} (IDE) modern berbantuan agen kecerdasan buatan yang digunakan sebagai lingkungan kerja utama dalam penelitian ini. Di dalam Google Antigravity, proses penulisan kode sumber TypeScript dan React, pengelolaan ruang kerja ganda antara modul ekstensi \textit{browser} (\texttt{src/}) dan modul \textit{server} \textit{backend} (\texttt{server/}), pemeriksaan kesalahan tipe data secara langsung, hingga eksekusi terminal terpadu untuk kompilasi bundel dan pengujian otomatis dapat dilakukan dalam satu antarmuka yang terintegrasi. Penggunaan IDE Google Antigravity membantu menjaga konsistensi struktur kontrak data antara sisi klien dan \textit{server} sekaligus mempercepat proses penelusuran dan perbaikan kesalahan kode (\textit{debugging}).
+Google Antigravity adalah platform pengembangan berbasis agen (\textit{agentic development platform}) yang dirancang untuk membantu pengembangan perangkat lunak di era agen~[37]. Salah satu komponennya adalah Antigravity \textit{Integrated Development Environment} (IDE), yaitu IDE berfitur lengkap yang dilengkapi pengelola agen (\textit{agent manager}) dan artefak (\textit{artifacts})~[37]. IDE ini dipakai sebagai lingkungan kerja utama dalam penelitian ini. Di dalamnya, penulisan kode sumber TypeScript dan React, pengelolaan ruang kerja ganda antara modul ekstensi \textit{browser} (\texttt{src/}) dan modul \textit{server} \textit{backend} (\texttt{server/}), serta eksekusi terminal untuk kompilasi bundel dan pengujian otomatis dilakukan dalam satu antarmuka.
 
 \subsection{TypeScript}
 
-TypeScript adalah bahasa pemrograman sumber terbuka yang dikembangkan oleh Microsoft sebagai perluasan dari bahasa JavaScript dengan menambahkan sistem pemeriksaan tipe data statis (\textit{static type-checking}). Dalam penelitian ini, TypeScript digunakan baik pada pengembangan kode ekstensi \textit{browser} maupun pada kode layanan \textit{server} \textit{backend} untuk memastikan struktur objek klaim unggahan, status hasil verifikasi, skor keyakinan, dan daftar tautan rujukan tetap konsisten serta bebas dari kesalahan tipe data saat dikompilasi.
+TypeScript adalah himpunan super (\textit{superset}) JavaScript yang dirilis oleh Microsoft pada tahun 2012 dan memakai sistem tipe yang eksplisit. Kodenya bertipe statis dan dikonversi menjadi JavaScript oleh kompilator \texttt{tsc}, yang memeriksa tipe pada saat konversi dan melaporkan kesalahan terkait tipe~[38]. Studi terhadap 604 proyek GitHub menemukan bahwa aplikasi TypeScript memiliki kualitas kode dan keterbacaan yang secara signifikan lebih baik daripada aplikasi JavaScript, tetapi tidak otomatis memiliki lebih sedikit kesalahan~[38]. Dalam penelitian ini, TypeScript digunakan baik pada pengembangan kode ekstensi \textit{browser} maupun pada kode layanan \textit{server} \textit{backend} untuk menjaga struktur objek klaim unggahan, status hasil verifikasi, skor keyakinan, dan daftar tautan rujukan tetap konsisten saat dikompilasi.
 
 \subsection{React}
 
@@ -638,23 +569,23 @@ React adalah pustaka JavaScript berbasis komponen yang dikembangkan oleh Meta un
 
 \subsection{Vite}
 
-Vite merupakan perkakas pembangun aplikasi \textit{web} modern (\textit{build tool} dan \textit{bundler}) yang berfungsi menggabungkan serta mengoptimalkan kode sumber TypeScript, komponen React, berkas gaya CSS, dan berkas konfigurasi \texttt{manifest.json} menjadi bundel distribusi ekstensi Google Chrome \textit{Manifest V3} pada direktori \texttt{dist/} yang siap dipasang langsung pada \textit{browser}.
+Vite adalah perkakas pembangun (\textit{build tool}) yang bertujuan memberikan pengalaman pengembangan yang lebih cepat dan ringan untuk proyek \textit{web} modern. Perkakas ini terdiri atas \textit{dev server} yang memanfaatkan modul ECMAScript bawaan (\textit{native ES modules}) dan perintah \textit{build} yang menggabungkan kode menjadi aset statis untuk produksi~[39]. Pada studi perbandingan dengan Webpack, Vite memakai esbuild pada tahap pengembangan dan Rollup pada \textit{build} produksi, dan dalam studi kasus penelitian tersebut Vite lebih cepat daripada Webpack dalam waktu \textit{build} pengembangan maupun produksi~[40]. Dalam penelitian ini, Vite menggabungkan kode sumber TypeScript, komponen React, berkas gaya CSS, dan berkas konfigurasi \url{manifest.json} menjadi bundel distribusi ekstensi Google Chrome \textit{Manifest V3} pada direktori \url{dist/} yang siap dipasang langsung pada \textit{browser}.
 
 \subsection{Node.js}
 
-Node.js adalah lingkungan eksekusi (\textit{runtime environment}) JavaScript lintas platform berbasis mesin V8 yang memungkinkan kode JavaScript dan TypeScript dijalankan di sisi \textit{server} di luar \textit{browser}. Node.js memiliki arsitektur masukan/keluaran yang tidak saling menunggu dan digerakkan oleh kejadian (\textit{non-blocking event-driven I/O}), sehingga sangat sesuai digunakan untuk menangani permintaan verifikasi unggahan dan menjalankan proses pengambilan bukti \textit{web} secara paralel.
+Node.js adalah lingkungan eksekusi (\textit{runtime}) JavaScript yang asinkron dan digerakkan oleh kejadian (\textit{event-driven}), dirancang untuk membangun aplikasi jaringan yang dapat diskalakan~[22]. Lingkungan ini menyediakan tempat menjalankan JavaScript di sisi \textit{server}, sehingga pengembangan menjadi cepat dan digerakkan oleh kejadian~[21]. Dalam penelitian ini, Node.js menjalankan kode JavaScript dan TypeScript pada \textit{server} \textit{backend} yang menerima permintaan verifikasi unggahan dan menjalankan pengambilan bukti \textit{web}.
 
 \subsection{Express.js}
 
-Express.js adalah kerangka kerja aplikasi \textit{web} sederhana di atas lingkungan Node.js yang digunakan untuk membangun layanan \textit{endpoint} REST API pada \textit{server} \textit{backend}. Melalui Express.js, sistem menyediakan jalur pengaturan alur permintaan (\textit{routing}) HTTP untuk menerima teks unggahan dari ekstensi, mengelola daftar pemeriksaan yang menunggu, menyimpan riwayat hasil verifikasi, serta mengirimkan respons berformat JSON kembali ke ekstensi.
+Express.js adalah kerangka kerja aplikasi \textit{web} Node.js yang minimal dan fleksibel dengan fitur yang lengkap untuk aplikasi \textit{web} dan \textit{mobile}~[22]. Dalam penelitian ini, Express.js digunakan untuk membangun layanan \textit{endpoint} REST API pada \textit{server} \textit{backend}. Melalui Express.js, sistem mengatur alur permintaan (\textit{routing}) HTTP untuk menerima teks unggahan dari ekstensi, mengelola daftar pemeriksaan yang menunggu, menyimpan riwayat hasil verifikasi, serta mengirimkan respons berformat JSON kembali ke ekstensi.
 
 \subsection{Playwright}
 
-Playwright adalah pustaka otomasi \textit{browser} modern yang dikembangkan oleh Microsoft untuk mengendalikan mesin \textit{browser} Chromium melalui kode program. Dalam penelitian ini, pustaka Playwright Core digunakan oleh \textit{server} \textit{backend} untuk membuka halaman pencarian Google secara otomatis, menunggu komponen dinamis Google AI Overview (Ringkasan AI) selesai dimuat oleh JavaScript, serta mengekstraksi teks ringkasan beserta kartu tautan artikel rujukannya secara akurat.
+Playwright adalah pustaka otomasi \textit{browser} modern yang dikembangkan oleh Microsoft untuk mengendalikan mesin \textit{browser} Chromium melalui kode program. Dalam penelitian ini, pustaka Playwright Core digunakan oleh \textit{server} \textit{backend} untuk membuka halaman pencarian Google secara otomatis, menunggu komponen dinamis Google AI Overview (Ringkasan AI) selesai dimuat oleh JavaScript, serta mengekstraksi teks ringkasan beserta tautan artikel rujukannya secara akurat.
 
 \subsection{Draw.io (\textit{diagrams.net})}
 
-Draw.io (\textit{diagrams.net}) adalah perangkat lunak pemodelan diagram berbasis \textit{web} yang digunakan dalam penelitian ini untuk merancang seluruh diagram teknis secara terstruktur dan terstandar, meliputi diagram alur metodologi penelitian, diagram arsitektur komunikasi sistem, diagram alur \textit{system engineering}, diagram tahapan \textit{system analysis}, tahapan metode \textit{Waterfall}, serta diagram-diagram UML.
+Draw.io (\textit{diagrams.net}) adalah perangkat lunak pembuat diagram yang menyediakan pustaka bentuk (\textit{shape}) UML dan UML 2.5 sehingga semua jenis diagram UML dapat digambar~[41]. Dalam penelitian ini, perangkat lunak tersebut digunakan untuk merancang diagram arsitektur komunikasi sistem, tahapan metode \textit{Waterfall}, serta diagram-diagram UML.
 
 \section{\textit{State of the Art}}
 
@@ -668,13 +599,13 @@ Rincian penelitian terdahulu yang dijadikan acuan dalam penelitian ini, sebagaim
   \normalsize
   \begin{tabular}{|L{119.5pt}|L{251.5pt}|}
     \hline
-    \textbf{Judul Jurnal} & Sistem Deteksi Berita Hoaks Berbasis Algoritma \textit{Natural Language Processing} (NLP) Menggunakan BERT \\ \hline
-    \textbf{Penulis} & Azura Fardhina, Ramadhan Mustaqim Siregar, Mika Ria Waty Br Sibarani, Irsya Chlara Br Ginting, Andre Pratama \\ \hline
+    \textbf{Judul Jurnal} & \raggedright\arraybackslash Sistem Deteksi Berita Hoaks Berbasis Algoritma \textit{Natural Language Processing} (NLP) Menggunakan BERT \\ \hline
+    \textbf{Penulis} & \raggedright\arraybackslash Azura Fardhina, Ramadhan Mustaqim Siregar, Mika Ria Waty Br Sibarani, Irsya Chlara Br Ginting, Andre Pratama \\ \hline
     \textbf{Tahun Terbit} & 2025 \\ \hline
     \textbf{Masalah Utama} & Rendahnya literasi digital membuat masyarakat Indonesia rentan mempercayai berita \textit{hoax} yang menyebar cepat di media daring, sedangkan pendekatan sebelumnya seperti \textit{K-Nearest Neighbor} (KNN) berbasis representasi TF-IDF masih terbatas dalam menangkap relasi semantik antarkata. \\ \hline
     \textbf{Tujuan} & Membangun dan mengevaluasi model deteksi berita \textit{hoax} berbahasa Indonesia menggunakan algoritma \textit{Bidirectional Encoder Representations from Transformers} (BERT) guna meningkatkan ketepatan klasifikasi teks. \\ \hline
     \textbf{Metode} & \textit{Natural Language Processing} (NLP) dengan model \textit{pre-trained} BERT (\textit{bert-base-uncased}) yang dilatih ulang (\textit{fine-tuning}) selama 4 \textit{epoch} menggunakan \textit{optimizer} AdamW pada \textit{dataset} Kaggle berjumlah 730 artikel berita (425 \textit{hoax} dan 305 non-\textit{hoax}) dengan rasio data latih dan uji 80:20. \\ \hline
-    \textbf{Hasil dan Pembahasan} & Pada evaluasi dengan \textit{confusion matrix} terhadap 146 data uji, model BERT mencapai akurasi 98\% (0,9863) dengan nilai presisi, \textit{recall}, dan \textit{F1-score} sebesar 0,98 pada kelas \textit{hoax} dan 0,96 pada kelas non-\textit{hoax}, melampaui akurasi KNN sebesar 93,33\% pada penelitian pembanding. \\ \hline
+    \textbf{Hasil dan Pembahasan} & Evaluasi \textit{confusion matrix} pada 146 data uji menghasilkan akurasi model BERT sebesar akurasi 98\% (0,9863) dengan nilai presisi, \textit{recall}, dan \textit{F1-score} sebesar 0,98 pada kelas \textit{hoax} dan 0,96 pada kelas non-\textit{hoax}, melampaui akurasi KNN sebesar 93,33\% pada penelitian pembanding. \\ \hline
     \textbf{Kesimpulan} & Algoritma BERT efektif memahami konteks semantik teks berita berbahasa Indonesia dan menghasilkan kinerja klasifikasi \textit{hoax} yang sangat akurat pada pengujian data statis, serta fungsi prediksinya dapat diintegrasikan ke dalam antarmuka pengguna. \\ \hline
   \end{tabular}
   \end{spacing}
@@ -689,10 +620,10 @@ Rincian penelitian terdahulu yang dijadikan acuan dalam penelitian ini, sebagaim
   \normalsize
   \begin{tabular}{|L{119.5pt}|L{251.5pt}|}
     \hline
-    \textbf{Judul Jurnal} & \textit{Automated Fact-Checking to Support Professional Practices: Systematic Literature Review and Meta-Analysis} \\ \hline
-    \textbf{Penulis} & Laurence Dierickx, Carl-Gustav Lind\'{e}n, Andreas Lothe Opdahl \\ \hline
+    \textbf{Judul Jurnal} & \raggedright\arraybackslash \textit{Automated Fact-Checking to Support Professional Practices: Systematic Literature Review and Meta-Analysis} \\ \hline
+    \textbf{Penulis} & \raggedright\arraybackslash Laurence Dierickx, Carl-Gustav Lind\'{e}n, Andreas Lothe Opdahl \\ \hline
     \textbf{Tahun Terbit} & 2023 \\ \hline
-    \textbf{Masalah Utama} & Pemeriksaan fakta secara manual merupakan proses yang memakan banyak waktu, sementara riset \textit{automated fact-checking} (AFC) didominasi bidang ilmu komputer (80,90\% dari kumpulan publikasi) yang berfokus pada solusi teknologi dan kurang memperhatikan kebutuhan praktis pemeriksa fakta sebagai pengguna akhir. \\ \hline
+    \textbf{Masalah Utama} & Pemeriksaan fakta secara manual merupakan proses yang memakan banyak waktu, sementara riset \textit{automated fact-checking} (AFC) didominasi bidang ilmu komputer (80,90\% dari kumpulan publikasi) yang berfokus pada teknologi dan kurang memperhatikan kebutuhan praktis pemeriksa fakta sebagai pengguna akhir. \\ \hline
     \textbf{Tujuan} & Menyajikan kajian \textit{state of the art} yang bersifat lintas bidang ilmu mengenai AFC dari sudut pandang jurnalistik serta mengidentifikasi bagaimana alat AFC terhubung dengan pengguna akhirnya. \\ \hline
     \textbf{Metode} & \textit{Systematic Literature Review} (SLR) mengikuti pedoman PRISMA dan meta-analisis terhadap kumpulan publikasi ilmiah pemeriksaan fakta otomatis. \\ \hline
     \textbf{Hasil dan Pembahasan} & Sebanyak 92 artikel (35,20\% dari kumpulan publikasi) menggunakan \textit{F1-score} sebagai ukuran kinerja dengan rentang nilai 5\% hingga 99,6\%, namun metrik tersebut dinilai sebagai ukuran yang kurang kuat. Transparansi dan kemampuan hasil dijelaskan (\textit{explainability}) menjadi syarat penting agar alat AFC dipercaya oleh penggunanya. \\ \hline
@@ -710,14 +641,14 @@ Rincian penelitian terdahulu yang dijadikan acuan dalam penelitian ini, sebagaim
   \normalsize
   \begin{tabular}{|L{119.5pt}|L{251.5pt}|}
     \hline
-    \textbf{Judul Jurnal} & Penerapan \textit{Convolutional Long Short-Term Memory} untuk Klasifikasi Teks Berita Bahasa Indonesia \\ \hline
-    \textbf{Penulis} & Yudi Widhiyasana, Transmissia Semiawan, Ilham Gibran Achmad Mudzakir, Muhammad Randi Noor \\ \hline
+    \textbf{Judul Jurnal} & \raggedright\arraybackslash Penerapan \textit{Convolutional Long Short-Term Memory} untuk Klasifikasi Teks Berita Bahasa Indonesia \\ \hline
+    \textbf{Penulis} & \raggedright\arraybackslash Yudi Widhiyasana, Transmissia Semiawan, Ilham Gibran Achmad Mudzakir, Muhammad Randi Noor \\ \hline
     \textbf{Tahun Terbit} & 2021 \\ \hline
     \textbf{Masalah Utama} & Klasifikasi teks berita berbahasa Indonesia umumnya menggunakan satu metode \textit{deep learning} saja, yaitu \textit{Convolutional Neural Network} (CNN) atau \textit{Long Short-Term Memory} (LSTM), yang masing-masing memiliki keterbatasan dalam menangkap fitur lokal dan keterkaitan konteks di dalam dokumen. \\ \hline
     \textbf{Tujuan} & Menganalisis penerapan kombinasi CNN dan LSTM (C-LSTM) untuk mengklasifikasikan teks berita berbahasa Indonesia. \\ \hline
     \textbf{Metode} & Arsitektur gabungan \textit{Convolutional Long Short-Term Memory} (C-LSTM) pada 5.000 dokumen berita dari portal Detik, Suara, CNN Indonesia, Tribun, Tempo, dan Kompas yang dikelompokkan ke dalam tiga kategori (Nasional, Internasional, dan Regional), dengan variabel uji jumlah dokumen, ukuran \textit{batch}, dan \textit{learning rate}. \\ \hline
     \textbf{Hasil dan Pembahasan} & Model C-LSTM menghasilkan nilai \textit{F1-score} sebesar 93,27\%, mengungguli CNN tunggal (89,85\%) maupun LSTM tunggal (90,87\%). Pengaturan ukuran \textit{batch} 16 dan \textit{learning rate} 0,001 memberikan dampak positif terhadap kinerja C-LSTM. \\ \hline
-    \textbf{Kesimpulan} & Kombinasi dua metode \textit{deep learning} CNN dan LSTM menjadi C-LSTM memiliki kinerja yang lebih baik daripada kedua metode pendahulunya dalam mengklasifikasikan teks berita berbahasa Indonesia. \\ \hline
+    \textbf{Kesimpulan} & Penggabungan CNN dan LSTM, dua metode \textit{deep learning}, menjadi C-LSTM memiliki kinerja yang lebih baik daripada kedua metode pendahulunya dalam mengklasifikasikan teks berita berbahasa Indonesia. \\ \hline
   \end{tabular}
   \end{spacing}
 \end{table}
@@ -731,14 +662,14 @@ Rincian penelitian terdahulu yang dijadikan acuan dalam penelitian ini, sebagaim
   \normalsize
   \begin{tabular}{|L{119.5pt}|L{251.5pt}|}
     \hline
-    \textbf{Judul Jurnal} & \textit{Browser Extension for Fake URL Detection} \\ \hline
-    \textbf{Penulis} & Latesh G. Malik, Rohini Shambharkar, Shivam Morey, Shubhlak Kanpate, Vedika Raut \\ \hline
+    \textbf{Judul Jurnal} & \raggedright\arraybackslash \textit{Browser Extension for Fake URL Detection} \\ \hline
+    \textbf{Penulis} & \raggedright\arraybackslash Latesh G. Malik, Rohini Shambharkar, Shivam Morey, Shubhlak Kanpate, Vedika Raut \\ \hline
     \textbf{Tahun Terbit} & 2024 \\ \hline
     \textbf{Masalah Utama} & Serangan siber seperti situs palsu (\textit{phishing}), surel \textit{spam}, dan kerentanan jaringan terus meningkat, sedangkan pengguna internet kesulitan mengikuti perkembangan teknologi sehingga rentan menjadi korban. \\ \hline
-    \textbf{Tujuan} & Membangun ekstensi \textit{browser} berbasis \textit{machine learning} yang mengintegrasikan tiga fungsi keamanan, yaitu deteksi URL berbahaya, deteksi surel \textit{spam}, dan analisis log jaringan (\textit{network logs}). \\ \hline
-    \textbf{Metode} & Ekstensi \textit{browser} (HTML, CSS, dan JavaScript) terhubung dengan \textit{server} \textit{backend} FastAPI melalui \textit{endpoint} GET dan POST. Model \textit{Light Gradient Boosting Machine} (LGBM) dilatih dengan 87 fitur untuk deteksi URL \textit{phishing}, model \textit{Multinomial Naive Bayes} dilatih dengan lebih dari 5.500 pesan untuk deteksi \textit{spam}, dan log jaringan dipantau melalui \textit{webRequest API}. \\ \hline
-    \textbf{Hasil dan Pembahasan} & Model LGBM mencapai akurasi 96,5\%, presisi 96,8\%, dan \textit{F1-score} 96,49\% pada deteksi URL \textit{phishing}, sedangkan model \textit{Multinomial Naive Bayes} mencapai akurasi 97,09\% dengan presisi 100\% pada deteksi \textit{spam}. \\ \hline
-    \textbf{Kesimpulan} & Penempatan model \textit{machine learning} pada sisi \textit{server} agar tidak membebani kinerja ekstensi maupun \textit{browser} terbukti efektif menghadirkan perlindungan keamanan secara \textit{real-time} kepada pengguna saat menjelajah \textit{web}. \\ \hline
+    \textbf{Tujuan} & Membuat ekstensi \textit{browser} dengan tiga fungsi keamanan berbasis \textit{machine learning}, yaitu deteksi URL berbahaya, deteksi surel \textit{spam}, dan analisis log jaringan (\textit{network logs}). \\ \hline
+    \textbf{Metode} & Ekstensi \textit{browser} (HTML, CSS, dan JavaScript) terhubung ke \textit{server} \textit{backend} FastAPI melalui \textit{endpoint} GET dan POST. \textit{Light Gradient Boosting Machine} (LGBM) dilatih dengan 87 fitur untuk deteksi URL \textit{phishing}, model \textit{Multinomial Naive Bayes} dilatih dengan lebih dari 5.500 pesan untuk deteksi \textit{spam}, dan log jaringan dipantau melalui \textit{webRequest API}. \\ \hline
+    \textbf{Hasil dan Pembahasan} & LGBM mencapai akurasi 96,5\%, presisi 96,8\%, dan \textit{F1-score} 96,49\% pada deteksi URL \textit{phishing}, sedangkan \textit{Multinomial Naive Bayes} mencapai akurasi 97,09\% dengan presisi 100\% pada deteksi \textit{spam}. \\ \hline
+    \textbf{Kesimpulan} & Model \textit{machine learning} yang ditempatkan pada sisi \textit{server}, agar kinerja ekstensi maupun \textit{browser} tidak terbebani, terbukti efektif memberikan perlindungan keamanan secara \textit{real-time} kepada pengguna saat menjelajah \textit{web}. \\ \hline
   \end{tabular}
   \end{spacing}
 \end{table}
@@ -756,7 +687,7 @@ Berdasarkan keempat tabel \textit{literature review} di atas, ringkasan tujuan, 
 \hyphenpenalty=300
 \exhyphenpenalty=300
 \begin{spacing}{1.0}
-\begin{longtable}{|L{3.3cm}|L{3.3cm}|L{4.2cm}|L{3.6cm}|L{6.7cm}|}
+\begin{longtable}{|R{2.9cm}|R{2.9cm}|R{3.8cm}|R{3.3cm}|L{8.2cm}|}
   \caption{Perbandingan \textit{Literature Review}}\label{tab:perbandingan_lr}\\
   \hline
   \centering\textbf{Nama Penulis, Tahun dan Judul Jurnal} & \centering\textbf{Tujuan Jurnal} & \centering\textbf{Inti Dari Jurnal} & \centering\textbf{Hasil Studi} & \centering\arraybackslash\textbf{Persamaan \& Perbedaan dengan Penelitian Skripsi} \\ \hline
@@ -766,23 +697,23 @@ Berdasarkan keempat tabel \textit{literature review} di atas, ringkasan tujuan, 
   \endhead
   Fardhina dkk. (2025), ``Sistem Deteksi Berita Hoaks Berbasis Algoritma \textit{Natural Language Processing} (NLP) Menggunakan BERT'' &
   Membangun model deteksi berita \textit{hoax} berbahasa Indonesia menggunakan BERT untuk meningkatkan ketepatan klasifikasi teks. &
-  \textit{Fine-tuning} model \textit{bert-base-uncased} pada 730 artikel berita Kaggle (425 \textit{hoax} dan 305 non-\textit{hoax}) dengan rasio data latih dan uji 80:20, lalu dievaluasi menggunakan \textit{confusion matrix}. &
-  Akurasi 98\% pada 146 data uji dengan presisi, \textit{recall}, dan \textit{F1-score} 0,98 (kelas \textit{hoax}) dan 0,96 (kelas non-\textit{hoax}), melampaui KNN (93,33\%). &
+  \textit{Fine-tuning} \textit{bert-base-uncased} dengan 730 artikel berita dari Kaggle, yaitu 425 \textit{hoax} dan 305 non-\textit{hoax}, dibagi 80:20 untuk data latih dan uji, lalu dievaluasi dengan \textit{confusion matrix}. &
+  Akurasi 98\% pada 146 data uji, melampaui KNN (93,33\%). Presisi, \textit{recall}, dan \textit{F1-score} bernilai 0,98 pada kelas \textit{hoax} dan 0,96 pada kelas non-\textit{hoax}. &
   Persamaan: sama-sama mendeteksi \textit{hoax} berbahasa Indonesia dan dievaluasi dengan \textit{confusion matrix}. Perbedaan: penelitian tersebut mengandalkan \textit{dataset} statis tanpa integrasi dengan media sosial, sedangkan skripsi ini menelusuri bukti \textit{web} secara \textit{real-time} melalui ekstensi Chrome di Threads beserta tautan rujukannya. \\ \hline
   Dierickx dkk. (2023), ``\textit{Automated Fact-Checking to Support Professional Practices: Systematic Literature Review and Meta-Analysis}'' &
   Menyajikan kajian lintas bidang ilmu AFC dari sudut pandang jurnalistik dan hubungan alat AFC dengan pengguna akhirnya. &
   \textit{Systematic literature review} (PRISMA) dan meta-analisis publikasi \textit{automated fact-checking} (AFC) dengan menekankan kolaborasi manusia dan mesin serta transparansi hasil. &
-  Riset AFC didominasi ilmu komputer (80,90\%); 35,20\% artikel memakai \textit{F1-score}; transparansi dan keandalan hasil menentukan kepercayaan pengguna. &
+  Ilmu komputer mendominasi riset AFC (80,90\%). \textit{F1-score} dipakai di 35,20\% artikel. Transparansi dan keandalan hasil menentukan kepercayaan pengguna. &
   Persamaan: sama-sama berfokus pada pemeriksaan fakta otomatis dan pentingnya bukti yang transparan. Perbedaan: penelitian tersebut bersifat kajian literatur tanpa membangun sistem, sedangkan skripsi ini menerapkan rekomendasinya dalam bentuk ekstensi yang menampilkan alasan dan tautan rujukan langsung di samping unggahan. \\ \hline
   Widhiyasana dkk. (2021), ``Penerapan \textit{Convolutional Long Short-Term Memory} untuk Klasifikasi Teks Berita Bahasa Indonesia'' &
   Menganalisis penerapan kombinasi CNN dan LSTM (C-LSTM) untuk klasifikasi teks berita berbahasa Indonesia. &
   Arsitektur C-LSTM pada 5.000 dokumen berita dari enam portal nasional dalam tiga kategori (Nasional, Internasional, dan Regional). &
   C-LSTM memperoleh \textit{F1-score} 93,27\%, mengungguli CNN tunggal (89,85\%) dan LSTM tunggal (90,87\%). &
-  Persamaan: sama-sama mengolah teks berita berbahasa Indonesia dengan memperhatikan kata kunci dan konteks kalimat. Perbedaan: penelitian tersebut mengklasifikasikan kategori berita menggunakan model yang dilatih pada data statis, sedangkan skripsi ini memverifikasi kebenaran klaim melalui penelusuran \textit{web} \textit{real-time} dan penyaringan kata kunci konteks. \\ \hline
+  Persamaan: sama-sama mengolah teks berita berbahasa Indonesia dan memperhatikan kata kunci serta konteks kalimat. Perbedaan: penelitian tersebut mengklasifikasikan kategori berita menggunakan model yang dilatih pada data statis, sedangkan skripsi ini memverifikasi kebenaran klaim melalui penelusuran \textit{web} \textit{real-time} dan penyaringan kata kunci konteks. \\ \hline
   Malik dkk. (2024), ``\textit{Browser Extension for Fake URL Detection}'' &
   Membangun ekstensi \textit{browser} untuk mendeteksi URL berbahaya, surel \textit{spam}, dan menganalisis log jaringan. &
-  Arsitektur klien-\textit{server}: ekstensi \textit{browser} terhubung ke \textit{backend} FastAPI yang menjalankan model LGBM dan \textit{Multinomial Naive Bayes}. &
-  LGBM mencapai akurasi 96,5\% (\textit{F1-score} 96,49\%) pada URL \textit{phishing} dan \textit{Multinomial Naive Bayes} mencapai akurasi 97,09\% pada deteksi \textit{spam}. &
+  Arsitektur klien-\textit{server}: ekstensi \textit{browser} terhubung ke \textit{backend} FastAPI untuk menjalankan model LGBM dan \textit{Multinomial Naive Bayes}. &
+  LGBM mencapai akurasi 96,5\% (\textit{F1-score} 96,49\%) pada URL \textit{phishing}, sedangkan \textit{Multinomial Naive Bayes} mencapai akurasi 97,09\% pada deteksi \textit{spam}. &
   Persamaan: sama-sama memakai arsitektur ekstensi \textit{browser} yang terhubung ke \textit{server} \textit{backend} untuk memberikan peringatan \textit{real-time}. Perbedaan: objek penelitian tersebut berupa URL, surel \textit{spam}, dan log jaringan dengan model \textit{machine learning}, sedangkan skripsi ini memeriksa klaim teks unggahan Threads melalui ekstraksi DOM, Google AI Overview, dan Google News RSS. \\ \hline
 \end{longtable}
 \end{spacing}
@@ -800,6 +731,9 @@ Berdasarkan keempat tabel \textit{literature review} di atas, ringkasan tujuan, 
 \chapter*{DAFTAR PUSTAKA}
 
 \begingroup
+% Daftar Pustaka rata kiri: judul/nama berbahasa Inggris dan URL panjang tidak boleh dipenggal,
+% sehingga rata kanan-kiri menimbulkan celah antarkata yang lebar.
+\raggedright
 \begin{spacing}{1.0}
 \begin{enumerate}[label={[\arabic*]},leftmargin=0.9cm,itemsep=5pt,topsep=2pt]
   \item A. Fardhina, R. M. Siregar, M. R. W. Br Sibarani, I. C. Br Ginting, and A. Pratama, ``Sistem deteksi berita hoaks berbasis algoritma Natural Language Processing (NLP) menggunakan BERT,'' \textit{JUMISTIK}, vol. 4, no. 1, pp. 450--461, Jun. 2025, doi: 10.70247/jumistik.v4i1.156.
@@ -818,9 +752,72 @@ Berdasarkan keempat tabel \textit{literature review} di atas, ringkasan tujuan, 
 
   \item Meta Open Source, ``React Documentation: Describing the UI and Components,'' React. Accessed: Oct. 30, 2026. [Online]. Available: \url{https://react.dev/learn}
 
-  \item R. S. Pressman and B. R. Maxim, \textit{Software Engineering: A Practitioner's Approach}, 9th ed. New York, NY, USA: McGraw-Hill, 2020.
+  \item L. Zemmouchi-Ghomari, ``Basic concepts of information systems,'' in \textit{Contemporary Issues in Information Systems---A Global Perspective}. London, U.K.: IntechOpen, 2021, ch. 1, doi: 10.5772/intechopen.97644.
+
+  \item D. Rahmawan, I. Garnesia, and R. Hartanto, ``Checking the fact-checkers: Analyzing the content of fact-checking organizations as initiatives for hoax eradication in Indonesia,'' \textit{Jurnal ASPIKOM}, vol. 8, no. 2, pp. 241--256, 2023, doi: 10.24329/aspikom.v8i2.1267.
+
+  \item A. A. Rosyidah, F. Fajriyah, E. A. Galuh, and D. S. Ulfa, ``Exploring misinformation and disinformation towards 2024 election: Patterns and policy recommendations,'' \textit{Profetik: Jurnal Komunikasi}, vol. 17, no. 2, pp. 269--290, Oct. 2024, doi: 10.14421/pjk.v17i2.2973.
+
+  \item Y. Sibaroni, S. bin Mahadzir, S. S. Prasetiyowati, and A. F. Ihsan, ``Combating misinformation: Leveraging deep learning for hoax detection in Indonesian political social media,'' \textit{Jurnal Infotel}, vol. 16, no. 2, pp. 413--426, May 2024, doi: 10.20895/infotel.v16i2.1139.
+
+  \item A. P. Rifai \textit{et al.}, ``Detection model for fake news on COVID-19 in Indonesia,'' \textit{ASEAN Engineering Journal}, vol. 13, no. 4, pp. 119--126, 2023, doi: 10.11113/aej.V13.19648.
+
+  \item I. K. El Mikati \textit{et al.}, ``Defining misinformation and related terms in health-related literature: Scoping review,'' \textit{Journal of Medical Internet Research}, vol. 25, Art. no. e45731, 2023, doi: 10.2196/45731.
+
+  \item J. Zeng and S. B. Brennen, ``Misinformation,'' \textit{Internet Policy Review}, vol. 12, no. 4, Nov. 2023, doi: 10.14763/2023.4.1725.
+
+  \item M. P\'{e}rez-Escolar, D. Lilleker, and A. Tapia-Frade, ``A systematic literature review of the phenomenon of disinformation and misinformation,'' \textit{Media and Communication}, vol. 11, no. 2, pp. 76--87, Apr. 2023, doi: 10.17645/mac.v11i2.6453.
+
+  \item A. Kamal, M. Abulaish, and Jahiruddin, ``Contextualized satire detection in short texts using deep learning techniques,'' \textit{Journal of Web Engineering}, vol. 23, no. 1, pp. 27--52, Mar. 2024, doi: 10.13052/jwe1540-9589.2312.
+
+  \item P. Zhang, Y. He, E.-U. Haq, J. He, and G. Tyson, ``The emergence of Threads: The birth of a new social network,'' arXiv:2406.19277 [cs.SI], Jun. 2024.
+
+  \item WHATWG, ``DOM Standard,'' Living Standard. Accessed: Nov. 13, 2026. [Online]. Available: \url{https://dom.spec.whatwg.org/}
+
+  \item N. Pantelaios and A. Kapravelos, ``Work-in-progress: Manifest V3 unveiled: Navigating the new era of browser extensions,'' in \textit{Proc. Workshop on Measurements, Attacks, and Defenses for the Web (MADWeb)}, San Diego, CA, USA, Mar. 2024, doi: 10.14722/madweb.2024.23080.
+
+  \item V. Azkarin, R. G. Guntara, and O. Herdiana, ``Development of a REST API for Human Resource Information System for employee referral management domain using the Express JS framework and Node.js,'' \textit{JSRET (Journal of Scientific, Research, Education, and Technology)}, vol. 2, no. 3, pp. 1085--1094, 2023.
+
+  \item B. Bachina, ``Efficient RESTful API development with NodeJS, Express, and PostgreSQL,'' \textit{European Journal of Advances in Engineering and Technology}, vol. 10, no. 6, pp. 26--37, 2023.
+
+  \item Unicode Consortium, ``Unicode Standard Annex \#15: Unicode normalization forms.'' Accessed: Nov. 13, 2026. [Online]. Available: \url{https://unicode.org/reports/tr15/}
+
+  \item J. Chen, G. Kim, A. Sriram, G. Durrett, and E. Choi, ``Complex claim verification with evidence retrieved in the wild,'' arXiv:2305.11859 [cs.CL], 2023.
+
+  \item Z. Ji \textit{et al.}, ``Survey of hallucination in natural language generation,'' arXiv:2202.03629 [cs.CL], 2022.
+
+  \item S. S. Rahman \textit{et al.}, ``Hallucination to truth: A review of fact-checking and factuality evaluation in large language models,'' arXiv:2508.03860 [cs.CL], Sep. 2025.
+
+  \item A. Saravanos and M. X. Curinga, ``Simulating the software development lifecycle: The waterfall model,'' \textit{Applied System Innovation}, vol. 6, no. 6, Art. no. 108, Nov. 2023, doi: 10.3390/asi6060108.
+
+  \item F. Andriani and Nurfaizah, ``Pembangunan website e-commerce pada Toko Beads Accessories dengan metode waterfall,'' \textit{Journal of Manufacturing and Enterprise Information System}, vol. 3, no. 1, pp. 41--52, Apr. 2025, doi: 10.52330/jmeis.v3i1.381.
+
+  \item Z. M. Alshamaa and N. N. Saleem, ``Black box software testing techniques: A literature review,'' \textit{Passer Journal of Basic and Applied Sciences}, vol. 7, no. 2, pp. 1001--1011, 2025.
+
+  \item F. I. Pratama, E. M. N. Subroto, R. M. Haira, and M. A. Yaqin, ``Pengujian black box pada aplikasi e-commerce OpenCart dengan metode equivalence partitioning dan boundary value analysis,'' \textit{Jurnal Ilmiah Informatika}, vol. 8, no. 1, pp. 54--64, Jun. 2023, doi: 10.35316/jimi.v8i1.54-64.
+
+  \item R. Q. Putra and R. A. Saputra, ``Classification of hoax news using the Na\"{\i}ve Bayes method,'' \textit{International Journal Software Engineering and Computer Science (IJSECS)}, vol. 4, no. 1, pp. 40--48, Apr. 2024, doi: 10.35870/ijsecs.v4i1.2068.
 
   \item M. Fowler and K. Scott, \textit{UML Distilled: A Brief Guide to the Standard Object Modeling Language}, 2nd ed. Reading, MA, USA: Addison-Wesley, 2000.
+
+  \item M. R. Wayahdi and F. Ruziq, ``Pemodelan sistem penerimaan anggota baru dengan Unified Modeling Language (UML) (studi kasus: Programmer Association of Battuta),'' \textit{Jurnal Minfo Polgan}, vol. 12, no. 1, pp. 1514--1521, Aug. 2023, doi: 10.33395/jmp.v12i1.12870.
+
+  \item S. Narulita, A. Nugroho, and M. Z. Abdillah, ``Diagram Unified Modelling Language (UML) untuk perancangan sistem informasi manajemen penelitian dan pengabdian masyarakat (SIMLITABMAS),'' \textit{BRIDGE: Jurnal Publikasi Sistem Informasi dan Telekomunikasi}, vol. 2, no. 3, pp. 244--256, Aug. 2024, doi: 10.62951/bridge.v2i3.174.
+
+  \item A. J. Marpaung and K. Handoko, ``Sistem pakar untuk diagnosa kerusakan komputer menggunakan metode forward chaining dan certainty factor berbasis web,'' \textit{Jurnal COMASIE}, vol. 9, no. 6, pp. 780--789, 2023.
+
+  \item S. W. Ramdany, S. A. Kaidar, B. Aguchino, C. A. A. Putri, and R. Anggie, ``Penerapan UML class diagram dalam perancangan sistem informasi perpustakaan berbasis web,'' \textit{Journal of Industrial and Engineering System (JIES)}, vol. 5, no. 1, pp. 30--41, Jun. 2024.
+
+  \item Google, ``Getting started with Google Antigravity,'' Google Codelabs. Accessed: Nov. 14, 2026. [Online]. Available: \url{https://codelabs.developers.google.com/getting-started-google-antigravity}
+
+  \item J. Bogner and M. Merkel, ``To type or not to type? A systematic comparison of the software quality of JavaScript and TypeScript applications on GitHub,'' in \textit{Proc. 19th Int. Conf. Mining Software Repositories (MSR)}, Pittsburgh, PA, USA, May 2022, arXiv:2203.11115.
+
+  \item Vite, ``Getting started,'' Vite Documentation. Accessed: Nov. 14, 2026. [Online]. Available: \url{https://vite.dev/guide/}
+
+  \item T. A. Nguyen, ``A comparative analysis of Webpack and Vite as build tools for JavaScript,'' B.Sc. thesis, Business Inf. Technol., Haaga-Helia Univ. Appl. Sci., 2024. [Online]. Available: \url{https://www.theseus.fi/handle/10024/877513}
+
+  \item JGraph, ``An introduction to UML diagrams,'' draw.io Documentation. Accessed: Nov. 14, 2026. [Online]. Available: \url{https://www.drawio.com/docs/diagram-types/uml/}
+
 \end{enumerate}
 \end{spacing}
 \endgroup
