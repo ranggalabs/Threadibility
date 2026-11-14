@@ -202,7 +202,7 @@ for pno, page in enumerate(d):
     # akhir bab, halaman landscape, serta tabel/gambar setinggi satu halaman (Pedoman 6.3 dan 6.7) boleh didahului ruang kosong
     # (halaman berikutnya berisi gambar setinggi > 350 pt di awalnya juga dihitung, mis. judul subbab + Gambar 1.1)
     tall_fig = any(pymupdf.Rect(x['bbox']).height > 350 and pymupdf.Rect(x['bbox']).y0 < 250 for x in nxt.get_image_info())
-    if low < 520 and not tall_fig and not nxt.rotation and not re.match(r'\s*(\d+\s*)?(BAB \d|DAFTAR PUSTAKA|Tabel \d|Gambar \d)', nxt_head):
+    if low < 520 and not tall_fig and not nxt.rotation and not re.match(r'\s*(\d+\s*)?(BAB \d|DAFTAR PUSTAKA|DAFTAR SIMBOL|[A-D]\. Simbol|Tabel \d|Gambar \d)', nxt_head):
         gaps.append((pno - 4, int(low)))
 if fig_issues:
     for t in fig_issues:
@@ -289,7 +289,41 @@ for m, pg, txt in cell_bad[:10]:
 if cell_bad:
     print('  (sel yang berisi nama/judul asing atau kolom < ~4 cm: rata kiri; lihat AGENTS.md bagian 3)')
 
+
+# --- GARIS TABEL (AGENTS.md bagian 14): 0,5 pt, hitam, tidak digambar dobel ---
+print('\n[GARIS TABEL]')
+line_bad = []
+n_h = 0
+for pno, page in enumerate(d):
+    seen = {}
+    for dr in page.get_drawings():
+        if dr['type'] != 's' or not dr.get('width'):
+            continue
+        for it in dr['items']:
+            if it[0] != 'l':
+                continue
+            a, b = it[1], it[2]
+            ln = max(abs(a.x - b.x), abs(a.y - b.y))
+            horiz = abs(a.y - b.y) < 0.05
+            vert = abs(a.x - b.x) < 0.05
+            if ln < 60 or not (horiz or vert):
+                continue
+            n_h += 1
+            key = (round(a.x, 1), round(a.y, 1), round(b.x, 1), round(b.y, 1))
+            seen[key] = seen.get(key, 0) + 1
+            col = tuple(dr.get('color') or (0, 0, 0))
+            if abs(dr['width'] - 0.5) > 0.03 or max(col) > 0.01:
+                line_bad.append((pno + 1, 'tebal/warna', round(dr['width'], 2), col))
+    for key, v in seen.items():
+        if v > 1 and abs(key[1] - key[3]) < 0.05:
+            line_bad.append((pno + 1, 'garis dobel', key, v))
+print(f'  {n_h} garis panjang diperiksa (tebal 0,5 pt, hitam, tanpa gambar dobel)')
+for t in line_bad[:10]:
+    print('    hal', t)
+
 problems = []
+if line_bad:
+    problems.append(f'{len(line_bad)} garis tabel tidak seragam')
 if cell_bad:
     problems.append(f'{len(cell_bad)} baris tabel dengan celah rata-rata > {THR} pt')
 if fig_issues:
