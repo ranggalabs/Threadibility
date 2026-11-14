@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         verifiedCount++;
         verdictBanner.className = 'verdict-tag verified';
-        verdictBanner.textContent = 'Terverifikasi benar';
+        verdictBanner.textContent = 'Tidak terindikasi hoaks';
         confBar.className = 'meter-fill verified';
       }
 
@@ -412,11 +412,11 @@ document.addEventListener('DOMContentLoaded', () => {
         consensusDesc.textContent = 'GPT-5.2, Gemini 3.1 Pro, dan Claude Sonnet 4.6 memberikan vonis yang konsisten.';
       } else if (verifiedCount === totalValid) {
         consensusBadge.textContent = 'Sepakat bulat';
-        consensusTitle.textContent = `Ketiga model mengklasifikasikan postingan ini sebagai TERVERIFIKASI (${verifiedCount}/${totalValid})`;
+        consensusTitle.textContent = `Ketiga model mengklasifikasikan postingan ini sebagai TIDAK TERINDIKASI HOAKS (${verifiedCount}/${totalValid})`;
         consensusDesc.textContent = 'Tidak ditemukan indikasi disinformasi oleh ketiga model evaluasi.';
       } else {
         consensusBadge.textContent = 'Divergensi';
-        consensusTitle.textContent = `Terdapat perbedaan vonis: ${hoaxCount} menilai hoaks, ${verifiedCount} menilai terverifikasi`;
+        consensusTitle.textContent = `Terdapat perbedaan vonis: ${hoaxCount} menilai hoaks, ${verifiedCount} menilai tidak terindikasi`;
         consensusDesc.textContent = 'Perbedaan perspektif analisis ini dapat dicatat sebagai temuan komparasi pada pembahasan skripsi.';
       }
     }
@@ -485,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </td>
             <td>
               <span class="badge-row ${isHoax ? 'hoax' : 'verified'}">
-                ${isHoax ? 'Hoaks' : 'Terverifikasi'}
+                ${isHoax ? 'Hoaks' : 'Tidak terindikasi'}
               </span>
             </td>
             <td style="font-family: var(--font-mono);">${conf}%</td>

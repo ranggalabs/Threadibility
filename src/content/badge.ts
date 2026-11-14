@@ -57,22 +57,18 @@ export function injectLoadingBadge(container: HTMLElement) {
 
   const badge = document.createElement('span')
   badge.className = 'tb-badge'
-  badge.textContent = '🔍 Menganalisis...'
+  badge.textContent = 'Menganalisis...'
 
-  // Inline styling for loading badge to prevent editing badge.css
-  badge.style.backgroundColor = 'rgba(70, 238, 221, 0.15)'
-  badge.style.color = '#46eedd'
-  badge.style.border = '1px solid rgba(70, 238, 221, 0.3)'
-  badge.style.textTransform = 'none'
+  badge.classList.add('tb-badge-loading')
 
   badgeContainer.appendChild(badge)
   insertBadgeIntoDom(container, target, badgeContainer)
 }
 
 /**
- * Injects a temporary error badge with text "⚠️ Gagal, coba lagi" that disappears after 3 seconds.
+ * Injects a temporary error badge with text "Gagal, coba lagi" that disappears after 3 seconds.
  */
-export function injectErrorBadge(container: HTMLElement, errorText = '⚠️ Gagal, coba lagi') {
+export function injectErrorBadge(container: HTMLElement, errorText = 'Gagal, coba lagi') {
   console.log('[Threadibility] injectErrorBadge called. container exists:', !!container, 'errorText:', errorText)
   const existingBadge = container.querySelector('.tb-badge-container')
   if (existingBadge) {
@@ -89,11 +85,7 @@ export function injectErrorBadge(container: HTMLElement, errorText = '⚠️ Gag
   badge.className = 'tb-badge'
   badge.textContent = errorText
 
-  // Inline styling for error badge to prevent editing badge.css
-  badge.style.backgroundColor = 'rgba(255, 180, 171, 0.15)'
-  badge.style.color = '#ffb4ab'
-  badge.style.border = '1px solid rgba(255, 180, 171, 0.3)'
-  badge.style.textTransform = 'none'
+  badge.classList.add('tb-badge-error')
 
   badgeContainer.appendChild(badge)
   insertBadgeIntoDom(container, target, badgeContainer)
@@ -113,7 +105,7 @@ function escapeHtml(s: string): string {
 }
 
 /**
- * Injects a verification badge (Hoax or Verified) next to the Threads username
+ * Injects a verification badge (Hoax atau Tidak terindikasi) next to the Threads username
  * and attaches a custom detailed tooltip explaining the reason and sources.
  */
 export function injectBadge(container: HTMLElement, analysis: AnalysisResult) {
@@ -136,7 +128,7 @@ export function injectBadge(container: HTMLElement, analysis: AnalysisResult) {
   const badge = document.createElement('span')
   const isHoax = analysis.indikasiHoax
   badge.className = `tb-badge ${isHoax ? 'tb-badge-hoax' : 'tb-badge-verified'}`
-  badge.textContent = isHoax ? 'Hoax' : 'Verified'
+  badge.textContent = isHoax ? 'Terindikasi hoax' : 'Tidak terindikasi'
 
   // 4. Create the tooltip element
   const tooltip = document.createElement('div')
@@ -145,13 +137,13 @@ export function injectBadge(container: HTMLElement, analysis: AnalysisResult) {
   // Build fact-checking references if available
   const sourcesHtml = analysis.factCheckSources && analysis.factCheckSources.length > 0
     ? `<div class="tb-tooltip-sources">
-         <strong>Rujukan Cek Fakta:</strong>
+         <strong>Rujukan cek fakta</strong>
          <ul>
            ${analysis.factCheckSources
              .map(
                (src) => `
              <li>
-               <a href="${src.sourceUrl}" target="_blank" rel="noopener noreferrer">
+               <a href="${escapeHtml(src.sourceUrl)}" target="_blank" rel="noopener noreferrer">
                                    ${src.title ? `<span class="tb-source-title">${escapeHtml(src.title)}</span>` : ''}
                   <span class="tb-source-meta">${escapeHtml(src.publisher)}${src.reviewDate ? ` · ${escapeHtml(String(src.reviewDate))}` : ''}</span>
                   <span class="tb-badge-verdict">${escapeHtml(src.verdict)}</span>
@@ -167,14 +159,14 @@ export function injectBadge(container: HTMLElement, analysis: AnalysisResult) {
   tooltip.innerHTML = `
     <div class="tb-tooltip-header">
       <span class="tb-tooltip-logo">T</span>
-      <span class="tb-tooltip-title">Threadibility Analysis</span>
+      <span class="tb-tooltip-title">Hasil Threadibility</span>
     </div>
     <div class="tb-tooltip-body">
       <div class="tb-tooltip-verdict ${isHoax ? 'tb-text-hoax' : 'tb-text-verified'}">
-        <strong>${isHoax ? '⚠️ Terindikasi Hoax' : '✅ Terverifikasi Benar'}</strong>
-        <span class="tb-tooltip-confidence">(${Math.round(analysis.confidence * 100)}% Confidence)</span>
+        <strong>${isHoax ? 'Terindikasi hoax' : 'Tidak ditemukan indikasi hoax'}</strong>
+        <span class="tb-tooltip-confidence">(keyakinan ${Math.round(analysis.confidence * 100)}%)</span>
       </div>
-      <p class="tb-tooltip-reason">${analysis.alasan}</p>
+      <p class="tb-tooltip-reason">${escapeHtml(analysis.alasan)}</p>
       ${sourcesHtml}
     </div>
   `

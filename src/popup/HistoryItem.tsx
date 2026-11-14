@@ -49,7 +49,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ record, isExpanded, onToggleE
       {/* Header Row */}
       <div className="item-header">
         <span className={`status-badge ${isHoax ? 'badge-hoax' : 'badge-verified'}`}>
-          {isHoax ? 'Hoax' : 'Verified'}
+          {isHoax ? 'Terindikasi hoax' : 'Tidak terindikasi'}
         </span>
         <span className="item-time">{getRelativeTime(analyzedAt)}</span>
       </div>
@@ -61,7 +61,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ record, isExpanded, onToggleE
 
       {/* Sub-metadata Line */}
       <p className="item-meta">
-        {post.username || '@unknown'} • {confidencePercent}% confidence
+        {post.username || '@unknown'} • {confidencePercent}% keyakinan
       </p>
 
       {/* Expanded Details Section */}
@@ -77,7 +77,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ record, isExpanded, onToggleE
                 className="view-all-btn"
                 style={{ fontSize: '10px' }}
               >
-                Lihat Post Asli di Threads ↗
+                Lihat postingan asli di Threads
               </a>
             </div>
           )}
@@ -85,7 +85,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ record, isExpanded, onToggleE
           {/* Confidence Slider bar */}
           <div className="confidence-section">
             <div className="confidence-header">
-              <span>Tingkat Keyakinan (Confidence)</span>
+              <span>Tingkat keyakinan</span>
               <span>{confidencePercent}%</span>
             </div>
             <div className="confidence-bar-bg">
@@ -97,14 +97,14 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ record, isExpanded, onToggleE
           </div>
 
           {/* Alasan / Reasoning */}
-          <h4 className="details-label">Alasan Analisis:</h4>
+          <h4 className="details-label">Alasan analisis</h4>
           <p className="details-content">{analysis.alasan || 'Tidak ada alasan rinci.'}</p>
 
           {/* Fact Check Sources */}
           {analysis.factCheckSources && analysis.factCheckSources.length > 0 && (
             <>
               <h4 className="details-label" style={{ marginTop: '8px' }}>
-                Sumber Rujukan Cek Fakta:
+                Sumber rujukan cek fakta
               </h4>
               <ul className="sources-list">
                 {analysis.factCheckSources.map((source, index) => (

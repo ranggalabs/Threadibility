@@ -1,169 +1,260 @@
+/* ==========================================================================
+   Badge dan tooltip Threadibility di halaman Threads - tema claymorphism.
+   Tema (terang/gelap) mengikuti pilihan di popup lewat atribut
+   data-tb-theme pada <html>, diatur oleh content/index.ts.
+   ========================================================================== */
+
+html,
+html[data-tb-theme='dark'] {
+  --tb-bg: #25233a;
+  --tb-surface: #2d2b45;
+  --tb-text: #eeeaf7;
+  --tb-muted: #aaa5c0;
+  --tb-hl: rgba(255, 255, 255, 0.06);
+  --tb-shade: rgba(8, 6, 22, 0.6);
+  --tb-in-hl: rgba(255, 255, 255, 0.07);
+  --tb-in-shade: rgba(8, 6, 22, 0.45);
+  --tb-sky: #34506f;
+  --tb-sky-ink: #a9d4fb;
+  --tb-coral: #6a3a40;
+  --tb-coral-ink: #ffc3ba;
+}
+
+html[data-tb-theme='light'] {
+  --tb-bg: #e8e2dc;
+  --tb-surface: #efe9e3;
+  --tb-text: #3b3541;
+  --tb-muted: #6a6170;
+  --tb-hl: rgba(255, 255, 255, 0.85);
+  --tb-shade: rgba(139, 120, 110, 0.34);
+  --tb-in-hl: rgba(255, 255, 255, 0.7);
+  --tb-in-shade: rgba(150, 128, 115, 0.22);
+  --tb-sky: #bfe0f7;
+  --tb-sky-ink: #1f5f94;
+  --tb-coral: #fbcfc6;
+  --tb-coral-ink: #9b3526;
+}
+
 .tb-badge-container {
   position: relative;
   display: inline-flex;
   align-items: center;
-  margin-left: 6px;
+  margin-left: 8px;
   vertical-align: middle;
   cursor: help;
+  font-family: 'Nunito', ui-rounded, 'Segoe UI', system-ui, sans-serif;
 }
 
 .tb-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 9999px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   display: inline-block;
-  line-height: 1.2;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.25;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background-color: var(--tb-surface);
+  color: var(--tb-text);
+  box-shadow:
+    3px 3px 7px var(--tb-shade),
+    -2px -2px 6px var(--tb-hl),
+    inset -2px -2px 4px var(--tb-in-shade),
+    inset 2px 2px 4px var(--tb-in-hl);
 }
 
 .tb-badge-hoax {
-  background-color: rgba(255, 180, 171, 0.15);
-  color: #ffb4ab;
-  border: 1px solid rgba(255, 180, 171, 0.3);
+  background-color: var(--tb-coral);
+  color: var(--tb-coral-ink);
 }
 
 .tb-badge-verified {
-  background-color: rgba(66, 238, 127, 0.15);
-  color: #42ee7f;
-  border: 1px solid rgba(66, 238, 127, 0.3);
+  background-color: var(--tb-sky);
+  color: var(--tb-sky-ink);
 }
 
-/* Tooltip Card Styling */
+.tb-badge-loading {
+  background-color: var(--tb-surface);
+  color: var(--tb-muted);
+}
+
+.tb-badge-error {
+  background-color: var(--tb-coral);
+  color: var(--tb-coral-ink);
+}
+
+/* ---------- Tooltip ---------- */
 .tb-tooltip {
   position: absolute;
   top: 100%;
   left: 0;
-  margin-top: 8px;
+  margin-top: 10px;
   width: 340px;
-  background-color: #201f1f;
-  color: #e5e2e1;
-  border: 1px solid #3b4a47;
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-  padding: 12px;
+  padding: 16px;
   display: none;
   z-index: 10000;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   text-align: left;
+  border-radius: 26px;
+  background-color: var(--tb-surface);
+  color: var(--tb-text);
+  font-family: 'Nunito', ui-rounded, 'Segoe UI', system-ui, sans-serif;
+  box-shadow:
+    10px 10px 22px var(--tb-shade),
+    -6px -6px 16px var(--tb-hl),
+    inset -3px -3px 7px var(--tb-in-shade),
+    inset 3px 3px 7px var(--tb-in-hl);
 }
 
-.tb-badge-container:hover .tb-tooltip {
+/* jembatan tak terlihat agar tooltip tidak hilang saat kursor melewati celah */
+.tb-tooltip::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -12px;
+  height: 12px;
+}
+
+.tb-badge-container:hover .tb-tooltip,
+.tb-badge-container:focus-within .tb-tooltip {
   display: block;
 }
 
 .tb-tooltip-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  border-bottom: 1px solid #353534;
-  padding-bottom: 6px;
-  margin-bottom: 8px;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
 .tb-tooltip-logo {
-  background-color: #46eedd;
-  color: #00201d;
-  font-weight: 800;
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
+  width: 26px;
+  height: 26px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: 14px;
+  font-weight: 900;
+  background-color: var(--tb-sky);
+  color: var(--tb-sky-ink);
+  box-shadow:
+    2px 2px 5px var(--tb-shade),
+    -2px -2px 4px var(--tb-hl),
+    inset -1px -1px 3px var(--tb-in-shade),
+    inset 1px 1px 3px var(--tb-in-hl);
 }
 
 .tb-tooltip-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: #e5e2e1;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--tb-text);
 }
 
 .tb-tooltip-body {
-  font-size: 11px;
-  line-height: 1.4;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
+/* kotak keputusan menekan ke dalam */
 .tb-tooltip-verdict {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 9px 14px;
+  border-radius: 18px;
+  background-color: var(--tb-bg);
+  box-shadow:
+    inset 3px 3px 7px var(--tb-shade),
+    inset -3px -3px 7px var(--tb-hl);
 }
 
 .tb-text-hoax {
-  color: #ffb4ab;
+  color: var(--tb-coral-ink);
 }
 
 .tb-text-verified {
-  color: #42ee7f;
+  color: var(--tb-sky-ink);
 }
 
 .tb-tooltip-confidence {
-  font-size: 10px;
-  opacity: 0.8;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tb-muted);
 }
 
 .tb-tooltip-reason {
-  color: #bacac6;
-  margin-bottom: 8px;
-  font-size: 11px;
-}
-
-.tb-tooltip-sources {
-  border-top: 1px dashed #353534;
-  padding-top: 6px;
-  margin-top: 6px;
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tb-text);
+  white-space: pre-line;
+  max-height: 220px;
+  overflow-y: auto;
 }
 
 .tb-tooltip-sources strong {
   display: block;
-  margin-bottom: 4px;
-  font-size: 10px;
-  color: #e5e2e1;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--tb-text);
 }
 
 .tb-tooltip-sources ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .tb-tooltip-sources li {
-  margin-bottom: 8px;
+  margin: 0;
 }
 
 .tb-tooltip-sources a {
-  color: #46eedd;
-  text-decoration: none;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
-}
-
-.tb-source-title {
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1.3;
-  color: #46eedd;
-}
-
-.tb-source-meta {
-  font-size: 10px;
-  color: #bacac6;
+  padding: 10px 14px;
+  border-radius: 16px;
+  text-decoration: none;
+  background-color: var(--tb-surface);
+  box-shadow:
+    3px 3px 7px var(--tb-shade),
+    -2px -2px 6px var(--tb-hl),
+    inset -2px -2px 4px var(--tb-in-shade),
+    inset 2px 2px 4px var(--tb-in-hl);
 }
 
 .tb-tooltip-sources a:hover {
-  text-decoration: underline;
+  box-shadow:
+    inset 3px 3px 7px var(--tb-shade),
+    inset -3px -3px 7px var(--tb-hl);
+}
+
+.tb-source-title {
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--tb-sky-ink);
+}
+
+.tb-source-meta {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tb-muted);
 }
 
 .tb-badge-verdict {
-  font-size: 9px;
-  padding: 1px 4px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-  color: #e5e2e1;
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 9px;
+  border-radius: 999px;
+  background-color: var(--tb-bg);
+  color: var(--tb-muted);
 }

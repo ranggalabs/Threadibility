@@ -77,7 +77,7 @@ async function handleAnalysis(tabId: number, tempId: string, post: ExtractedPost
 
     // 5. Update Chrome Action Badge
     const isHoax = analysisResult.indikasiHoax
-    const badgeText = isHoax ? 'HOAX' : 'SAFE'
+    const badgeText = isHoax ? 'HOAX' : '—'
     const badgeColor = isHoax ? '#ffb4ab' : '#42ee7f' // Red/Green accents matching CSS
 
     chrome.action.setBadgeText({ text: badgeText, tabId })

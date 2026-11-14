@@ -2,6 +2,15 @@ import { findPostContainer, extractPostData } from './postExtractor'
 import { injectBadge, injectLoadingBadge, injectErrorBadge } from './badge'
 import { ExtractedPost } from '../shared/types'
 
+// Tema badge/tooltip mengikuti pilihan terang/gelap di popup (default: gelap)
+function applyTheme(isDark: boolean | undefined) {
+  document.documentElement.setAttribute('data-tb-theme', isDark === false ? 'light' : 'dark')
+}
+chrome.storage.local.get(['isDarkMode'], (r) => applyTheme(r.isDarkMode))
+chrome.storage.onChanged.addListener((changes) => {
+  if (changes.isDarkMode) applyTheme(changes.isDarkMode.newValue)
+})
+
 // Cache variables for the right-clicked element
 let lastClickedContainer: HTMLElement | null = null
 let lastExtractedData: ExtractedPost | null = null
@@ -11,7 +20,7 @@ const activeTimeouts = new Map<string, number>()
 let currentActiveTempId: string | null = null
 
 // Helper function to cleanup error state on timeout/failure
-function triggerErrorCleanup(tempId: string, errorText = '⚠️ Gagal, coba lagi') {
+function triggerErrorCleanup(tempId: string, errorText = 'Gagal, coba lagi') {
   const container = document.querySelector(`[data-threadibility-id="${tempId}"]`) as HTMLElement | null
   if (container) {
     injectErrorBadge(container, errorText)
@@ -70,7 +79,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       // Start 75 seconds timeout safeguard (web search + AI reasoning can be slow)
       const timerId = window.setTimeout(() => {
         console.warn(`Threadibility: Analysis timeout for ID ${tempId}`)
-        triggerErrorCleanup(tempId, '⚠️ Gagal, coba lagi')
+        triggerErrorCleanup(tempId, 'Gagal, coba lagi')
         if (currentActiveTempId === tempId) {
           currentActiveTempId = null
         }
@@ -127,7 +136,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       if (timerId) {
         clearTimeout(timerId)
       }
-      triggerErrorCleanup(currentActiveTempId, '⚠️ Gagal, coba lagi')
+      triggerErrorCleanup(currentActiveTempId, 'Gagal, coba lagi')
       currentActiveTempId = null
     } else {
       alert(`Threadibility Error: Gagal menganalisis post. (${errMsg})`)
