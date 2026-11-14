@@ -40,7 +40,7 @@
 
 **Threadibility** adalah ekstensi peramban (*browser extension*) berbasis **Google Chrome Manifest V3** yang dikembangkan sebagai bagian dari penelitian skripsi/tugas akhir. Ekstensi ini mempermudah pengguna dalam memverifikasi kebenaran dan mendeteksi potensi disinformasi/hoaks pada postingan platform media sosial **Meta Threads** (`threads.com` / `threads.net`) secara langsung di antarmuka web.
 
-Dengan memanfaatkan integrasi menu klik kanan (*context menu*), scraping DOM cerdas (*intelligent DOM parser*), dan integrasi API Fact-Checking berbasis Machine Learning/NLP, Threadibility memberikan penilaian instan berupa badge status keaslian (*Verified* atau *Hoax*), tingkat keyakinan (*confidence rate*), ringkasan analisis, serta tautan ke sumber cek fakta terpercaya.
+Dengan memanfaatkan integrasi menu klik kanan (*context menu*), pengurai DOM Threads, dan penelusuran Google AI Overview di sisi server, Threadibility memberikan perkiraan indikasi hoaks berupa badge status (*Terindikasi hoax* atau *Tidak terindikasi*), ringkasan penelusuran, serta tautan ke berita rujukan. Hasilnya bukan keputusan lembaga pemeriksa fakta resmi.
 
 ---
 
@@ -50,12 +50,12 @@ Dengan memanfaatkan integrasi menu klik kanan (*context menu*), scraping DOM cer
 - ⚡ **Scraping DOM Cerdas & Adaptif**: Mengekstrak teks postingan secara akurat, nama akun pembuat (*username*), tautan unik postingan (*post URL*), dan waktu unggah postingan (*timestamp*).
 - 🔄 **Indikator Visual Real-Time (Instant Feedback)**:
   - Menyuntikkan badge `🔍 Menganalisis...` seketika saat diklik untuk mencegah kebingungan pengguna.
-  - Toolbar Action Badge Chrome berubah dinamis: `...` *(Loading)*, `SAFE` *(Terverifikasi)*, `HOAX` *(Terindikasi Hoax)*, atau `ERR` *(Error)*.
+  - Toolbar Action Badge Chrome berubah dinamis: `...` *(Loading)*, `—` *(Tidak terindikasi)*, `HOAX` *(Terindikasi hoax)*, atau `ERR` *(Error)*.
 - 🏷️ **Injeksi Badge Status & Tooltip Interaktif**:
-  - Badge `Verified` (Hijau) atau `Hoax` (Merah muda) disematkan langsung di samping username Threads.
-  - Hovering pada badge menampilkan kartu tooltip rincian klaim, persentase keyakinan, argumen verifikasi, dan tautan rujukan artikel cek fakta eksternal.
+  - Badge `Terindikasi hoax` (koral) atau `Tidak terindikasi` (biru langit) disematkan langsung di samping username Threads.
+  - Hovering pada badge menampilkan kartu tooltip rincian klaim, argumen verifikasi, dan tautan rujukan artikel cek fakta eksternal.
 - 📊 **Popup Dashboard & Statistik Lengkap**:
-  - Statistik agregat: *Total Analyzed*, *Hoax Detected*, *Verified True*, dan *Accuracy Rate*.
+  - Statistik agregat: *Total Dianalisis*, *Terindikasi Hoaks*, *Tidak terindikasi*, dan *Persentase terindikasi hoaks*.
   - Riwayat pengecekan tersimpan aman di `chrome.storage.local`.
   - Panel rincian histori berbentuk akordeon (*expandable item*).
 - 🌓 **Tema Gelap & Terang (Dark / Light Mode)**: Antarmuka popup mendukung pergantian mode warna yang disinkronkan ke penyimpanan lokal.
@@ -92,7 +92,7 @@ sequenceDiagram
     SW->>Storage: Simpan Catatan Riwayat (HistoryRecord)
     SW->>SW: Update Toolbar Badge ("SAFE" / "HOAX")
     SW->>CS: Kirim Pesan (INJECT_BADGE + AnalysisResult)
-    CS->>CS: Ganti Badge Loading dengan Badge Hasil (Hoax / Verified)
+    CS->>CS: Ganti Badge Loading dengan Badge Hasil (Terindikasi hoax / Tidak terindikasi)
     
     opt Pengguna Membuka Popup Toolbar
         User->>Popup: Klik Ikon Ekstensi Threadibility
@@ -108,7 +108,7 @@ sequenceDiagram
    - `index.ts`: Koordinator event listener klik kanan dan message router antara halaman web dan service worker.
 2. **Background Service Worker (`src/background/index.ts`)**:
    - Mengelola lifecycle *Context Menu* Chrome.
-   - Mengirimkan permintaan HTTP asinkron ke server backend AI/NLP.
+   - Mengirimkan permintaan HTTP asinkron ke server backend.
    - Mengontrol indikator visual ikon toolbar browser.
    - Menyimpan seluruh transaksi hasil analisis ke `chrome.storage.local`.
 3. **Popup Interface (`src/popup/`)**:
@@ -127,22 +127,20 @@ Threadibility/
 ├── package.json               # Konfigurasi dependensi Node.js & skrip kompilasi
 ├── tsconfig.json              # Konfigurasi compiler TypeScript (Strict Mode)
 ├── vite.config.ts             # Konfigurasi bundler Vite + @crxjs/vite-plugin
-├── full_audit_report.md       # Laporan audit teknis dan kesiapan sistem lengkap
 ├── public/
 │   └── threadibility.png      # Aset ikon ekstensi (128x128 px)
 ├── dist/                      # [Generated] Direktori hasil kompilasi untuk dimuat di browser
 ├── server/                    # 🚀 [Backend & Dashboard Lab Riset AI Skripsi]
 │   ├── package.json           # Dependensi Express + TypeScript + tsx
 │   ├── public/                # Antarmuka Dashboard Web (http://localhost:5000)
-│   │   ├── index.html         # Form 3 Token AI, Model Switcher, Benchmark Playground
+│   │   ├── index.html         # Konsol pengujian satu klaim, riwayat, dan ekspor dataset
 │   │   ├── style.css          # Desain Modern Dark Mode + Glassmorphism
 │   │   └── app.js             # Client Script untuk API call & live sync
 │   └── src/
-│       ├── index.ts           # Express REST API (POST /api/analyze, /api/compare, dll)
-│       ├── config.ts          # Penyimpan & penyamar (masking) API Key lokal
-│       ├── storage.ts         # Riwayat analisis, metrik latensi, & export CSV
-│       ├── prompts.ts         # Prompting spesialis Fact-Checking Indonesia
-│       └── services/          # Integrasi OpenAI (GPT), Gemini, & Claude 3.5
+│       ├── index.ts           # Express REST API (POST /api/analyze, GET /api/history, /api/stats, /api/export)
+│       ├── types.ts           # Tipe data AnalysisResult dan ExtractedPost
+│       ├── storage.ts         # Riwayat analisis, waktu proses, dan ekspor CSV
+│       └── services/          # analyzer (alur), webSearch + googleAiOverview (penelusuran), ruleClassifier (klasifikasi aturan)
 └── src/
     ├── manifest.config.ts     # Konfigurasi skema Manifest V3 Chrome Extension
     ├── vite-env.d.ts          # Definisi tipe client Vite
@@ -186,7 +184,6 @@ Ekstensi berkomunikasi dengan backend melalui REST API JSON.
   "claim": "Pernyataan inti / klaim utama yang diekstraksi dari postingan",
   "indikasiHoax": true,
   "alasan": "Penjelasan rinci mengapa informasi pada postingan ini dinyatakan tidak valid atau hoaks berdasarkan bukti cek fakta.",
-  "confidence": 0.94,
   "factCheckSources": [
     {
       "publisher": "TurnBackHoax / Mafindo",
@@ -280,14 +277,9 @@ npm run server
 ```
 
 Server backend akan berjalan di **`http://localhost:5000`**.
-1. Buka browser dan akses **`http://localhost:5000`** untuk membuka **AI Research Lab & Benchmark Dashboard**.
-2. Masukkan 3 Token API Anda:
-   - **OpenAI API Key** (`gpt-4o-mini` / `gpt-4o`)
-   - **Google Gemini API Key** (`gemini-1.5-flash` / `gemini-2.0-flash`)
-   - **Anthropic Claude API Key** (`claude-3-5-haiku` / `claude-3-5-sonnet`)
-3. Pilih **Model Aktif** yang akan melayani permintaan ekstensi Chrome.
-4. Klik **💾 Simpan Konfigurasi**.
-5. Gunakan fitur **🧪 Uji Coba & Komparasi 3 Model AI Sekaligus** untuk membandingkan performa ketiga model secara berdampingan (*side-by-side*) lengkap dengan latensi (ms), tingkat keyakinan, dan ekspor dataset ke format CSV untuk analisis skripsi.
+1. Buka browser dan akses **`http://localhost:5000`** untuk membuka **Konsol Pengujian**.
+2. Server tidak memakai model bahasa dan tidak memerlukan kunci API. Keputusan indikasi hoaks diambil dari ringkasan **Google AI Overview** yang ditelusuri otomatis dengan Chrome yang dikendalikan Playwright (Google Chrome harus terpasang di komputer yang sama), lalu diklasifikasi dengan aturan kata kunci. Bila ringkasan tidak tersedia, server memakai Google News RSS sebagai cadangan.
+3. Gunakan **Uji satu klaim** untuk mencoba teks tertentu, dan **Riwayat pengujian dan dataset** untuk melihat catatan serta mengunduh data CSV untuk analisis skripsi.
 
 ---
 
@@ -300,7 +292,7 @@ Server backend akan berjalan di **`http://localhost:5000`**.
    - Badge loading `🔍 Menganalisis...` akan muncul di samping nama akun pembuat.
    - Ikon toolbar ekstensi akan menampilkan status `...`.
 5. Setelah backend selesai menganalisis:
-   - Badge akan berubah menjadi **`Verified`** (Hijau) atau **`Hoax`** (Merah muda).
+   - Badge akan berubah menjadi **`Terindikasi hoax`** (koral) atau **`Tidak terindikasi`** (biru langit).
    - Arahkan kursor (*hover*) ke badge tersebut untuk membaca rincian alasan dan melihat tautan sumber cek fakta.
 6. Klik ikon ekstensi di toolbar pojok kanan atas browser untuk membuka **Dashboard Pop-up** dan melihat ringkasan statistik serta riwayat analisis yang pernah dilakukan.
 

@@ -134,7 +134,7 @@ function detectVerdict(title: string, summary: string): string {
   if (isHoaxSummary) {
     return 'FAKTA PEMBANDING';
   }
-  return 'FAKTA / TERVERIFIKASI';
+  return 'BERITA TERKAIT';
 }
 
 export async function resolveGotoUrl(gotoUrl: string): Promise<string> {

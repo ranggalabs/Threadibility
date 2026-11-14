@@ -1,12 +1,13 @@
 import { ExtractedPost, AnalysisResult, FactCheckSource } from '../types.js';
 
 /**
- * Advanced heuristic & semantic fallback classifier for Indonesian social media (Threads).
- * Used when external AI routers/APIs are offline, failing, or unconfigured.
+ * Pengklasifikasi berbasis aturan (tanpa model bahasa).
+ * Keputusan "terindikasi hoax" diambil dari (a) kata kunci pada ringkasan Google AI Overview,
+ * (b) label rujukan hasil pencarian, dan (c) daftar kategori kata kunci disinformasi Indonesia.
+ * Hasilnya perkiraan sistem, bukan keputusan lembaga pemeriksa fakta resmi.
  */
-export function generateMockAnalysis(
+export function classifyPost(
   post: ExtractedPost,
-  provider: string,
   searchContext?: string,
   sources?: FactCheckSource[]
 ): AnalysisResult {
@@ -14,14 +15,6 @@ export function generateMockAnalysis(
     .replace(/\bVerified\s*baru\s*saja\b/gi, '')
     .trim();
   const text = rawText.toLowerCase();
-
-  const modelLabels: Record<string, string> = {
-    openai: 'GPT-5.2',
-    gemini: 'Gemini 3.1 Pro',
-    claude: 'Claude Sonnet 4.6',
-    ninerouter: '9Router (OpenCode)'
-  };
-  const displayLabel = modelLabels[provider.toLowerCase()] || provider.toUpperCase();
 
   const cleanClaim = rawText.slice(0, 140).trim() + (rawText.length > 140 ? '...' : '');
 
@@ -52,14 +45,18 @@ export function generateMockAnalysis(
 
       const normalizedSources = (sources && sources.length > 0 ? sources : []).map(s => ({
         ...s,
-        verdict: isFactuallyFalse && s.verdict === 'FAKTA / TERVERIFIKASI' ? 'FAKTA PEMBANDING' : s.verdict
+        verdict: isFactuallyFalse && s.verdict === 'BERITA TERKAIT' ? 'FAKTA PEMBANDING' : s.verdict
       }));
 
       return {
         claim: cleanClaim,
         indikasiHoax: isFactuallyFalse,
-        alasan: aioText,
-        confidence: 0.95,
+        // Bila terindikasi hoaks, tampilkan penjelasan penelusuran apa adanya. Bila tidak, jangan
+        // menyatakan klaim itu benar (sistem bukan lembaga pemeriksa fakta resmi): cukup nyatakan
+        // tidak ada indikasi dan arahkan pembaca ke rujukan.
+        alasan: isFactuallyFalse
+          ? aioText
+          : 'Tidak ditemukan indikasi hoaks pada klaim ini berdasarkan penelusuran sistem. Periksa rujukan berita terkait di bawah untuk memastikan sendiri.',
         factCheckSources: normalizedSources
       };
     }
@@ -149,34 +146,13 @@ export function generateMockAnalysis(
   );
   const isHoax = Boolean(matchedCategory) || hasHoaxSourceVerdict;
 
-  const currentDate = new Date().toISOString().split('T')[0];
-  const factCheckSources = sources && sources.length > 0 ? sources : [
-    {
-      publisher: 'TurnBackHoax (Mafindo)',
-      verdict: isHoax ? 'SALAH / DISINFORMASI' : 'FAKTA / TERVERIFIKASI',
-      reviewDate: currentDate,
-      sourceUrl: 'https://turnbackhoax.id'
-    },
-    {
-      publisher: 'Kompas Cek Fakta',
-      verdict: isHoax ? 'HOAKS' : 'FAKTA',
-      reviewDate: currentDate,
-      sourceUrl: 'https://www.kompas.com/cekfakta'
-    },
-    {
-      publisher: 'Tempo Cek Fakta',
-      verdict: isHoax ? 'DISINFORMASI' : 'BENAR',
-      reviewDate: currentDate,
-      sourceUrl: 'https://cekfakta.tempo.co'
-    }
-  ];
+  const factCheckSources: FactCheckSource[] = sources && sources.length > 0 ? sources : [];
 
   if (isHoax && matchedCategory) {
     return {
       claim: cleanClaim,
       indikasiHoax: true,
-      alasan: `[Evaluasi ${displayLabel}] Konten terindikasi hoaks (${matchedCategory.category}). ${matchedCategory.explanation}`,
-      confidence: 0.95,
+      alasan: `Konten terindikasi hoaks (${matchedCategory.category}). ${matchedCategory.explanation}`,
       factCheckSources
     };
   }
@@ -187,20 +163,18 @@ export function generateMockAnalysis(
       claim: cleanClaim,
       indikasiHoax: true,
       alasan: `Berdasarkan rujukan cek fakta resmi (${topHoax.publisher}: "${topHoax.title}"), klaim dalam unggahan ini terindikasi tidak benar / disinformasi.`,
-      confidence: 0.92,
       factCheckSources
     };
   }
 
-  // Jika bukan hoaks dan terdapat artikel berita resmi yang mengonfirmasi peristiwa tersebut
+  // Bukan hoaks dan ada artikel berita terkait (hasil bukan jaminan kebenaran)
   if (sources && sources.length > 0 && sources[0].verdict !== 'PENCARIAN TOPIK') {
     const topPublishers = Array.from(new Set(sources.slice(0, 3).map(s => s.publisher))).join(', ');
     const leadTitle = sources[0].title || '';
     return {
       claim: cleanClaim || 'Informasi umum dari postingan Threads',
       indikasiHoax: false,
-      alasan: `Informasi terkonfirmasi benar berdasarkan liputan media resmi (${topPublishers}), antara lain melalui laporan "${leadTitle}". Unggahan sesuai dengan fakta peristiwa yang dilaporkan dan tidak memuat indikasi disinformasi.`,
-      confidence: 0.93,
+      alasan: `Tidak ditemukan indikasi hoaks pada klaim ini berdasarkan penelusuran sistem. Liputan terkait dari ${topPublishers}, antara lain "${leadTitle}", dapat dibaca pada rujukan di bawah.`,
       factCheckSources
     };
   }
@@ -208,8 +182,7 @@ export function generateMockAnalysis(
   return {
     claim: cleanClaim || 'Informasi umum dari postingan Threads',
     indikasiHoax: false,
-    alasan: `[Evaluasi ${displayLabel}] Berdasarkan penelusuran fakta dan konsensus berita resmi, informasi dinilai wajar serta tidak memuat indikasi fabrikasi data maupun janji kebijakan fiktif.`,
-    confidence: 0.90,
+    alasan: `Tidak ditemukan indikasi hoaks pada klaim ini berdasarkan penelusuran sistem. Belum ada rujukan berita yang cukup untuk memastikan kebenarannya, sehingga periksa rujukan di bawah.`,
     factCheckSources
   };
 }

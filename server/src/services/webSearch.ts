@@ -92,7 +92,7 @@ function verdictLabel(title: string, isHoaxContext: boolean): string {
     return isHoaxContext ? 'KLARIFIKASI / BANTAHAN' : 'KLARIFIKASI / FAKTA';
   }
   if (/cek fakta|cekfakta|benarkah|fakta/i.test(title)) return 'CEK FAKTA';
-  return isHoaxContext ? 'FAKTA PEMBANDING' : 'FAKTA / TERVERIFIKASI';
+  return isHoaxContext ? 'FAKTA PEMBANDING' : 'BERITA TERKAIT';
 }
 
 function parseRss(xml: string, keywords: string[], aioFactKeywords: string[] = []): RawArticle[] {
@@ -302,7 +302,7 @@ export async function searchFactCheckSources(
       .join('\n');
   } else {
     summaryContext =
-      'TIDAK ADA artikel yang relevan ditemukan untuk klaim ini. Ketiadaan artikel BUKAN bukti bahwa klaim palsu; nilai klaim berdasarkan kewajaran dan pengetahuan Anda, dan turunkan confidence.';
+      'Tidak ada artikel yang relevan ditemukan untuk klaim ini.';
   }
 
   const value: FactCheckResult = {

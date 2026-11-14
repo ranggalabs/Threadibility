@@ -10,7 +10,6 @@ interface HistoryItemProps {
 const HistoryItem: React.FC<HistoryItemProps> = ({ record, isExpanded, onToggleExpand }) => {
   const { post, analysis, analyzedAt } = record
   const isHoax = analysis.indikasiHoax
-  const confidencePercent = Math.round(analysis.confidence * 100)
 
   // Relative Time Formatter helper
   const getRelativeTime = (isoString: string): string => {
@@ -61,7 +60,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ record, isExpanded, onToggleE
 
       {/* Sub-metadata Line */}
       <p className="item-meta">
-        {post.username || '@unknown'} • {confidencePercent}% keyakinan
+        {post.username || '@unknown'}
       </p>
 
       {/* Expanded Details Section */}
@@ -82,19 +81,6 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ record, isExpanded, onToggleE
             </div>
           )}
 
-          {/* Confidence Slider bar */}
-          <div className="confidence-section">
-            <div className="confidence-header">
-              <span>Tingkat keyakinan</span>
-              <span>{confidencePercent}%</span>
-            </div>
-            <div className="confidence-bar-bg">
-              <div
-                className={`confidence-bar-fill ${isHoax ? 'hoax' : 'verified'}`}
-                style={{ width: `${confidencePercent}%` }}
-              />
-            </div>
-          </div>
 
           {/* Alasan / Reasoning */}
           <h4 className="details-label">Alasan analisis</h4>

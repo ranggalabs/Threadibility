@@ -872,3 +872,13 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+.label-select {
+  background: var(--bg-meter);
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 4px 6px;
+  font: inherit;
+  font-size: 12px;
+}

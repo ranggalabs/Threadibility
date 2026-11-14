@@ -164,7 +164,6 @@ export function injectBadge(container: HTMLElement, analysis: AnalysisResult) {
     <div class="tb-tooltip-body">
       <div class="tb-tooltip-verdict ${isHoax ? 'tb-text-hoax' : 'tb-text-verified'}">
         <strong>${isHoax ? 'Terindikasi hoax' : 'Tidak ditemukan indikasi hoax'}</strong>
-        <span class="tb-tooltip-confidence">(keyakinan ${Math.round(analysis.confidence * 100)}%)</span>
       </div>
       <p class="tb-tooltip-reason">${escapeHtml(analysis.alasan)}</p>
       ${sourcesHtml}

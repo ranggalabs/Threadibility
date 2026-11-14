@@ -81,11 +81,8 @@ const Popup: React.FC = () => {
   const hoaxDetected = history.filter((item) => item.analysis.indikasiHoax).length
   const notFlagged = totalAnalyzed - hoaxDetected
 
-  // Average confidence as accuracy calculation
-  const averageConfidence =
-    totalAnalyzed > 0
-      ? `${((history.reduce((sum, item) => sum + item.analysis.confidence, 0) / totalAnalyzed) * 100).toFixed(1)}%`
-      : '-'
+  const hoaxPercent =
+    totalAnalyzed > 0 ? `${((hoaxDetected / totalAnalyzed) * 100).toFixed(1)}%` : '-'
 
   return (
     <>
@@ -126,7 +123,7 @@ const Popup: React.FC = () => {
               <StatsCard label="Total Dianalisis" value={totalAnalyzed} type="primary" />
               <StatsCard label="Terindikasi Hoaks" value={hoaxDetected} type="error" />
               <StatsCard label="Tidak terindikasi" value={notFlagged} type="secondary" />
-              <StatsCard label="Keyakinan Rata-rata" value={averageConfidence} type="primary" />
+              <StatsCard label="Persentase terindikasi hoaks" value={hoaxPercent} type="primary" />
             </section>
 
             {/* Recent Analyses list */}

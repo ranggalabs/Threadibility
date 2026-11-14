@@ -10,7 +10,6 @@ export interface AnalysisResult {
   claim: string;
   indikasiHoax: boolean;
   alasan: string;
-  confidence: number;
   factCheckSources: FactCheckSource[];
 }
 
