@@ -10,6 +10,8 @@ export interface AnalysisResult {
   claim: string;
   indikasiHoax: boolean;
   alasan: string;
+  /** Dasar penilaian: dari mana keputusan diambil. */
+  dasar?: 'ai_overview' | 'pencarian' | 'ciri_teks';
   factCheckSources: FactCheckSource[];
 }
 

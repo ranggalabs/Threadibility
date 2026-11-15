@@ -1,0 +1,20 @@
+% --- gaya diagram UML pada Bab 3 (hitam-putih, huruf 9 pt)
+% Gaya diagram UML (hitam-putih, huruf 9 pt tercetak)
+\tikzset{
+  uml/.style={font=\fontsize{9}{10.5}\selectfont,execute at begin node={\hyphenpenalty=10000 \exhyphenpenalty=10000 },line width=0.5pt,>={Stealth[length=4.5pt,width=4pt]}},
+  ucase/.style={draw,ellipse,minimum height=0.95cm,align=center,inner sep=1pt},
+  act/.style={draw,rounded corners=4pt,align=center,inner sep=3pt,minimum height=0.8cm},
+  dec/.style={draw,diamond,aspect=2.2,align=center,inner sep=0pt},
+  cls/.style={draw,rectangle,inner sep=0pt},
+  ulbl/.style={font=\fontsize{9}{10.5}\selectfont,inner sep=1.5pt,fill=white},
+}
+\newcommand{\umlactor}[3]{% x, y, nama
+  \begin{scope}[shift={(#1,#2)}]
+    \draw (0,0.75) circle (0.18);
+    \draw (0,0.57)--(0,-0.05);
+    \draw (-0.3,0.4)--(0.3,0.4);
+    \draw (0,-0.05)--(-0.25,-0.55);
+    \draw (0,-0.05)--(0.25,-0.55);
+    \node[align=center,anchor=north] at (0,-0.62) {#3};
+  \end{scope}}
+

@@ -5,12 +5,32 @@ import { FactCheckSource } from '../types.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const GOOGLE_PROFILE_DIR = path.resolve(__dirname, '../../data/google-profile');
+const GOOGLE_PROFILE_DIR = process.env.GOOGLE_PROFILE_DIR
+  ? path.resolve(process.env.GOOGLE_PROFILE_DIR)
+  : path.resolve(__dirname, '../../data/google-profile');
+
+export interface OrganicResult {
+  title: string;
+  snippet: string;
+  url: string;
+}
 
 export interface GoogleAioResult {
   summaryText: string;
   sources: FactCheckSource[];
   success: boolean;
+  /** Hasil pencarian biasa (judul dan cuplikan), dipakai bila AI Overview tidak muncul. */
+  organic: OrganicResult[];
+  /** true bila Google menampilkan halaman verifikasi (CAPTCHA) sehingga penelusuran tidak bisa dipercaya. */
+  blocked?: boolean;
+}
+
+// Setelah terblokir, jangan menelusuri lagi selama jeda ini agar blokir Google tidak makin lama.
+const BLOCK_COOLDOWN_MS = 10 * 60 * 1000;
+let blockedUntil = 0;
+
+export function isGoogleBlocked(): boolean {
+  return Date.now() < blockedUntil;
 }
 
 const STOPWORDS = new Set([
@@ -270,10 +290,14 @@ function cleanAiSummaryText(raw: string): string {
 export async function fetchGoogleAiOverview(claimText: string): Promise<GoogleAioResult> {
   const queries = buildSearchQueries(claimText);
   if (queries.length === 0) {
-    return { summaryText: '', sources: [], success: false };
+    return { summaryText: '', sources: [], success: false, organic: [] };
   }
 
   const claimKeywords = extractClaimKeywords(claimText, 14);
+
+  if (isGoogleBlocked()) {
+    return { summaryText: '', sources: [], success: false, organic: [], blocked: true };
+  }
 
   let ctx;
   try {
@@ -298,13 +322,20 @@ export async function fetchGoogleAiOverview(claimText: string): Promise<GoogleAi
     });
 
     let finalSummaryText = '';
+    const collectedOrganic: OrganicResult[] = [];
     let collectedRawSources: { href: string; title: string; rawPublisher: string; date: string | null }[] = [];
 
     for (const searchQuery of queries) {
       console.log(`[Google AI Overview] Menelusuri topik Google: "${searchQuery}"`);
       const searchUrl = `https://www.google.com/search?hl=id&gl=id&q=${encodeURIComponent(searchQuery)}`;
       await page.goto(searchUrl, { waitUntil: 'domcontentloaded', timeout: 12000 });
-      await page.waitForTimeout(4000);
+      await page.waitForTimeout(4000 + Math.floor(Math.random() * 1500));
+
+      if (/\/sorry\//.test(page.url())) {
+        blockedUntil = Date.now() + BLOCK_COOLDOWN_MS;
+        console.warn('[Google AI Overview] Google meminta verifikasi (CAPTCHA). Penelusuran dihentikan sementara.');
+        return { summaryText: '', sources: [], success: false, organic: [], blocked: true };
+      }
 
       await page.evaluate(() => {
         const btns = Array.from(document.querySelectorAll('div[role="button"], button, span'));
@@ -417,12 +448,27 @@ export async function fetchGoogleAiOverview(claimText: string): Promise<GoogleAi
           }
         }
 
+        const organic: { title: string; snippet: string; url: string }[] = [];
+        for (const h3 of Array.from(document.querySelectorAll('h3'))) {
+          const title = ((h3 as HTMLElement).innerText || '').replace(/\s+/g, ' ').trim();
+          if (title.length < 15) continue;
+          const a = h3.closest('a') as HTMLAnchorElement | null;
+          if (!a || !a.href || a.href.includes('google.com/search')) continue;
+          const block = (a.closest('div.MjjYud, div[data-hveid], div.g') as HTMLElement | null) || a.parentElement?.parentElement || null;
+          const snippet = ((block?.innerText || '').replace(title, ' ')).replace(/\s+/g, ' ').trim().slice(0, 320);
+          organic.push({ title, snippet, url: a.href });
+        }
+
         return {
           rawOverviewText,
-          rawSources: Array.from(sourceMap.values())
+          rawSources: Array.from(sourceMap.values()),
+          organic
         };
       });
 
+      for (const o of pageData.organic) {
+        if (!collectedOrganic.some((x) => x.url === o.url)) collectedOrganic.push(o);
+      }
       const cleanedSummary = cleanAiSummaryText(pageData.rawOverviewText);
       if (pageData.rawSources.length > 0) {
         collectedRawSources = [...collectedRawSources, ...pageData.rawSources];
@@ -513,14 +559,36 @@ export async function fetchGoogleAiOverview(claimText: string): Promise<GoogleAi
     return {
       summaryText: finalSummaryText,
       sources,
-      success: hasAiSummary
+      success: hasAiSummary,
+      organic: collectedOrganic
     };
   } catch (error) {
     console.warn('[Google AI Overview] Gagal mengekstrak AI Overview:', error);
-    return { summaryText: '', sources: [], success: false };
+    return { summaryText: '', sources: [], success: false, organic: [] };
   } finally {
     if (ctx) {
       await ctx.close().catch(() => {});
     }
   }
+}
+
+
+/**
+ * Mencari bantahan pada hasil pencarian biasa (dipakai bila AI Overview tidak muncul).
+ * Hasil dihitung bantahan bila judul atau cuplikannya (a) memuat kata kunci klaim yang cukup banyak
+ * dan (b) memuat penanda bantahan yang kuat. Frasa "bukan hoaks" tidak dihitung sebagai bantahan.
+ */
+export function findDebunkEvidence(organic: OrganicResult[], claimKeywords: string[]): OrganicResult[] {
+  if (claimKeywords.length < 2) return [];
+  const need = Math.min(4, Math.max(2, Math.ceil(claimKeywords.length * 0.4)));
+  const lead = claimKeywords.slice(0, 2);
+  const strong =
+    /\[(salah|hoaks|hoax|keliru|disinformasi|misinformasi)\]|\b(hoaks|hoax|disinformasi|misinformasi|dibantah|tidak benar|menyesatkan|berita bohong|kabar bohong|faktanya tidak|hasil rekayasa|video palsu|foto palsu|narasi palsu)\b/i;
+  return organic.filter((o) => {
+    const text = `${o.title} ${o.snippet}`.normalize('NFKD').toLowerCase();
+    const cleaned = text.replace(/\b(bukan|tidak\s+terindikasi|anti|melawan|cegah|cara\s+mengenali|ciri)\s+(\w+\s+)?(hoaks|hoax|disinformasi|misinformasi)\b/g, '');
+    if (!strong.test(cleaned)) return false;
+    const matched = claimKeywords.filter((k) => text.includes(k)).length;
+    return matched >= need && lead.some((k) => text.includes(k));
+  });
 }

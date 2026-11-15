@@ -143,7 +143,10 @@ for pno, page in enumerate(d):
     if pno < 5 or page.rotation:
         continue
     lines = [ln.strip() for b in page.get_text('blocks') if b[1] > 100 and b[3] < 790 for ln in b[4].split('\n') if ln.strip()]
-    if lines:
+    # baris terakhir yang tepat di atas garis tabel panjang adalah isi sel, bukan judul yang tertinggal
+    ymax = max([b[3] for b in page.get_text('blocks') if b[1] > 100 and b[3] < 790 and b[4].strip()] or [0])
+    in_table = any(dr['rect'].height < 1.5 and dr['rect'].width > 120 and 0 <= dr['rect'].y0 - ymax < 12 for dr in page.get_drawings())
+    if lines and not in_table:
         last = lines[-1]
         if re.match(r'(Gambar|Tabel) \d+\.\d+|(Diadaptasi|Diolah) dari', last):
             continue  # judul/keterangan gambar atau tabel memang boleh di dasar halaman

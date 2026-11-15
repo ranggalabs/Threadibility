@@ -1,0 +1,23 @@
+\begin{tikzpicture}[uml,mbox/.style={draw,align=center,inner sep=3pt,minimum height=0.8cm}]
+  % akar
+  \node[mbox,minimum width=4.2cm] (root) at (7.0,0) {Threadibility};
+  % tingkat kedua
+  \node[mbox,text width=3.6cm] (n1) at (2.3,-2.0) {Menu klik kanan pada Threads (E-00)};
+  \node[mbox,text width=3.6cm] (n2) at (7.0,-2.0) {\textit{Popup} pada ikon ekstensi};
+  \node[mbox,text width=3.6cm] (n3) at (11.7,-2.0) {Konsol pengujian pada \textit{server}};
+  \draw (root.south)--(7.0,-0.95);
+  \draw (2.3,-0.95)--(11.7,-0.95);
+  \foreach \x in {2.3,7.0,11.7} \draw[->] (\x,-0.95)--(\x,-1.5);
+  % tingkat ketiga (daftar)
+  \node[mbox,text width=2.9cm,anchor=west] (a1) at (1.1,-4.0) {Periksa unggahan (E-01, E-02)};
+  \draw (n1.south west)++(0.35,0) coordinate (b1);
+  \draw (1.0,-2.55)--(1.0,-4.0); \draw[->] (1.0,-4.0)--(a1.west);
+  \node[mbox,text width=2.9cm,anchor=west] (b1) at (5.7,-3.9) {E-03 \textit{Dashboard}};
+  \node[mbox,text width=2.9cm,anchor=west] (b2) at (5.7,-5.2) {E-04 Riwayat};
+  \node[mbox,text width=2.9cm,anchor=west] (b3) at (5.7,-6.5) {E-05 Pengaturan};
+  \draw (5.6,-2.55)--(5.6,-6.5); \foreach \y in {-3.9,-5.2,-6.5} \draw[->] (5.6,\y)--(5.9,\y);
+  \node[mbox,text width=2.9cm,anchor=west] (c1) at (10.4,-3.9) {K-01 Uji satu klaim};
+  \node[mbox,text width=2.9cm,anchor=west] (c2) at (10.4,-5.2) {K-02 Riwayat dan dataset};
+  \node[mbox,text width=2.9cm,anchor=west] (c3) at (10.4,-6.5) {K-03 Evaluasi};
+  \draw (10.3,-2.55)--(10.3,-6.5); \foreach \y in {-3.9,-5.2,-6.5} \draw[->] (10.3,\y)--(10.6,\y);
+\end{tikzpicture}

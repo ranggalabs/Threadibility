@@ -1,0 +1,28 @@
+\begin{tikzpicture}[uml]
+  % lajur
+  \draw (0,0.0) rectangle (14,-12.6);
+  \draw (7,0.0)--(7,-12.6);
+  \draw (0,-0.8)--(14,-0.8);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (3.5,-0.4) {Pengguna};
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries,align=center] at (10.5,-0.4) {Mesin pencari dan situs berita};
+  % simpul
+  \fill (3.5,-1.4) circle (0.2);
+  \node[act,text width=4.8cm] (n1) at (3.5,-2.5) {Membaca unggahan di Threads};
+  \node[dec,minimum width=3.4cm,minimum height=1.4cm] (d1) at (3.5,-4.1) {Isi unggahan\\meragukan?};
+  \node[act,text width=4.8cm] (n2) at (3.5,-5.9) {Menyalin teks unggahan, membuka \textit{tab} baru, dan mengetik kata kunci};
+  \node[act,text width=4.8cm] (n3) at (10.5,-7.5) {Menampilkan daftar hasil pencarian dan isi artikel berita};
+  \node[act,text width=4.8cm] (n4) at (3.5,-9.1) {Membuka beberapa situs berita dan membandingkan isinya};
+  \node[act,text width=4.8cm] (n5) at (3.5,-10.9) {Menyimpulkan sendiri lalu kembali ke Threads};
+  % akhir
+  \draw (0.6,-4.1) circle (0.2); \fill (0.6,-4.1) circle (0.12);
+  \draw (3.5,-12.0) circle (0.2); \fill (3.5,-12.0) circle (0.12);
+  % alur
+  \draw[->] (3.5,-1.6)--(n1.north);
+  \draw[->] (n1.south)--(d1.north);
+  \draw[->] (d1.south)--node[ulbl,right] {ya} (n2.north);
+  \draw[->] (d1.west)--node[ulbl,above] {tidak} (0.8,-4.1);
+  \draw[->] (n2.east) -| (n3.north);
+  \draw[->] (n3.west) -| (n4.north);
+  \draw[->] (n4.south)--(n5.north);
+  \draw[->] (n5.south)--(3.5,-11.8);
+\end{tikzpicture}

@@ -2,6 +2,12 @@
 // Threadibility — Konsol Pengujian (Google AI Overview + klasifikasi aturan)
 // =========================================================
 
+const DASAR_LABEL = {
+  ai_overview: 'Ringkasan Google AI Overview',
+  pencarian: 'Hasil pencarian Google dan berita',
+  ciri_teks: 'Ciri teks unggahan'
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const runTestBtn = document.getElementById('runTestBtn');
   const clearHistoryBtn = document.getElementById('clearHistoryBtn');
@@ -60,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     verdict.textContent = 'Sedang menganalisis...';
     document.getElementById('resClaim').textContent = '-';
     document.getElementById('resReason').textContent = 'Menunggu hasil penelusuran...';
+    document.getElementById('resBasis').textContent = '-';
     document.getElementById('resSources').innerHTML = '';
 
     const started = Date.now();
@@ -106,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('resClaim').textContent = a.claim || '-';
     document.getElementById('resReason').textContent = a.alasan || '-';
+    document.getElementById('resBasis').textContent = DASAR_LABEL[a.dasar] || '-';
 
     const box = document.getElementById('resSources');
     if (a.factCheckSources && a.factCheckSources.length > 0) {
@@ -149,6 +157,15 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('cmPre').textContent = pct(c.precision);
       document.getElementById('cmRec').textContent = pct(c.recall);
       document.getElementById('cmF1').textContent = pct(c.f1);
+      const rows = Object.keys(DASAR_LABEL)
+        .map((k) => {
+          const m = stats.confusionPerDasar && stats.confusionPerDasar[k];
+          if (!m || m.n === 0) return '';
+          return `<tr><td>${DASAR_LABEL[k]}</td><td>${m.n}</td><td>${pct(m.accuracy)}</td><td>${pct(m.precision)}</td><td>${pct(m.recall)}</td><td>${pct(m.f1)}</td></tr>`;
+        })
+        .join('');
+      document.getElementById('cmDasarBody').innerHTML =
+        rows || '<tr><td colspan="6" class="table-empty">Belum ada data berlabel.</td></tr>';
     } catch (err) {
       console.error(err);
     }
@@ -186,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>
               <span class="badge-row ${isHoax ? 'hoax' : 'verified'}">${isHoax ? 'Hoaks' : 'Tidak terindikasi'}</span>
             </td>
+            <td>${escapeHtml(DASAR_LABEL[item.result?.dasar] || '-')}</td>
             <td>
               <select class="label-select" data-id="${escapeHtml(item.id)}" aria-label="Label sebenarnya">
                 <option value=""${!item.label ? ' selected' : ''}>Belum dilabeli</option>

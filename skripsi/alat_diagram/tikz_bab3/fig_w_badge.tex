@@ -1,0 +1,37 @@
+\begin{tikzpicture}[uml,
+  tag/.style={draw,rounded corners=2pt,inner sep=2pt,font=\fontsize{9}{10.5}\selectfont},
+  pill/.style={draw,rounded corners=7pt,inner sep=3pt,minimum height=0.6cm,align=center},
+  tl/.style={line width=1.3pt}]
+  % kiri atas: unggahan Threads
+  \draw (0,0) rectangle (7.8,-4.4);
+  \node[tag] at (7.1,-0.35) {E-01};
+  \draw (0.8,-1.0) circle (0.32);
+  \node[anchor=west] at (1.35,-0.95) {@nama\_akun};
+  \node[pill] at (5.0,-0.95) {\textit{Terindikasi hoax}};
+  \draw[tl] (0.4,-1.9)--(7.3,-1.9);
+  \draw[tl] (0.4,-2.4)--(7.0,-2.4);
+  \draw[tl] (0.4,-2.9)--(4.8,-2.9);
+  \foreach \x in {0.7,1.9,3.1} \draw (\x,-3.8) circle (0.2);
+  % kiri bawah: tooltip
+  \draw (0.4,-5.2) rectangle (7.4,-12.6);
+  \node[tag] at (6.7,-5.55) {E-02};
+  \draw (0.7,-5.75) rectangle (1.1,-6.15); \node at (0.9,-5.95) {T};
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (1.3,-5.95) {Hasil Threadibility};
+  \draw (0.4,-6.5)--(7.4,-6.5);
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (0.7,-7.0) {\textit{Terindikasi hoax}};
+  \draw[tl] (0.7,-7.6)--(7.0,-7.6);
+  \draw[tl] (0.7,-8.1)--(7.0,-8.1);
+  \draw[tl] (0.7,-8.6)--(5.0,-8.6);
+  \node[anchor=west,align=left] at (0.7,-9.4) {Dasar penilaian:\\ringkasan Google AI Overview};
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (0.7,-10.5) {Rujukan cek fakta};
+  \draw (0.7,-10.85) rectangle (7.1,-11.55); \draw[tl] (0.9,-11.1)--(4.7,-11.1); \node[anchor=east] at (6.9,-11.1) {\textit{HOAKS}};
+  \draw (0.7,-11.7) rectangle (7.1,-12.4); \draw[tl] (0.9,-11.95)--(4.2,-11.95);
+  % kanan: keadaan badge
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (8.6,-0.4) {Keadaan \textit{badge} (E-01)};
+  \node[pill,minimum width=4.2cm] at (10.9,-1.5) {Menganalisis...};
+  \node[pill,minimum width=4.2cm] at (10.9,-2.7) {\textit{Terindikasi hoax}};
+  \node[pill,minimum width=4.2cm] at (10.9,-3.9) {Tidak terindikasi};
+  \node[pill,minimum width=4.2cm] at (10.9,-5.1) {Gagal, coba lagi};
+  \node[anchor=west,align=left] at (8.6,-6.4) {Teks \textit{tooltip} bila\\tidak terindikasi:};
+  \node[pill,minimum width=5.0cm,anchor=west] at (8.6,-7.6) {Tidak ditemukan indikasi \textit{hoax}};
+\end{tikzpicture}

@@ -2,7 +2,10 @@ import { FactCheckSource } from '../types.js';
 import {
   fetchGoogleAiOverview,
   extractFactualContextFromAio,
-  isSummaryIndicatingHoaxOrSatire
+  extractClaimKeywords,
+  findDebunkEvidence,
+  isSummaryIndicatingHoaxOrSatire,
+  OrganicResult
 } from './googleAiOverview.js';
 
 /**
@@ -12,6 +15,13 @@ import {
  * (guided by both the claim and the factual context extracted from Google AI Overview)
  * to find concrete news & fact-check articles that verify or debunk the claim.
  */
+
+export class GoogleBlockedError extends Error {
+  constructor() {
+    super('Google meminta verifikasi (CAPTCHA) dari komputer server. Selesaikan verifikasi di Chrome server atau tunggu beberapa menit, lalu coba lagi.');
+    this.name = 'GoogleBlockedError';
+  }
+}
 
 export interface FactCheckResult {
   query: string;
@@ -177,14 +187,19 @@ export async function searchFactCheckSources(
   // 1. PRIMARY ENGINE: Google AI Overviews ("Ringkasan AI") via browser automation
   let aioSummary = '';
   let aioSources: FactCheckSource[] = [];
+  let aioOrganic: OrganicResult[] = [];
   try {
     const aio = await fetchGoogleAiOverview(claimText);
+    if (aio.blocked) {
+      throw new GoogleBlockedError();
+    }
     if (aio.summaryText) {
       aioSummary = aio.summaryText;
     }
     if (aio.sources && aio.sources.length > 0) {
       aioSources = aio.sources;
     }
+    aioOrganic = aio.organic || [];
 
     if (aio.success && aioSources.length >= 3) {
       console.log(`[Threadibility] Berhasil mengekstrak Ringkasan AI dan ${aioSources.length} rujukan dari Google AI Overview.`);
@@ -202,6 +217,7 @@ export async function searchFactCheckSources(
       return value;
     }
   } catch (err) {
+    if (err instanceof GoogleBlockedError) throw err;
     console.warn('[Threadibility] Google AI Overview gagal, beralih ke pencarian berita RSS:', err);
   }
 
@@ -278,6 +294,27 @@ export async function searchFactCheckSources(
     seenUrls.add(rs.sourceUrl);
     if (tKey) seenTitles.add(tKey);
     combinedSources.push(rs);
+  }
+
+  // Lapis kedua: bila AI Overview tidak muncul, cari bantahan pada hasil pencarian biasa.
+  let debunkSources: FactCheckSource[] = [];
+  if (!aioSummary && aioOrganic.length > 0) {
+    const hits = findDebunkEvidence(aioOrganic, extractClaimKeywords(claimText, 14));
+    debunkSources = hits.slice(0, 3).map((h) => {
+      let host = '';
+      try { host = new URL(h.url).hostname.replace(/^www\./, ''); } catch { /* abaikan */ }
+      return {
+        publisher: host || 'Hasil pencarian Google',
+        title: h.title,
+        verdict: 'HOAKS / DISINFORMASI',
+        reviewDate: null,
+        sourceUrl: h.url
+      };
+    });
+  }
+  if (debunkSources.length > 0) {
+    const have = new Set(combinedSources.map((x) => x.sourceUrl));
+    combinedSources.unshift(...debunkSources.filter((d) => !have.has(d.sourceUrl)));
   }
 
   const sources = combinedSources.slice(0, 6);

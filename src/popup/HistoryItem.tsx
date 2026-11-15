@@ -85,6 +85,11 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ record, isExpanded, onToggleE
           {/* Alasan / Reasoning */}
           <h4 className="details-label">Alasan analisis</h4>
           <p className="details-content">{analysis.alasan || 'Tidak ada alasan rinci.'}</p>
+          {analysis.dasar && (
+            <p className="details-content" style={{ marginTop: '6px', opacity: 0.8, fontSize: '11px', fontWeight: 700 }}>
+              Dasar penilaian: {DASAR_LABEL[analysis.dasar]}
+            </p>
+          )}
 
           {/* Fact Check Sources */}
           {analysis.factCheckSources && analysis.factCheckSources.length > 0 && (
@@ -115,6 +120,12 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ record, isExpanded, onToggleE
       )}
     </div>
   )
+}
+
+const DASAR_LABEL: Record<string, string> = {
+  ai_overview: 'ringkasan Google AI Overview',
+  pencarian: 'hasil pencarian Google dan berita',
+  ciri_teks: 'ciri teks unggahan (belum ada rujukan pendukung)'
 }
 
 export default HistoryItem

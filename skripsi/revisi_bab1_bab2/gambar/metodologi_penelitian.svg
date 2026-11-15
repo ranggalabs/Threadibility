@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 582" width="480" height="582" style="background:#ffffff;font-family:Helvetica,Arial,sans-serif;color:#000000;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 654" width="480" height="654" style="background:#ffffff;font-family:Helvetica,Arial,sans-serif;color:#000000;">
   <defs><marker id="classic" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 L 2.3 5 Z" fill="#000000" stroke="#000000" stroke-width="0.8"/></marker></defs>
-  <rect x="0" y="0" width="480" height="582" fill="#ffffff"/>
+  <rect x="0" y="0" width="480" height="654" fill="#ffffff"/>
   <rect x="20" y="212.60000000000002" width="440" height="247.2" fill="#ffffff" stroke="#000000" stroke-width="1"/>
   <line x1="20" y1="241.8" x2="460" y2="241.8" stroke="#000000" stroke-width="1"/>
   <text x="240.0" y="231.1" font-size="13" font-weight="bold" text-anchor="middle" fill="#000000">Analisis dan Perancangan Sistem</text>
@@ -33,8 +33,12 @@
   <text x="240.0" y="433.3" font-size="12.5" font-weight="bold" text-anchor="middle" fill="#000000">Perancangan Sistem</text>
   <path d="M 240 459.8 L 240 482.8" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
   <rect x="20" y="483.8" width="440" height="33.2" rx="5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="240.0" y="504.3" font-size="13" font-weight="bold" text-anchor="middle" fill="#000000">Implementasi dan Pengujian</text>
+  <text x="240.0" y="504.3" font-size="13" font-weight="bold" text-anchor="middle" fill="#000000">Implementasi</text>
   <path d="M 240 517.0 L 240 540.0" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
-  <rect x="20" y="541.0" width="440" height="32.5" rx="5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-  <text x="240.0" y="561.0" font-size="12.5" font-weight="bold" text-anchor="middle" fill="#000000"><tspan font-style="italic">Output</tspan>: Ekstensi Google Chrome untuk Deteksi <tspan font-style="italic">Hoax</tspan> pada Threads</text>
+  <rect x="20" y="541.0" width="440" height="49.0" rx="5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="240.0" y="561.5" font-size="13" font-weight="bold" text-anchor="middle" fill="#000000">Pengujian dan Evaluasi</text>
+  <text x="240.0" y="577.7" font-size="12" text-anchor="middle" fill="#000000"><tspan font-style="italic">Black-box</tspan>, <tspan font-style="italic">confusion matrix</tspan>, dan waktu proses</text>
+  <path d="M 240 590.0 L 240 613.0" fill="none" stroke="#000000" stroke-width="1" marker-end="url(#classic)"/>
+  <rect x="20" y="614.0" width="440" height="32.5" rx="5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="240.0" y="634.0" font-size="12.5" font-weight="bold" text-anchor="middle" fill="#000000"><tspan font-style="italic">Output</tspan>: Ekstensi Google Chrome untuk Deteksi <tspan font-style="italic">Hoax</tspan> pada Threads</text>
 </svg>

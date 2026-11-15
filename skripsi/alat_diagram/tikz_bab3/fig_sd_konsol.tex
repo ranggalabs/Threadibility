@@ -1,0 +1,25 @@
+\begin{tikzpicture}[uml]
+  \def\xp{1.4} \def\xk{5.0} \def\xs{8.8} \def\xg{12.4}
+  \def\ybot{-10.8}
+  % kepala
+  \node[draw,minimum width=2.4cm,minimum height=0.9cm,align=center] at (\xp,0) {Peneliti};
+  \node[draw,minimum width=2.6cm,minimum height=0.9cm,align=center] at (\xk,0) {Konsol\\pengujian};
+  \node[draw,minimum width=2.4cm,minimum height=0.9cm,align=center] at (\xs,0) {\textit{Server}};
+  \node[draw,minimum width=2.4cm,minimum height=0.9cm,align=center] at (\xg,0) {Google};
+  \foreach \x in {\xp,\xk,\xs,\xg} \draw[dashed] (\x,-0.45)--(\x,\ybot);
+  % aktivasi
+  \draw[fill=white] (\xk-0.1,-1.3) rectangle (\xk+0.1,-9.3);
+  \draw[fill=white] (\xs-0.1,-2.7) rectangle (\xs+0.1,-8.3);
+  \draw[fill=white] (\xg-0.1,-3.7) rectangle (\xg+0.1,-5.3);
+  % pesan
+  \draw[->] (\xp,-1.4)--node[ulbl,above] {isi klaim, tekan analisis} (\xk-0.1,-1.4);
+  \draw[->] (\xk+0.1,-2.8)--node[ulbl,above] {kirim klaim (POST)} (\xs-0.1,-2.8);
+  \draw[->] (\xs+0.1,-3.8)--node[ulbl,above] {telusuri klaim} (\xg-0.1,-3.8);
+  \draw[->,dashed] (\xg-0.1,-5.2)--node[ulbl,above,align=center] {ringkasan,\\rujukan} (\xs+0.1,-5.2);
+  \draw[->] (\xs-0.1,-5.9) -- (\xs-0.7,-5.9) -- (\xs-0.7,-6.4) -- (\xs-0.1,-6.4);
+  \node[anchor=east,font=\fontsize{9}{10.5}\selectfont] at (\xs-0.85,-6.15) {tentukan status};
+  \draw[->] (\xs+0.1,-6.9) -- (\xs+0.7,-6.9) -- (\xs+0.7,-7.4) -- (\xs+0.1,-7.4);
+  \node[anchor=west,align=left,font=\fontsize{9}{10.5}\selectfont] at (\xs+0.85,-7.15) {catat\\riwayat};
+  \draw[->,dashed] (\xs-0.1,-8.2)--node[ulbl,above] {hasil analisis} (\xk+0.1,-8.2);
+  \draw[->] (\xk-0.1,-9.2)--node[ulbl,above] {status dan alasan} (\xp,-9.2);
+\end{tikzpicture}

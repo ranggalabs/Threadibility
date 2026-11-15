@@ -36,12 +36,21 @@ export function classifyPost(
       const hasExplicitTrueConfirmation =
         /\b(adalah fakta|bukan hoaks|bukan hoax|benar telah|memang benar|resmi menyampaikan|memberikan klarifikasi dan menyampaikan permohonan maaf|faktanya memang|terkonfirmasi benar)\b/i.test(firstParagraph);
 
-      const cleanedForHoax = aioText.replace(/\b(bukan|tidak\s+terindikasi)\s+(hoaks|hoax|disinformasi|misinformasi|berita\s+bohong|palsu)\b/gi, '');
+      // Frasa penanda bahwa klaim memang ada dasarnya tetapi disampaikan menyesatkan atau belum terbukti.
+      // Frasa ini dikalahkan oleh "fakta" hanya bila tidak ada satu pun dari daftar ini.
+      const hasMisleadingSignal =
+        /\b(dibesar-besarkan|dilebih-lebihkan|dipelintir|diplintir|tanpa konteks|konteks (yang )?(keliru|tidak lengkap|menyesatkan|berbeda)|sebagian (besar )?(benar|salah|informasi)|campuran (antara )?fakta|belum (terverifikasi|terkonfirmasi|terbukti|dapat dipastikan|ada bukti)|tidak (ada|ditemukan|terdapat|memiliki) (bukti|dasar|sumber (resmi|kredibel)|laporan (resmi|kredibel)|rilis resmi|konfirmasi)|tidak terbukti|tidak berdasar|tidak akurat|tidak sesuai (dengan )?fakta|rekayasa|dimanipulasi|manipulatif|disalahartikan|disalahgunakan|salah (konteks|kaprah)|bukan di indonesia)\b/i.test(lowerAio.slice(0, 900));
+
+      const cleanedForHoax = aioText.replace(/\b(bukan|tidak\s+terindikasi)\s+(sekadar\s+|semata\s+)?(hoaks|hoax|disinformasi|misinformasi|berita\s+bohong|palsu)\b/gi, '');
       const hasExplicitHoaxSignal =
-        /\b(hoaks|hoax|disinformasi|misinformasi|tidak benar|tidak sepenuhnya benar|keliru|menyesatkan|berita bohong|kabar bohong|fiktif|sindiran|satir|satire|parodi|lelucon|candaan|sarkas|sarkasme|hiperbolik)\b/i.test(cleanedForHoax) ||
+        /\b(hoaks|hoax|disinformasi|misinformasi|tidak benar|tidak sepenuhnya benar|keliru|menyesatkan|berita bohong|kabar bohong|fiktif|palsu|sindiran|satir|satire|parodi|lelucon|candaan|sarkas|sarkasme|hiperbolik)\b/i.test(cleanedForHoax) ||
         (lowerAio.includes('karhutla') && lowerAio.includes('hambalang'));
 
-      const isFactuallyFalse = hasExplicitTrueConfirmation ? false : hasExplicitHoaxSignal;
+      const isFactuallyFalse = hasMisleadingSignal
+        ? true
+        : hasExplicitTrueConfirmation
+          ? false
+          : hasExplicitHoaxSignal;
 
       const normalizedSources = (sources && sources.length > 0 ? sources : []).map(s => ({
         ...s,
@@ -51,6 +60,7 @@ export function classifyPost(
       return {
         claim: cleanClaim,
         indikasiHoax: isFactuallyFalse,
+        dasar: 'ai_overview',
         // Bila terindikasi hoaks, tampilkan penjelasan penelusuran apa adanya. Bila tidak, jangan
         // menyatakan klaim itu benar (sistem bukan lembaga pemeriksa fakta resmi): cukup nyatakan
         // tidak ada indikasi dan arahkan pembaca ke rujukan.
@@ -146,12 +156,36 @@ export function classifyPost(
   );
   const isHoax = Boolean(matchedCategory) || hasHoaxSourceVerdict;
 
+  // Ciri pesan berantai: dipakai hanya bila penelusuran tidak menghasilkan ringkasan Google AI Overview
+  // dan tidak ada kategori kata kunci yang cocok. Perlu minimal dua ciri agar unggahan biasa tidak ikut terjaring.
+  if (!isHoax) {
+    const letters = Array.from(rawText).filter((c) => /\p{L}/u.test(c));
+    const upperRatio = letters.length >= 40 ? letters.filter((c) => c !== c.toLowerCase()).length / letters.length : 0;
+    const chainSigns = [
+      /\binfo\s*(a1|valid|penting)\b/i.test(rawText),
+      (rawText.match(/[‼⚠🚨❗]/gu) || []).length >= 2 || rawText.includes('!!!'),
+      upperRatio > 0.6,
+      /\b(sebarkan|viralkan|bagikan|forward)\b/i.test(rawText)
+    ].filter(Boolean).length;
+    if (chainSigns >= 2) {
+      return {
+        claim: cleanClaim,
+        indikasiHoax: true,
+        dasar: 'ciri_teks',
+        alasan:
+          'Konten terindikasi hoaks karena memiliki beberapa ciri pesan berantai (penanda "info valid", tanda seru atau tanda peringatan berlebihan, huruf kapital dominan, atau ajakan menyebarkan) dan belum ditemukan rujukan yang mendukung isinya.',
+        factCheckSources: sources && sources.length > 0 ? sources : []
+      };
+    }
+  }
+
   const factCheckSources: FactCheckSource[] = sources && sources.length > 0 ? sources : [];
 
   if (isHoax && matchedCategory) {
     return {
       claim: cleanClaim,
       indikasiHoax: true,
+      dasar: 'ciri_teks',
       alasan: `Konten terindikasi hoaks (${matchedCategory.category}). ${matchedCategory.explanation}`,
       factCheckSources
     };
@@ -162,7 +196,8 @@ export function classifyPost(
     return {
       claim: cleanClaim,
       indikasiHoax: true,
-      alasan: `Berdasarkan rujukan cek fakta resmi (${topHoax.publisher}: "${topHoax.title}"), klaim dalam unggahan ini terindikasi tidak benar / disinformasi.`,
+      dasar: 'pencarian',
+      alasan: `Hasil pencarian memuat bantahan atau penilaian bahwa klaim ini tidak benar (${topHoax.publisher}: "${topHoax.title}"). Periksa rujukan di bawah.`,
       factCheckSources
     };
   }
@@ -174,6 +209,7 @@ export function classifyPost(
     return {
       claim: cleanClaim || 'Informasi umum dari postingan Threads',
       indikasiHoax: false,
+      dasar: 'pencarian',
       alasan: `Tidak ditemukan indikasi hoaks pada klaim ini berdasarkan penelusuran sistem. Liputan terkait dari ${topPublishers}, antara lain "${leadTitle}", dapat dibaca pada rujukan di bawah.`,
       factCheckSources
     };
@@ -182,6 +218,7 @@ export function classifyPost(
   return {
     claim: cleanClaim || 'Informasi umum dari postingan Threads',
     indikasiHoax: false,
+    dasar: 'ciri_teks',
     alasan: `Tidak ditemukan indikasi hoaks pada klaim ini berdasarkan penelusuran sistem. Belum ada rujukan berita yang cukup untuk memastikan kebenarannya, sehingga periksa rujukan di bawah.`,
     factCheckSources
   };

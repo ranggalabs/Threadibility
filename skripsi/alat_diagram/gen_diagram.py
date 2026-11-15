@@ -180,7 +180,11 @@ def metodologi():
     y = cont_top + cont_h
     f.arrow_down(cx, y, y + 24)
     y += 24
-    h = f.box(x, y, w, [("Implementasi dan Pengujian", t, True)], rx=5)
+    h = f.box(x, y, w, [("Implementasi", t, True)], rx=5)
+    y += h
+    f.arrow_down(cx, y, y + 24)
+    y += 24
+    h = f.box(x, y, w, [("Pengujian dan Evaluasi", t, True), ("*Black-box*, *confusion matrix*, dan waktu proses", n, False)], rx=5)
     y += h
     f.arrow_down(cx, y, y + 24)
     y += 24
@@ -320,7 +324,7 @@ def arsitektur():
     l2 = [
         [("Layanan REST API", B, True), ("(Validasi &", N, False), ("Normalisasi Teks)", N, False)],
         [("Modul", B, True), ("Penelusuran *Web*", B, True), ("(Kueri & Penyaringan", N, False), ("Bukti)", N, False)],
-        [("Modul Penyusun", B, True), ("Hasil", B, True), ("(Status, Skor,", N, False), ("& Rujukan)", N, False)],
+        [("Modul Penyusun", B, True), ("Hasil", B, True), ("(Status, Alasan,", N, False), ("& Rujukan)", N, False)],
     ]
     y = y0
     pos2 = []

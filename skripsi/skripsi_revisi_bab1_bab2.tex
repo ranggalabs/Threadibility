@@ -70,6 +70,7 @@
 \usepackage{tabularx}
 \usepackage{longtable}
 \usepackage{float}
+\usepackage{placeins}
 % Izinkan gambar besar berbagi halaman dengan teks (hindari halaman berisi satu gambar saja)
 \renewcommand{\topfraction}{0.9}
 \renewcommand{\bottomfraction}{0.8}
@@ -159,6 +160,26 @@
   {\end{tabular}\end{spacing}}
 \newcommand{\brs}[4]{\rule[-0.55cm]{0pt}{1.1cm}#1. & #2 & #3 & #4\\ \hline}
 
+% --- gaya diagram UML pada Bab 3 (hitam-putih, huruf 9 pt)
+% Gaya diagram UML (hitam-putih, huruf 9 pt tercetak)
+\tikzset{
+  uml/.style={font=\fontsize{9}{10.5}\selectfont,execute at begin node={\hyphenpenalty=10000 \exhyphenpenalty=10000 },line width=0.5pt,>={Stealth[length=4.5pt,width=4pt]}},
+  ucase/.style={draw,ellipse,minimum height=0.95cm,align=center,inner sep=1pt},
+  act/.style={draw,rounded corners=4pt,align=center,inner sep=3pt,minimum height=0.8cm},
+  dec/.style={draw,diamond,aspect=2.2,align=center,inner sep=0pt},
+  cls/.style={draw,rectangle,inner sep=0pt},
+  ulbl/.style={font=\fontsize{9}{10.5}\selectfont,inner sep=1.5pt,fill=white},
+}
+\newcommand{\umlactor}[3]{% x, y, nama
+  \begin{scope}[shift={(#1,#2)}]
+    \draw (0,0.75) circle (0.18);
+    \draw (0,0.57)--(0,-0.05);
+    \draw (-0.3,0.4)--(0.3,0.4);
+    \draw (0,-0.05)--(-0.25,-0.55);
+    \draw (0,-0.05)--(0.25,-0.55);
+    \node[align=center,anchor=north] at (0,-0.62) {#3};
+  \end{scope}}
+
 \usepackage{amsmath}
 \usepackage{enumitem}
 \usepackage{caption}
@@ -213,6 +234,14 @@
   {}
 \titlespacing*{\subsection}{0pt}{10pt}{3pt}
 
+\setcounter{secnumdepth}{3}
+\titleformat{\subsubsection}
+  {\normalfont\fontsize{12}{15}\selectfont\bfseries}
+  {\thesubsubsection}
+  {0.6em}
+  {}
+\titlespacing*{\subsubsection}{0pt}{8pt}{3pt}
+
 % --- Pengaturan Daftar Isi, Daftar Gambar, dan Daftar Tabel ---
 % Jarak, tingkat indentasi, titik-titik penuntun, dan penomoran mengacu pada contoh
 % skripsi pembanding (DRAFT 10): baris tunggal rapat, judul bab huruf tebal,
@@ -233,7 +262,7 @@
 \setlength{\cftsubsecindent}{36pt}
 \setlength{\cftsubsecnumwidth}{34pt}
 \setlength{\cftsubsubsecindent}{54pt}
-\setlength{\cftsubsubsecnumwidth}{24pt}
+\setlength{\cftsubsubsecnumwidth}{44pt}
 \setlength{\cftbeforechapskip}{2pt}
 \setlength{\cftbeforesecskip}{2pt}
 \setlength{\cftbeforesubsecskip}{2pt}
@@ -451,7 +480,7 @@ Berdasarkan pemetaan tersebut, terdapat kesenjangan penelitian (\textit{research
 Untuk mengisi kesenjangan tersebut sekaligus mengatasi ketiga masalah di atas, penelitian ini menerapkan teknologi penelusuran bukti \textit{web} secara \textit{real-time} pada sisi \textit{server} (\textit{backend}) menggunakan lingkungan eksekusi Node.js dan kerangka kerja Express.js [5]. Penelusuran fakta dirancang dengan dua sumber, yaitu mengekstraksi fitur Google AI Overview (Ringkasan \textit{Artificial Intelligence} atau AI) beserta artikel rujukannya secara otomatis menggunakan pustaka \textit{browser} Playwright [6] sebagai sumber utama, serta memanfaatkan umpan berita Google News \textit{Really Simple Syndication} (RSS) sebagai sumber cadangan. Agar daftar bacaan rujukan benar-benar sesuai dengan topik unggahan dan bebas dari halusinasi, \textit{server} membuka tautan hasil pencarian sampai ke alamat situs berita aslinya, menormalisasi karakter \textit{Unicode} pada teks unggahan, serta menyaring kecocokan kata kunci antara isi klaim, ringkasan peristiwa, dan judul berita.
 
 % Paragraf 9: Teknologi yang digunakan (sisi klien: Chrome Extension Manifest V3)
-Agar fitur pemeriksaan ini dapat dipakai tanpa mengganggu kenyamanan membaca beranda, sisi antarmuka pengguna dibangun sebagai ekstensi \textit{browser} Google Chrome berbasis standar \textit{Manifest V3} [7] dengan memanfaatkan bahasa pemrograman TypeScript dan pustaka antarmuka React [8]. Pemilihan arsitektur ini mengacu pada penelitian sebelumnya yang membuktikan bahwa ekstensi \textit{browser} yang berkomunikasi dengan \textit{server} analisis melalui antarmuka pemrograman aplikasi (\textit{Application Programming Interface}/API) efektif menyajikan peringatan secara langsung di halaman \textit{web} [4]. Dengan pendekatan ini, pengguna cukup mengklik kanan pada suatu unggahan di halaman \textit{web} Threads untuk mengambil teks dari struktur \textit{Document Object Model} (DOM), lalu sistem akan memasang lencana (\textit{badge}) status beserta jendela keterangan (\textit{tooltip}) berisi tingkat keyakinan, alasan analisis, dan tautan berita rujukan di samping unggahan tersebut.
+Agar fitur pemeriksaan ini dapat dipakai tanpa mengganggu kenyamanan membaca beranda, sisi antarmuka pengguna dibangun sebagai ekstensi \textit{browser} Google Chrome berbasis standar \textit{Manifest V3} [7] dengan memanfaatkan bahasa pemrograman TypeScript dan pustaka antarmuka React [8]. Pemilihan arsitektur ini mengacu pada penelitian sebelumnya yang membuktikan bahwa ekstensi \textit{browser} yang berkomunikasi dengan \textit{server} analisis melalui antarmuka pemrograman aplikasi (\textit{Application Programming Interface}/API) efektif menyajikan peringatan secara langsung di halaman \textit{web} [4]. Dengan pendekatan ini, pengguna cukup mengklik kanan pada suatu unggahan di halaman \textit{web} Threads untuk mengambil teks dari struktur \textit{Document Object Model} (DOM), lalu sistem akan memasang lencana (\textit{badge}) status beserta jendela keterangan (\textit{tooltip}) berisi status, alasan analisis, dan tautan berita rujukan di samping unggahan tersebut.
 
 % Paragraf 10: Penutup
 Berdasarkan uraian permasalahan, temuan kuesioner pengguna, kesenjangan penelitian terdahulu, dan pilihan teknologi di atas, penelitian ini berfokus pada pengembangan ekstensi Google Chrome untuk deteksi indikasi \textit{hoax} berbasis teks pada platform Threads. Ekstensi \textit{browser} ini diharapkan dapat mempersingkat waktu pemeriksaan manual, menyediakan sumber rujukan cek fakta yang relevan dengan konteks berita terkini, serta membantu pengguna bersikap lebih kritis sebelum mempercayai atau menyebarkan ulang suatu unggahan di media sosial.
@@ -488,10 +517,11 @@ Agar pengerjaan dan pembahasan penelitian tetap terarah sesuai ruang lingkup sis
 \begin{enumerate}[leftmargin=0.8cm,itemsep=3pt,topsep=2pt]
   \item Ekstensi hanya digunakan pada media sosial Threads versi \textit{web} (\url{threads.com}) yang dibuka melalui \textit{browser} Google Chrome pada perangkat komputer (\textit{desktop}).
   \item Pemeriksaan hanya dilakukan pada isi teks unggahan, sehingga sistem belum menangani pembacaan teks di dalam gambar, rekaman suara, maupun video.
-  \item Teks unggahan yang dapat diperiksa berbahasa Indonesia dan bahasa Inggris, dengan pengolahan kata kunci pencarian serta aturan penentuan status yang diutamakan untuk bahasa Indonesia.
+  \item Teks unggahan yang diperiksa hanya yang berbahasa Indonesia, sehingga pengolahan kata kunci pencarian serta aturan penentuan status disusun khusus untuk bahasa Indonesia dan belum mendukung bahasa lain.
   \item Penelusuran bukti kebenaran informasi mengandalkan hasil pencarian dari layanan Google AI Overview dan Google News RSS pada saat pemeriksaan dijalankan, tanpa mengubah cara kerja internal dari mesin pencari Google.
   \item Layanan \textit{server} \textit{backend} dijalankan secara lokal pada komputer (\texttt{localhost}) menggunakan Node.js dan pustaka Playwright, serta belum mencakup pemasangan \textit{server} ke layanan \textit{cloud} publik.
-  \item Status hasil pemeriksaan dan persentase keyakinan yang ditampilkan bersifat sebagai petunjuk awal (\textit{indikasi awal}) untuk membantu pertimbangan pengguna, bukan sebagai putusan mutlak pengganti lembaga pemeriksa fakta resmi.
+  \item Status hasil pemeriksaan yang ditampilkan bersifat sebagai petunjuk awal (\textit{indikasi awal}) untuk membantu pertimbangan pengguna, bukan sebagai putusan mutlak pengganti lembaga pemeriksa fakta resmi.
+  \item Penelusuran memerlukan Google Chrome terpasang pada komputer yang menjalankan \textit{server} dan dapat terhambat bila Google meminta verifikasi manusia (\textit{Completely Automated Public Turing test to tell Computers and Humans Apart}/CAPTCHA).
 \end{enumerate}
 
 \section{Sistematika Penulisan}
@@ -505,7 +535,7 @@ Menguraikan latar belakang masalah penyebaran informasi \textit{hoax} pada platf
 Memaparkan landasan teori umum yang mendukung pembangunan sistem (konsep umum sistem, informasi, dan deteksi \textit{hoax}, klasifikasi \textit{hoax} dan \textit{satire}, struktur halaman \textit{web} Threads, arsitektur ekstensi Chrome \textit{Manifest V3}, \textit{server} \textit{backend}, serta penelusuran Google AI Overview dan Google News RSS) beserta teori metode penelitian (metode pengembangan perangkat lunak \textit{Waterfall}, \textit{black-box testing}, dan \textit{confusion matrix}), pemodelan \textit{Unified Modeling Language} (UML) (\textit{use case}, \textit{activity}, \textit{sequence}, dan \textit{class diagram}), perangkat lunak (\textit{tools}) yang digunakan termasuk \textit{Integrated Development Environment} (IDE) Google Antigravity, serta kajian penelitian terdahulu (\textit{state of the art}).
 
 \noindent\textbf{BAB 3 METODE PENELITIAN}\par\nopagebreak
-Menjelaskan secara rinci tahapan analisis dan perancangan sistem, mencakup analisis masalah, analisis prosedur berjalan, analisis struktur DOM halaman Threads, spesifikasi kebutuhan fungsional dan nonfungsional, perancangan arsitektur dan alur penelusuran fakta, pemodelan UML, kontrak data API, serta rancangan antarmuka pengguna.
+Menjelaskan pendekatan dan tahapan penelitian beserta model pengembangan perangkat lunak, data dan objek penelitian (kuesioner, data uji berlabel, dan lingkungan penelitian), metode yang mencakup analisis masalah, analisis prosedur berjalan, analisis struktur DOM halaman Threads, kebutuhan fungsional dan nonfungsional, arsitektur, alur penelusuran dan penentuan status, pemodelan UML, penyimpanan data, kontrak data API, struktur menu, antarmuka pengguna, pesan, dan jaringan semantik, serta cara pengujian dan evaluasi sistem.
 
 \noindent\textbf{BAB 4 HASIL DAN PEMBAHASAN}\par\nopagebreak
 Menyajikan hasil implementasi kode dan antarmuka dari ekstensi Google Chrome beserta \textit{server} \textit{backend}, diikuti hasil pengujian fungsional \textit{black-box}, hasil pengukuran kinerja deteksi menggunakan \textit{confusion matrix}, evaluasi kesesuaian sumber berita rujukan, serta pembahasan mendalam atas temuan pengujian.
@@ -556,7 +586,7 @@ Threads merupakan layanan jejaring sosial mikroblog yang dikembangkan oleh Meta 
 
 \subsection{\textit{Document Object Model} (DOM)}
 
-\textit{Document Object Model} (DOM) adalah antarmuka pemrograman standar bagi dokumen \textit{HyperText Markup Language} (HTML) yang menggambarkan seluruh elemen halaman \textit{web} ke dalam struktur pohon objek (\textit{tree structure}) sehingga isi, struktur, dan tampilannya dapat dibaca maupun diubah secara dinamis menggunakan JavaScript~[19]. Dalam pohon tersebut, setiap simpul mewakili satu \textit{tag} HTML dan tingkat susunannya menunjukkan elemen mana yang bersarang di dalam elemen lain. Pada halaman \textit{web} Threads yang berjalan sebagai \textit{Single-Page Application} (SPA), daftar unggahan baru dimuat secara terus-menerus ketika pengguna menggulir layar dan nama kelas tampilannya (\textit{CSS class}) diacak saat proses kompilasi. Akibatnya, pembacaan data unggahan oleh ekstensi \textit{browser} harus menargetkan struktur simpul DOM yang stabil seperti elemen \texttt{article}, atribut \texttt{data-pressable-container}, tautan akun \texttt{/@username}, elemen waktu \texttt{<time datetime="...">}, serta blok teks beratribut \texttt{dir="auto"}.
+\textit{Document Object Model} (DOM) adalah antarmuka pemrograman standar bagi dokumen \textit{HyperText Markup Language} (HTML) yang menggambarkan seluruh elemen halaman \textit{web} ke dalam struktur pohon objek (\textit{tree structure}) sehingga isi, struktur, dan tampilannya dapat dibaca maupun diubah secara dinamis menggunakan JavaScript~[19]. Dalam pohon tersebut, setiap simpul mewakili satu \textit{tag} HTML dan tingkat susunannya menunjukkan elemen mana yang bersarang di dalam elemen lain. Pada halaman \textit{web} Threads yang berjalan sebagai \textit{Single-Page Application} (SPA), daftar unggahan baru dimuat secara terus-menerus ketika pengguna menggulir layar dan nama kelas tampilannya (\textit{CSS class}) diacak saat proses kompilasi. Akibatnya, pembacaan data unggahan oleh ekstensi \textit{browser} harus menargetkan struktur simpul DOM yang stabil seperti elemen \texttt{article}, atribut \texttt{data-pressable-\allowbreak container}, tautan akun \texttt{/@username}, elemen waktu \texttt{<time datetime="...">}, serta blok teks beratribut \texttt{dir="auto"}.
 
 \subsection{Ekstensi \textit{Browser} Google Chrome \textit{Manifest V3}}
 
@@ -592,13 +622,13 @@ Normalisasi teks \textit{Unicode} adalah proses transformasi deretan karakter ke
 
 \subsection{Penelusuran Bukti Fakta \textit{Real-Time}}
 
-Penelusuran bukti fakta \textit{real-time} (\textit{real-time web retrieval}) adalah pendekatan verifikasi klaim yang mengambil bukti langsung dari indeks mesin pencari dan portal berita daring pada saat permintaan pemeriksaan diterima. Pendekatan ini menggabungkan ekstraksi Google AI Overview (Ringkasan AI) menggunakan otomasi \textit{browser} tanpa tampilan (\textit{headless browser}) serta penelusuran umpan berita Google News RSS sebagai sumber cadangan. Pendekatan ini sejalan dengan penelitian yang membangun alur pemeriksaan klaim dari bukti mentah di \textit{web} dengan membatasi pencarian pada dokumen yang terbit sebelum klaim dibuat agar sesuai dengan kondisi klaim yang baru muncul; alur tersebut terdiri atas lima komponen, yaitu penguraian klaim, pengambilan dokumen mentah, pengambilan bukti rinci, ringkasan berfokus klaim, dan penilaian kebenaran~[24]. Dengan mengambil bukti secara langsung dari \textit{web}, sistem dapat memeriksa kebenaran peristiwa atau isu viral yang baru saja terjadi pada hari yang sama tanpa bergantung pada pelatihan ulang \textit{dataset} statis.
+Penelusuran bukti fakta \textit{real-time} (\textit{real-time web retrieval}) adalah pendekatan verifikasi klaim yang mengambil bukti langsung dari indeks mesin pencari dan portal berita daring pada saat permintaan pemeriksaan diterima. Pendekatan ini menggabungkan ekstraksi Google AI Overview (Ringkasan AI) menggunakan otomasi \textit{browser} Google Chrome melalui pustaka Playwright serta penelusuran umpan berita Google News RSS sebagai sumber cadangan. Pendekatan ini sejalan dengan penelitian yang membangun alur pemeriksaan klaim dari bukti mentah di \textit{web} dengan membatasi pencarian pada dokumen yang terbit sebelum klaim dibuat agar sesuai dengan kondisi klaim yang baru muncul; alur tersebut terdiri atas lima komponen, yaitu penguraian klaim, pengambilan dokumen mentah, pengambilan bukti rinci, ringkasan berfokus klaim, dan penilaian kebenaran~[24]. Dengan mengambil bukti secara langsung dari \textit{web}, sistem dapat memeriksa kebenaran peristiwa atau isu viral yang baru saja terjadi pada hari yang sama tanpa bergantung pada pelatihan ulang \textit{dataset} statis.
 
 \subsection{Pencegahan Halusinasi Rujukan}
 
 Dalam penelitian pembangkitan bahasa alami (\textit{natural language generation}), halusinasi (\textit{hallucination}) adalah keluaran model yang tidak masuk akal atau tidak setia pada sumber masukannya~[25]. Tinjauan terhadap penerapan model bahasa besar pada pemeriksaan fakta menegaskan pentingnya bukti eksternal yang telah divalidasi serta pemanfaatan \textit{retrieval-augmented generation} (RAG) untuk mengurangi halusinasi~[26]. Halusinasi rujukan merupakan kondisi ketika suatu sistem kecerdasan buatan menghasilkan tautan berita fiktif atau menyertakan artikel rujukan yang sebenarnya membahas topik lain di luar isi klaim yang sedang diperiksa. Untuk mencegah hal tersebut, setiap calon tautan rujukan yang diperoleh dari mesin pencari harus melalui proses pelacakan alamat URL asli dan penyaringan kesesuaian konteks menggunakan pencocokan kata kunci yang sama antara klaim dan peristiwa. Hanya artikel berita yang memiliki keterkaitan langsung dengan pokok bahasan unggahan yang disertakan sebagai bukti pendukung pada hasil akhir.
 
-\subsection{Metode Pengembangan Perangkat Lunak \textit{Waterfall}}
+\subsection{Metode Pengembangan Perangkat Lunak \textit{Waterfall}}\label{sub:waterfall}
 
 Proses rekayasa perangkat lunak dalam penelitian ini mengikuti model \textit{Waterfall}, yaitu model pengembangan yang menjalankan tahapannya secara berurutan~[27]. Model ini lazim dikaitkan dengan karya Royce pada tahun 1970, sedangkan penggunaan istilah \textit{waterfall} untuk menamai model tersebut paling awal ditemukan pada karya Bell dan Thayer tahun 1976~[27]. Pembagian fasenya sendiri banyak diadaptasi dalam literatur~[27], sehingga penelitian ini memakai lima tahap yang mengacu pada adaptasi tersebut.
 
@@ -688,7 +718,7 @@ Google Antigravity adalah \textit{agentic development platform}, yaitu platform 
 
 \subsection{TypeScript}
 
-TypeScript adalah himpunan super (\textit{superset}) JavaScript yang dirilis oleh Microsoft pada tahun 2012 dan memakai sistem tipe yang eksplisit. Kodenya bertipe statis dan dikonversi menjadi JavaScript oleh kompilator \texttt{tsc}, yang memeriksa tipe pada saat konversi dan melaporkan kesalahan terkait tipe~[38]. Studi terhadap 604 proyek GitHub menemukan bahwa aplikasi TypeScript memiliki kualitas kode dan keterbacaan yang secara signifikan lebih baik daripada aplikasi JavaScript, tetapi tidak otomatis memiliki lebih sedikit kesalahan~[38]. Dalam penelitian ini, TypeScript digunakan baik pada pengembangan kode ekstensi \textit{browser} maupun pada kode layanan \textit{server} \textit{backend} untuk menjaga struktur objek klaim unggahan, status hasil verifikasi, skor keyakinan, dan daftar tautan rujukan tetap konsisten saat dikompilasi.
+TypeScript adalah himpunan super (\textit{superset}) JavaScript yang dirilis oleh Microsoft pada tahun 2012 dan memakai sistem tipe yang eksplisit. Kodenya bertipe statis dan dikonversi menjadi JavaScript oleh kompilator \texttt{tsc}, yang memeriksa tipe pada saat konversi dan melaporkan kesalahan terkait tipe~[38]. Studi terhadap 604 proyek GitHub menemukan bahwa aplikasi TypeScript memiliki kualitas kode dan keterbacaan yang secara signifikan lebih baik daripada aplikasi JavaScript, tetapi tidak otomatis memiliki lebih sedikit kesalahan~[38]. Dalam penelitian ini, TypeScript digunakan baik pada pengembangan kode ekstensi \textit{browser} maupun pada kode layanan \textit{server} \textit{backend} untuk menjaga struktur objek klaim unggahan, status indikasi \textit{hoax}, alasan analisis, dan daftar tautan rujukan tetap konsisten saat dikompilasi.
 
 \subsection{React}
 
@@ -853,6 +883,1129 @@ Berdasarkan keempat tabel \textit{literature review} di atas, ringkasan tujuan, 
 \clearpage
 \landscapenumfalse
 \end{landscape}
+
+% ==============================================================================
+% BAB 3 METODE PENELITIAN
+% ==============================================================================
+\babbaru{METODE PENELITIAN}
+
+Bab ini menjelaskan cara penelitian dilaksanakan secara sistematis, mulai dari pendekatan dan tahapan penelitian, data yang dipakai, metode analisis dan perancangan sistem, sampai cara sistem diuji dan dievaluasi.
+
+\section{Pendekatan dan Tahapan Penelitian}
+
+\subsection{Kerangka Penelitian}
+
+Penelitian ini bersifat rekayasa perangkat lunak yang dilengkapi evaluasi kuantitatif. Sistem dibangun lebih dahulu, kemudian ketepatannya diukur pada kumpulan klaim yang kebenarannya sudah diketahui. Tahapan penelitian, mulai dari masalah sampai ekstensi yang dihasilkan, digambarkan pada Gambar~\ref{fig:framework}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{gambar/metodologi_penelitian.png}
+  \caption{Kerangka penelitian (\textit{research framework})}
+  \label{fig:framework}
+\end{figure}
+
+Berdasarkan Gambar~\ref{fig:framework}, tahapan penelitian dijelaskan sebagai berikut:
+\begin{enumerate}[leftmargin=0.8cm,itemsep=3pt,topsep=2pt]
+  \item Identifikasi Masalah: merumuskan tiga masalah pada Subbab 1.2 dari pengamatan terhadap cara pengguna memeriksa unggahan secara manual dan dari kajian literatur tentang pemeriksaan fakta otomatis~[2].
+  \item Pengumpulan Data: studi pustaka mengumpulkan jurnal penelitian dan dokumentasi teknis sebagai dasar teori pada Bab 2, sedangkan kuesioner pada 60 pengguna Threads mengumpulkan data tentang kebiasaan dan kebutuhan pengguna.
+  \item Analisis dan Perancangan Sistem: menjalankan empat langkah berurutan, yaitu analisis masalah, analisis sistem yang berjalan, analisis kebutuhan, dan perancangan sistem. Rinciannya ada pada Subbab~\ref{sec:metode}.
+  \item Implementasi: menerjemahkan rancangan menjadi kode program untuk ekstensi Google Chrome dan \textit{server} \textit{backend}.
+  \item Pengujian dan Evaluasi: menguji fungsi sistem dengan \textit{black-box testing} dan mengukur ketepatan serta waktu proses pada klaim uji berlabel, sebagaimana dirinci pada Subbab~\ref{sec:evaluasi}.
+  \item \textit{Output}: ekstensi Google Chrome yang mendeteksi indikasi \textit{hoax} pada Threads, beserta laporan hasil pada Bab 4.
+\end{enumerate}
+
+\subsection{Model Pengembangan Perangkat Lunak}
+
+Pengembangan sistem mengikuti model \textit{Waterfall} lima tahap yang telah diuraikan pada Subbab~\ref{sub:waterfall}~[27], [28]. Setiap tahap dikerjakan berurutan, dan tahap berikutnya dimulai setelah keluaran tahap sebelumnya tersedia. Model ini dipakai karena ruang lingkup penelitian sudah tetap sejak awal: batasan masalah pada Subbab 1.4 telah menetapkan platform, fitur, dan sumber penelusuran. Keluaran setiap tahap pada penelitian ini dirangkum pada Tabel~\ref{tab:waterfall}.
+
+\begin{table}[H]
+  \centering
+  \caption{Keluaran setiap tahap model \textit{Waterfall} pada penelitian ini}
+  \label{tab:waterfall}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{3.4cm}|R{7.0cm}|R{2.2cm}|}
+    \hline
+    \multicolumn{1}{|C{3.4cm}|}{\textbf{Tahap}} & \multicolumn{1}{C{7.0cm}|}{\textbf{Keluaran}} & \multicolumn{1}{C{2.2cm}|}{\textbf{Dibahas pada}} \\ \hline
+    \textit{Requirements Analysis} & Hasil kuesioner, analisis masalah, prosedur berjalan, struktur DOM, dan daftar kebutuhan & Subbab~\ref{sec:metode} \\ \hline
+    \textit{System and Software Design} & Arsitektur, alur penelusuran, diagram UML, kontrak API, dan rancangan antarmuka & Subbab~\ref{sec:metode} \\ \hline
+    \textit{Implementation} & Kode ekstensi Chrome, kode \textit{server}, dan konsol pengujian & Bab 4 \\ \hline
+    \textit{Testing} & Hasil \textit{black-box testing}, \textit{confusion matrix}, dan waktu proses & Subbab~\ref{sec:evaluasi} \\ \hline
+    \textit{Maintenance} & Catatan penyesuaian bila tampilan Threads atau Google berubah, dan keterbatasan sistem & Bab 4 \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\section{Data dan Objek Penelitian}
+
+\subsection{Data Kuesioner}
+
+Kuesioner disebarkan secara daring kepada pengguna Threads untuk mengetahui kebiasaan mereka memeriksa unggahan dan kebutuhan mereka terhadap alat bantu. Pengisian berlangsung dari 15 September sampai 16 November 2026 dan menghasilkan 60 responden. Instrumen terdiri atas 15 pernyataan. Setiap pernyataan dijawab dengan salah satu dari lima pilihan, yaitu Sangat Tidak Setuju, Tidak Setuju, Netral/Ragu-ragu, Setuju, dan Sangat Setuju, yang diberi skor 1 sampai 5. Kuesioner tidak memuat data profil responden seperti usia dan pekerjaan, sehingga hasilnya hanya menggambarkan kebutuhan secara umum dan tidak dapat dibedakan menurut kelompok responden. Pernyataan dikelompokkan menjadi empat indikator pada Tabel~\ref{tab:kuesioner}.
+
+\begin{table}[H]
+  \centering
+  \caption{Indikator dan butir pernyataan kuesioner}
+  \label{tab:kuesioner}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{7.0cm}|C{2.6cm}|C{2.7cm}|}
+    \hline
+    \multicolumn{1}{|C{7.0cm}|}{\textbf{Indikator}} & \multicolumn{1}{C{2.6cm}|}{\textbf{Nomor butir}} & \multicolumn{1}{C{2.7cm}|}{\textbf{Jumlah butir}} \\ \hline
+    Waktu dan kecepatan pemeriksaan manual & 1 sampai 5 & 5 \\ \hline
+    Kesulitan dan akses terhadap alat pemeriksa & 6 sampai 9 & 4 \\ \hline
+    Kebutuhan alat bantu yang terintegrasi dan otomatis & 10 dan 15 & 2 \\ \hline
+    Dampak \textit{hoax} bagi pengguna dan masyarakat & 11 sampai 14 & 4 \\ \hline
+    \multicolumn{2}{|R{9.6cm}|}{\textbf{Total}} & \textbf{15} \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\subsection{Objek Penelitian}
+
+Objek penelitian adalah unggahan teks berbahasa Indonesia pada Threads versi \textit{web}~[18]. Setiap unggahan diwakili empat data, yaitu teks, nama akun, tautan unggahan, dan waktu unggah, yang cara pengambilannya dijelaskan pada Subbab~\ref{sub:dom}. Sesuai batasan masalah, unggahan berisi gambar, rekaman suara, atau video tidak diperiksa isi gambar atau suaranya; sistem hanya membaca teks yang menyertainya.
+
+\subsection{Data Uji Berlabel}
+
+Data uji berlabel adalah kumpulan klaim berbahasa Indonesia yang kebenarannya sudah diketahui sebelum sistem dijalankan. Kunci jawaban ini dibutuhkan karena \textit{confusion matrix} dihitung dengan membandingkan tebakan sistem terhadap label sebenarnya. Ketentuan pengumpulan data uji dirangkum pada Tabel~\ref{tab:datauji}.
+
+\begin{table}[H]
+  \centering
+  \caption{Ketentuan data uji berlabel}
+  \label{tab:datauji}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{3.5cm}|R{9.1cm}|}
+    \hline
+    \multicolumn{1}{|C{3.5cm}|}{\textbf{Aspek}} & \multicolumn{1}{C{9.1cm}|}{\textbf{Ketentuan}} \\ \hline
+    Jumlah & Sekitar 100 klaim, terdiri atas klaim \textit{hoax} dan bukan \textit{hoax} dalam jumlah yang seimbang \\ \hline
+    Bahasa dan bentuk & Bahasa Indonesia, berupa teks \\ \hline
+    Sumber label \textit{hoax} & Klaim yang sudah dinyatakan salah oleh organisasi pemeriksa fakta di Indonesia, misalnya Mafindo melalui TurnBackHoax~[10] \\ \hline
+    Sumber label bukan \textit{hoax} & Berita dari media arus utama yang isinya dikonfirmasi oleh lebih dari satu sumber \\ \hline
+    Waktu pelabelan & Label ditetapkan sebelum klaim dijalankan pada sistem agar tebakan sistem tidak memengaruhi label \\ \hline
+    Pembagian data & Dua kumpulan terpisah: data penyetelan untuk menyesuaikan aturan, dan data uji yang dipakai hanya untuk evaluasi akhir \\ \hline
+    Klaim yang dikeluarkan & Klaim yang gagal ditelusuri karena Google meminta verifikasi dikeluarkan dari perhitungan dan dilaporkan terpisah \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+Mafindo dipilih sebagai sumber label karena organisasi ini menjalankan pemeriksaan fakta dan pemberantasan \textit{hoax} di Indonesia melalui situs TurnBackHoax~[10]. Data penyetelan dan data uji dipisahkan karena aturan klasifikasi disesuaikan memakai klaim, sehingga ketepatan yang diukur pada klaim yang sama akan tampak lebih baik daripada keadaan sebenarnya.
+
+\subsection{Lingkungan Penelitian}
+
+Pengembangan dan pengujian dilakukan pada satu komputer dengan perangkat lunak yang dirangkum pada Tabel~\ref{tab:lingkungan}. Penjelasan setiap perangkat lunak ada pada Subbab 2.3.
+
+\begin{table}[H]
+  \centering
+  \caption{Lingkungan pengembangan dan pengujian}
+  \label{tab:lingkungan}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{5.0cm}|R{7.6cm}|}
+    \hline
+    \multicolumn{1}{|C{5.0cm}|}{\textbf{Komponen}} & \multicolumn{1}{C{7.6cm}|}{\textbf{Spesifikasi}} \\ \hline
+    Sistem operasi & Windows 11 Pro \\ \hline
+    \textit{Browser} & Google Chrome versi \textit{desktop} \\ \hline
+    Lingkungan eksekusi & Node.js 24 \\ \hline
+    Bahasa pemrograman & TypeScript 5 \\ \hline
+    Antarmuka ekstensi & React 18 dan Vite 5 \\ \hline
+    \textit{Server} dan penelusuran & Express.js 4 dan Playwright Core 1 \\ \hline
+    Editor kode & Google Antigravity \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\section{Metode}\label{sec:metode}
+
+\subsection{Analisis Sistem}
+
+\subsubsection{Analisis Masalah}
+
+Analisis masalah menguraikan kesulitan pengguna ketika memeriksa unggahan Threads dan mengaitkannya dengan tiga masalah pada Subbab 1.2. Data pendukungnya berasal dari kuesioner pada Subbab 3.2.1, sedangkan hasilnya disajikan pada Bab 4. Ketiga kesulitan tersebut adalah:
+\begin{enumerate}[leftmargin=0.8cm,itemsep=3pt,topsep=2pt]
+  \item Pemeriksaan manual memakan waktu. Pengguna harus berpindah \textit{tab}, mengetik kata kunci, lalu membaca beberapa situs berita. Masalah ini diukur melalui butir 1 sampai 5 dan butir 8 pada kuesioner.
+  \item Alat pemeriksa tidak tersedia langsung. Threads belum menyediakan fitur pemeriksa fakta bawaan, sehingga pengguna tidak punya akses cepat ke alat yang dapat dipercaya. Masalah ini diukur melalui butir 6, 7, 9, dan 10.
+  \item Bukti tanpa sumber berisiko keliru. Sistem otomatis yang hanya menjawab tanpa berpegang pada artikel berita dapat menghasilkan keterangan yang tidak sesuai fakta (\textit{hallucination})~[25], [26], dan alat pemeriksa yang baik wajib menyertakan tautan sumber agar pengguna dapat memeriksa ulang~[2]. Karena itu sistem ini mengambil bukti dari \textit{web} saat pemeriksaan dijalankan dan menampilkan tautannya.
+\end{enumerate}
+
+\subsubsection{Analisis Prosedur Berjalan}
+
+\textit{Activity diagram} dipakai untuk menggambarkan prosedur berjalan karena yang perlu dijelaskan adalah urutan langkah dan pihak yang mengerjakannya~[32]. Prosedur pemeriksaan unggahan yang berlaku saat ini dilakukan sepenuhnya secara manual, sebagaimana ditunjukkan pada Gambar~\ref{fig:actmanual}.
+
+\begin{figure}[H]
+  \centering
+  \makebox[\textwidth][c]{
+\begin{tikzpicture}[uml]
+  % lajur
+  \draw (0,0.0) rectangle (14,-12.6);
+  \draw (7,0.0)--(7,-12.6);
+  \draw (0,-0.8)--(14,-0.8);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (3.5,-0.4) {Pengguna};
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries,align=center] at (10.5,-0.4) {Mesin pencari dan situs berita};
+  % simpul
+  \fill (3.5,-1.4) circle (0.2);
+  \node[act,text width=4.8cm] (n1) at (3.5,-2.5) {Membaca unggahan di Threads};
+  \node[dec,minimum width=3.4cm,minimum height=1.4cm] (d1) at (3.5,-4.1) {Isi unggahan\\meragukan?};
+  \node[act,text width=4.8cm] (n2) at (3.5,-5.9) {Menyalin teks unggahan, membuka \textit{tab} baru, dan mengetik kata kunci};
+  \node[act,text width=4.8cm] (n3) at (10.5,-7.5) {Menampilkan daftar hasil pencarian dan isi artikel berita};
+  \node[act,text width=4.8cm] (n4) at (3.5,-9.1) {Membuka beberapa situs berita dan membandingkan isinya};
+  \node[act,text width=4.8cm] (n5) at (3.5,-10.9) {Menyimpulkan sendiri lalu kembali ke Threads};
+  % akhir
+  \draw (0.6,-4.1) circle (0.2); \fill (0.6,-4.1) circle (0.12);
+  \draw (3.5,-12.0) circle (0.2); \fill (3.5,-12.0) circle (0.12);
+  % alur
+  \draw[->] (3.5,-1.6)--(n1.north);
+  \draw[->] (n1.south)--(d1.north);
+  \draw[->] (d1.south)--node[ulbl,right] {ya} (n2.north);
+  \draw[->] (d1.west)--node[ulbl,above] {tidak} (0.8,-4.1);
+  \draw[->] (n2.east) -| (n3.north);
+  \draw[->] (n3.west) -| (n4.north);
+  \draw[->] (n4.south)--(n5.north);
+  \draw[->] (n5.south)--(3.5,-11.8);
+\end{tikzpicture}
+}
+  \caption{\textit{Activity diagram} prosedur pemeriksaan unggahan yang berjalan}
+  \label{fig:actmanual}
+\end{figure}
+
+Berdasarkan Gambar~\ref{fig:actmanual}, pengguna yang meragukan sebuah unggahan menyalin teksnya, membuka \textit{tab} baru, dan mengetik kata kunci. Mesin pencari menampilkan daftar hasil, lalu pengguna membuka beberapa situs berita satu per satu, membandingkan isinya, dan menyimpulkan sendiri kebenarannya sebelum kembali ke Threads. Seluruh langkah dikerjakan pengguna, dan lamanya bergantung pada kemampuan pengguna mencari dan menilai sumber. Kondisi inilah yang hendak dipersingkat oleh sistem usulan.
+
+\subsubsection{Analisis Struktur DOM Halaman Threads}\label{sub:dom}
+
+Ekstensi membaca isi unggahan dari struktur \textit{Document Object Model} (DOM) halaman Threads yang berbentuk pohon objek~[19]. Karena Threads tidak menyediakan antarmuka resmi untuk membaca unggahan, ekstensi mencari elemen yang menjadi penampung unggahan dari titik tempat pengguna mengeklik kanan, lalu mengambil empat data dari elemen di dalamnya. Cara pengambilan setiap data, beserta cadangannya bila elemen utama tidak ditemukan, dirangkum pada Tabel~\ref{tab:dom}.
+
+\begin{table}[H]
+  \centering
+  \caption{Data unggahan dan cara pengambilannya dari DOM}
+  \label{tab:dom}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{2.3cm}|R{5.4cm}|R{4.9cm}|}
+    \hline
+    \multicolumn{1}{|C{2.3cm}|}{\textbf{Data}} & \multicolumn{1}{C{5.4cm}|}{\textbf{Cara pengambilan}} & \multicolumn{1}{C{4.9cm}|}{\textbf{Cadangan}} \\ \hline
+    Penampung unggahan & Elemen terdekat dari titik klik yang berisi atribut \texttt{data-pressable-\allowbreak container} & Elemen induk terdekat yang memuat ikon \textit{Like} atau \textit{Suka} dan \textit{Reply} atau \textit{Balas} \\ \hline
+    Teks unggahan & Elemen \texttt{span} atau \texttt{div} berisi atribut \texttt{dir="auto"} yang paling panjang, di luar nama akun, waktu, tombol aksi, dan angka & Seluruh teks pada penampung unggahan \\ \hline
+    Nama akun & Tautan berbentuk \texttt{/@nama} yang bukan tautan unggahan & Elemen teks tebal pertama \\ \hline
+    Tautan unggahan & Tautan yang memuat \texttt{/post/} & Dikosongkan \\ \hline
+    Waktu unggah & Elemen \texttt{time} beserta atribut \texttt{datetime} & Teks waktu relatif singkat seperti \texttt{2h} atau \texttt{15m} \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\subsubsection{Analisis Kebutuhan}
+
+Kebutuhan sistem dibagi menjadi kebutuhan fungsional dan nonfungsional. Kebutuhan fungsional menyatakan apa yang harus dapat dilakukan sistem dan dirangkum pada Tabel~\ref{tab:fungsional}, sedangkan kebutuhan nonfungsional menyatakan mutu yang harus dipenuhi dan dirangkum pada Tabel~\ref{tab:nonfungsional}.
+
+\begin{table}[H]
+  \centering
+  \caption{Kebutuhan fungsional}
+  \label{tab:fungsional}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|C{1.4cm}|R{11.2cm}|}
+    \hline
+    \multicolumn{1}{|C{1.4cm}|}{\textbf{Kode}} & \multicolumn{1}{C{11.2cm}|}{\textbf{Kebutuhan}} \\ \hline
+    F-01 & Ekstensi menyediakan menu klik kanan untuk memeriksa unggahan Threads \\ \hline
+    F-02 & Ekstensi mengambil teks, nama akun, tautan, dan waktu dari unggahan yang diklik \\ \hline
+    F-03 & Ekstensi menampilkan \textit{badge} pemeriksaan selama proses berjalan \\ \hline
+    F-04 & Ekstensi mengirim data unggahan ke \textit{server} dan menerima hasil dalam format JSON \\ \hline
+    F-05 & Ekstensi menampilkan \textit{badge} status ``\textit{Terindikasi hoax}'' atau ``Tidak terindikasi'' di samping unggahan \\ \hline
+    F-06 & Ekstensi menampilkan \textit{tooltip} berisi status, alasan, dasar penilaian, dan tautan rujukan \\ \hline
+    F-07 & Ekstensi menampilkan \textit{badge} gagal bila pemeriksaan tidak berhasil \\ \hline
+    F-08 & Ekstensi menyimpan riwayat pemeriksaan pada penyimpanan lokal \textit{browser} dan menampilkannya beserta statistik pada \textit{popup} \\ \hline
+    F-09 & Pengguna dapat menghapus riwayat dan mengganti tema tampilan terang atau gelap \\ \hline
+    F-10 & \textit{Server} menelusuri Google AI Overview dan hasil pencarian untuk setiap klaim \\ \hline
+    F-11 & \textit{Server} menentukan status dan dasar penilaian dari hasil penelusuran \\ \hline
+    F-12 & \textit{Server} mencatat setiap pemeriksaan serta menyediakan konsol pengujian, pemberian label sebenarnya, dan unduhan data dalam format \textit{Comma-Separated Values} (CSV) \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Kebutuhan nonfungsional}
+  \label{tab:nonfungsional}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|C{1.4cm}|R{3.0cm}|R{8.2cm}|}
+    \hline
+    \multicolumn{1}{|C{1.4cm}|}{\textbf{Kode}} & \multicolumn{1}{C{3.0cm}|}{\textbf{Aspek}} & \multicolumn{1}{C{8.2cm}|}{\textbf{Kebutuhan}} \\ \hline
+    N-01 & Kinerja & Ekstensi menunggu respons \textit{server} paling lama 70 detik dan menandai pemeriksaan gagal bila \textit{badge} hasil belum terpasang setelah 75 detik \\ \hline
+    N-02 & Keandalan & Bila Google meminta verifikasi manusia (CAPTCHA), \textit{server} membalas galat dan tidak memberikan hasil tebakan \\ \hline
+    N-03 & Kegunaan & Antarmuka berbahasa Indonesia, \textit{badge} tidak menutupi isi unggahan, dan tema terang maupun gelap mudah dibaca \\ \hline
+    N-04 & Privasi & Teks unggahan dikirim hanya ke \textit{server} pada komputer sendiri (\textit{localhost}), yang memakainya sebagai kata pencarian di Google \\ \hline
+    N-05 & Kompatibilitas & Berjalan pada Google Chrome versi \textit{desktop} dengan \textit{Manifest V3} dan Threads versi \textit{web} \\ \hline
+    N-06 & Transparansi & Hasil dinyatakan sebagai indikasi, bukan putusan lembaga pemeriksa fakta resmi, dan dasar penilaian ditampilkan \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\subsubsection{\textit{Use Case Diagram}}\label{sub:usecase}
+
+\textit{Use case diagram} dipilih untuk menunjukkan siapa saja yang memakai sistem dan fungsi apa yang disediakan~[33], [34]. Seluruh diagram UML pada bab ini memakai simbol yang tercantum pada Daftar Simbol. Sistem memiliki tiga aktor yang didefinisikan pada Tabel~\ref{tab:aktor} dan delapan \textit{use case} yang didefinisikan pada Tabel~\ref{tab:uc}. Fungsi UC-01 dan UC-07 sama-sama memuat UC-03 karena keduanya membutuhkan penelusuran bukti di Google, sebagaimana ditunjukkan pada Gambar~\ref{fig:usecase}.
+
+
+
+\begin{table}[H]
+  \centering
+  \caption{Definisi aktor}
+  \label{tab:aktor}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{3.2cm}|R{9.4cm}|}
+    \hline
+    \multicolumn{1}{|C{3.2cm}|}{\textbf{Aktor}} & \multicolumn{1}{C{9.4cm}|}{\textbf{Deskripsi}} \\ \hline
+    Pengguna Threads & Pengguna Threads versi \textit{web} yang memasang ekstensi, memeriksa unggahan, dan membaca hasilnya \\ \hline
+    Peneliti & Pengguna konsol pengujian pada \textit{server} yang menguji klaim, memberi label sebenarnya, melihat evaluasi, dan mengunduh data \\ \hline
+    Google & Aktor pendukung berupa mesin pencari yang menyediakan ringkasan AI Overview dan hasil pencarian \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Definisi \textit{use case}}
+  \label{tab:uc}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|C{1.4cm}|R{4.0cm}|R{7.2cm}|}
+    \hline
+    \multicolumn{1}{|C{1.4cm}|}{\textbf{Kode}} & \multicolumn{1}{C{4.0cm}|}{\textbf{Nama}} & \multicolumn{1}{C{7.2cm}|}{\textbf{Deskripsi}} \\ \hline
+    UC-01 & Memeriksa unggahan & Pengguna meminta pemeriksaan sebuah unggahan melalui menu klik kanan \\ \hline
+    UC-02 & Melihat status, alasan, dan rujukan & Pengguna membaca \textit{badge} dan \textit{tooltip} hasil pemeriksaan \\ \hline
+    UC-03 & Menelusuri bukti di Google & Sistem membaca AI Overview dan hasil pencarian untuk klaim \\ \hline
+    UC-04 & Melihat riwayat dan statistik & Pengguna membuka \textit{popup} untuk melihat statistik dan riwayat \\ \hline
+    UC-05 & Menghapus riwayat & Pengguna menghapus seluruh riwayat pada penyimpanan lokal \textit{browser} \\ \hline
+    UC-06 & Mengubah tema tampilan & Pengguna memilih tema terang atau gelap \\ \hline
+    UC-07 & Menguji klaim pada konsol pengujian & Peneliti mengirim satu klaim melalui konsol dan membaca hasilnya \\ \hline
+    UC-08 & Memberi label dan mengunduh data uji & Peneliti menetapkan label sebenarnya dan mengunduh data dalam format CSV \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \makebox[\textwidth][c]{
+\begin{tikzpicture}[uml]
+  % batas sistem
+  \draw (2.3,-3.0) rectangle (11.6,8.6);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (6.95,8.25) {Threadibility};
+  % aktor
+  \umlactor{0.6}{4.4}{Pengguna\\Threads}
+  \umlactor{0.6}{-1.2}{Peneliti}
+  \umlactor{13.3}{3.0}{Google}
+  % use case (kolom tengah)
+  \node[ucase,minimum width=4.7cm] (u1) at (5.1,7.3) {UC-01 Memeriksa unggahan};
+  \node[ucase,minimum width=4.7cm] (u2) at (5.1,5.8) {UC-02 Melihat status, alasan,\\dan rujukan};
+  \node[ucase,minimum width=4.7cm] (u4) at (5.1,4.3) {UC-04 Melihat riwayat dan\\statistik};
+  \node[ucase,minimum width=4.7cm] (u5) at (5.1,2.8) {UC-05 Menghapus riwayat};
+  \node[ucase,minimum width=4.7cm] (u6) at (5.1,1.3) {UC-06 Mengubah tema tampilan};
+  \node[ucase,minimum width=4.7cm] (u7) at (5.1,-0.2) {UC-07 Menguji klaim pada\\konsol pengujian};
+  \node[ucase,minimum width=4.7cm] (u8) at (5.1,-1.7) {UC-08 Memberi label dan\\mengunduh data uji};
+  % use case bersama
+  \node[ucase,minimum width=3.6cm] (u3) at (9.7,3.1) {UC-03 Menelusuri\\bukti di Google};
+  % asosiasi
+  \foreach \u in {u1,u2,u4,u5,u6} \draw (1.0,4.5)--(\u.west);
+  \foreach \u in {u7,u8} \draw (1.0,-1.0)--(\u.west);
+  \draw (u3.east)--(13.0,3.3);
+  % include
+  \draw[dashed,->] (u1.east)--(u3.north) node[ulbl,pos=0.45,sloped] {«include»};
+  \draw[dashed,->] (u7.east)--(u3.south) node[ulbl,pos=0.5,sloped] {«include»};
+\end{tikzpicture}
+}
+  \caption{\textit{Use case diagram} sistem Threadibility}
+  \label{fig:usecase}
+\end{figure}
+
+Skenario dijabarkan untuk tiga \textit{use case} yang alurnya bertahap, yaitu UC-01 pada Tabel~\ref{tab:skn1}, UC-07 pada Tabel~\ref{tab:skn7}, dan UC-08 pada Tabel~\ref{tab:skn8}. Lima \textit{use case} lainnya hanya terdiri atas satu tindakan pengguna dan sudah cukup dijelaskan pada Tabel~\ref{tab:uc}.
+
+\begin{table}[H]
+  \centering
+  \caption{Skenario UC-01 Memeriksa unggahan}
+  \label{tab:skn1}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{3.0cm}|R{9.6cm}|}
+    \hline
+    \textbf{Aktor} & Pengguna Threads; Google (pendukung) \\ \hline
+    \textbf{Prasyarat} & Ekstensi terpasang, \textit{server} berjalan, dan halaman Threads versi \textit{web} terbuka \\ \hline
+    \textbf{Alur normal} & 1. Pengguna mengeklik kanan unggahan dan memilih menu pemeriksaan.\newline 2. Ekstensi mengambil teks, nama akun, tautan, dan waktu unggah.\newline 3. Ekstensi menampilkan \textit{badge} analisis dan mengirim data ke \textit{server}.\newline 4. \textit{Server} menelusuri bukti di Google (UC-03).\newline 5. \textit{Server} menentukan status dan dasar penilaian lalu membalas hasilnya.\newline 6. Ekstensi menyimpan riwayat dan menampilkan \textit{badge} hasil beserta \textit{tooltip} (UC-02). \\ \hline
+    \textbf{Alur alternatif} & 1a. Klik di luar unggahan: tidak ada pemeriksaan.\newline 4a. \textit{Server} tidak aktif atau tidak membalas dalam 70 detik: ekstensi menampilkan \textit{badge} gagal.\newline 4b. Google meminta verifikasi: \textit{server} membalas galat dan ekstensi menampilkan \textit{badge} gagal. \\ \hline
+    \textbf{Hasil akhir} & \textit{Badge} status tampil di samping unggahan dan satu catatan baru tersimpan pada riwayat \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Skenario UC-07 Menguji klaim pada konsol pengujian}
+  \label{tab:skn7}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{3.0cm}|R{9.6cm}|}
+    \hline
+    \textbf{Aktor} & Peneliti; Google (pendukung) \\ \hline
+    \textbf{Prasyarat} & \textit{Server} berjalan dan konsol pengujian dibuka pada \textit{localhost} \\ \hline
+    \textbf{Alur normal} & 1. Peneliti mengisi teks klaim, serta nama akun dan tautan bila perlu.\newline 2. Peneliti menekan tombol analisis klaim.\newline 3. Konsol mengirim klaim ke \textit{server}.\newline 4. \textit{Server} menelusuri bukti di Google (UC-03) dan menentukan status.\newline 5. \textit{Server} mencatat hasil pada riwayat.\newline 6. Konsol menampilkan status, alasan, dasar penilaian, rujukan, dan waktu proses. \\ \hline
+    \textbf{Alur alternatif} & 2a. Teks kosong: konsol meminta teks diisi.\newline 4a. Google meminta verifikasi: konsol menampilkan pesan gagal. \\ \hline
+    \textbf{Hasil akhir} & Hasil analisis tampil pada konsol dan satu catatan baru tersimpan pada riwayat \textit{server} \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Skenario UC-08 Memberi label dan mengunduh data uji}
+  \label{tab:skn8}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{3.0cm}|R{9.6cm}|}
+    \hline
+    \textbf{Aktor} & Peneliti \\ \hline
+    \textbf{Prasyarat} & Riwayat \textit{server} berisi sedikitnya satu catatan \\ \hline
+    \textbf{Alur normal} & 1. Peneliti memilih label sebenarnya pada satu baris riwayat.\newline 2. \textit{Server} menyimpan label pada catatan tersebut.\newline 3. Konsol menghitung ulang \textit{confusion matrix} dan menampilkannya.\newline 4. Peneliti menekan tombol unduh dataset CSV.\newline 5. \textit{Server} menyusun dan mengirim berkas CSV. \\ \hline
+    \textbf{Alur alternatif} & 1a. Label dikosongkan: label dihapus dari catatan dan matriks dihitung tanpa catatan itu. \\ \hline
+    \textbf{Hasil akhir} & Label tersimpan dan berkas CSV berisi seluruh catatan beserta label sebenarnya \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\subsubsection{\textit{Activity Diagram}}\label{sub:activity}
+
+\textit{Activity diagram} dipilih untuk menunjukkan urutan langkah dan percabangan keputusan pada satu proses, beserta pihak yang mengerjakan tiap langkah~[33], [34]. Diagram dibuat untuk ketiga \textit{use case} yang skenarionya telah dijabarkan. Gambar~\ref{fig:actsistem} (AD-01) menunjukkan alur UC-01 dari klik kanan pengguna sampai \textit{badge} hasil tampil, dengan satu percabangan: bila Google meminta verifikasi, \textit{server} berhenti dan ekstensi menampilkan \textit{badge} gagal.
+
+\begin{figure}[H]
+  \centering
+  \makebox[\textwidth][c]{
+\begin{tikzpicture}[uml]
+  % lajur
+  \draw (0,0) rectangle (14,-19.7);
+  \draw (5.6,0)--(5.6,-19.7);
+  \draw (9.8,0)--(9.8,-19.7);
+  \draw (0,-0.8)--(14,-0.8);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (2.8,-0.4) {Ekstensi Chrome};
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (7.7,-0.4) {Server};
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (11.9,-0.4) {Google};
+  % simpul ekstensi
+  \fill (1.9,-1.4) circle (0.2);
+  \node[act,text width=3.5cm] (e1) at (1.9,-2.7) {Pengguna klik kanan unggahan dan memilih menu};
+  \node[act,text width=3.5cm] (e2) at (1.9,-4.4) {Mengambil teks, nama akun, tautan, dan waktu};
+  \node[act,text width=3.5cm] (e3) at (1.9,-5.9) {Menampilkan badge memeriksa};
+  \node[act,text width=3.5cm] (e4) at (1.9,-7.2) {Mengirim data ke server};
+  % simpul server dan Google
+  \node[act,text width=3.5cm] (s1) at (7.7,-8.7) {Menyaring kata kunci dan menyusun kueri};
+  \node[act,text width=3.5cm] (g1) at (11.9,-10.4) {Menampilkan AI Overview dan hasil pencarian};
+  \node[dec,minimum width=3.4cm,minimum height=1.5cm] (d1) at (7.7,-12.2) {Google meminta\\verifikasi?};
+  \node[act,text width=1.5cm] (er) at (4.5,-12.2) {Badge gagal};
+  \node[act,text width=3.5cm] (s2) at (7.7,-14.2) {Menentukan status dan dasar penilaian};
+  \node[act,text width=3.5cm] (s3) at (7.7,-15.6) {Mengirim hasil ke ekstensi};
+  % simpul ekstensi (akhir)
+  \node[act,text width=3.5cm] (e5) at (1.9,-16.8) {Menyimpan riwayat};
+  \node[act,text width=3.5cm] (e6) at (1.9,-18.0) {Menampilkan badge dan tooltip hasil};
+  % akhir
+  \draw (4.5,-13.4) circle (0.2); \fill (4.5,-13.4) circle (0.12);
+  \draw (1.9,-19.1) circle (0.22); \fill (1.9,-19.1) circle (0.13);
+  % alur
+  \draw[->] (1.9,-1.6)--(e1.north);
+  \draw[->] (e1.south)--(e2.north);
+  \draw[->] (e2.south)--(e3.north);
+  \draw[->] (e3.south)--(e4.north);
+  \draw[->] (e4.east) -| (s1.north);
+  \draw[->] (s1.east) -| (g1.north);
+  \draw[->] (g1.west) -| (d1.north);
+  \draw[->] (d1.west)--node[ulbl,above] {ya} (er.east);
+  \draw[->] (er.south)--(4.5,-13.2);
+  \draw[->] (d1.south)--node[ulbl,right] {tidak} (s2.north);
+  \draw[->] (s2.south)--(s3.north);
+  \draw[->] (s3.west) -| (e5.north);
+  \draw[->] (e5.south)--(e6.north);
+  \draw[->] (e6.south)--(1.9,-18.88);
+\end{tikzpicture}
+}
+  \caption{\textit{Activity diagram} pemeriksaan satu unggahan pada sistem usulan (AD-01)}
+  \label{fig:actsistem}
+\end{figure}
+
+Gambar~\ref{fig:adkonsol} (AD-02) menunjukkan alur UC-07 yang mirip dengan AD-01, tetapi berawal dan berakhir pada konsol pengujian dan tidak memakai ekstensi.
+
+\begin{figure}[H]
+  \centering
+  \makebox[\textwidth][c]{
+\begin{tikzpicture}[uml]
+  % lajur
+  \draw (0,0) rectangle (14,-15.2);
+  \draw (5.0,0)--(5.0,-15.2);
+  \draw (9.6,0)--(9.6,-15.2);
+  \draw (0,-0.8)--(14,-0.8);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries,align=center] at (2.5,-0.4) {Peneliti dan konsol};
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (7.3,-0.4) {Server};
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (11.8,-0.4) {Google};
+  % simpul
+  \fill (1.6,-1.4) circle (0.2);
+  \node[act,text width=3.6cm] (p1) at (2.5,-2.7) {Mengisi teks klaim dan menekan tombol analisis};
+  \node[act,text width=3.6cm] (p2) at (2.5,-4.3) {Mengirim klaim ke server};
+  \node[act,text width=3.4cm] (s1) at (7.3,-5.8) {Menyusun kueri dan menelusuri Google};
+  \node[act,text width=3.6cm] (g1) at (11.8,-7.3) {Menampilkan AI Overview dan hasil pencarian};
+  \node[dec,minimum width=3.4cm,minimum height=1.5cm] (d1) at (7.3,-9.0) {Google meminta\\verifikasi?};
+  \node[act,text width=3.4cm] (er) at (2.5,-9.0) {Konsol menampilkan pesan gagal};
+  \node[act,text width=3.4cm] (s2) at (7.3,-10.9) {Menentukan status dan dasar penilaian};
+  \node[act,text width=3.4cm] (s3) at (7.3,-12.3) {Mencatat hasil pada riwayat server};
+  \node[act,text width=3.6cm] (p3) at (2.5,-13.2) {Konsol menampilkan status, alasan, dan rujukan};
+  % akhir
+  \draw (2.5,-10.2) circle (0.2); \fill (2.5,-10.2) circle (0.12);
+  \draw (2.5,-14.5) circle (0.2); \fill (2.5,-14.5) circle (0.12);
+  % alur
+  \draw[->] (1.6,-1.6)--(1.6,-2.2);
+  \draw[->] (p1.south)--(p2.north);
+  \draw[->] (p2.east) -| (s1.north);
+  \draw[->] (s1.east) -| (g1.north);
+  \draw[->] (g1.west) -| (d1.north);
+  \draw[->] (d1.west)--node[ulbl,above] {ya} (er.east);
+  \draw[->] (er.south)--(2.5,-10.0);
+  \draw[->] (d1.south)--node[ulbl,right] {tidak} (s2.north);
+  \draw[->] (s2.south)--(s3.north);
+  \draw[->] (s3.west) -| (p3.north);
+  \draw[->] (p3.south)--(2.5,-14.3);
+\end{tikzpicture}
+  }
+  \caption{\textit{Activity diagram} menguji klaim pada konsol pengujian (AD-02)}
+  \label{fig:adkonsol}
+\end{figure}
+
+Gambar~\ref{fig:adlabel} (AD-03) menunjukkan alur UC-08 dari pemberian label sampai pengunduhan data.
+
+\begin{figure}[H]
+  \centering
+  \makebox[\textwidth][c]{
+\begin{tikzpicture}[uml]
+  % lajur
+  \draw (0,0) rectangle (14,-12.0);
+  \draw (7,0)--(7,-12.0);
+  \draw (0,-0.8)--(14,-0.8);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (3.5,-0.4) {Peneliti};
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries,align=center] at (10.5,-0.4) {Konsol dan server};
+  % simpul
+  \fill (3.5,-1.4) circle (0.2);
+  \node[act,text width=4.8cm] (p1) at (3.5,-2.6) {Memilih label sebenarnya pada satu baris riwayat};
+  \node[act,text width=4.8cm] (s1) at (10.5,-4.0) {Menyimpan label pada catatan server};
+  \node[act,text width=4.8cm] (s2) at (10.5,-5.5) {Menghitung ulang \textit{confusion matrix}};
+  \node[act,text width=4.8cm] (p2) at (3.5,-7.0) {Membaca akurasi, presisi, \textit{recall}, dan F1};
+  \node[dec,minimum width=3.4cm,minimum height=1.5cm] (d1) at (3.5,-8.7) {Unduh data?};
+  \node[act,text width=4.8cm] (p3) at (3.5,-10.3) {Menekan tombol unduh dataset CSV};
+  \node[act,text width=4.8cm] (s3) at (10.5,-10.3) {Menyusun dan mengirim berkas CSV};
+  % akhir
+  \draw (0.7,-8.7) circle (0.2); \fill (0.7,-8.7) circle (0.12);
+  \draw (10.5,-11.25) circle (0.2); \fill (10.5,-11.25) circle (0.12);
+  % alur
+  \draw[->] (3.5,-1.6)--(p1.north);
+  \draw[->] (p1.east) -| (s1.north);
+  \draw[->] (s1.south)--(s2.north);
+  \draw[->] (s2.west) -| (p2.north);
+  \draw[->] (p2.south)--(d1.north);
+  \draw[->] (d1.west)--node[ulbl,above] {tidak} (0.9,-8.7);
+  \draw[->] (d1.south)--node[ulbl,right] {ya} (p3.north);
+  \draw[->] (p3.east)--(s3.west);
+  \draw[->] (s3.south)--(10.5,-11.05);
+\end{tikzpicture}
+  }
+  \caption{\textit{Activity diagram} memberi label dan mengunduh data uji (AD-03)}
+  \label{fig:adlabel}
+\end{figure}
+
+\subsubsection{\textit{Sequence Diagram}}\label{sub:sequence}
+
+\textit{Sequence diagram} dipilih untuk menunjukkan urutan pesan antarkomponen menurut waktu pada satu skenario~[33], [35]. Pada Gambar~\ref{fig:sequence} (SD-01), \textit{content script} menyimpan data unggahan saat pengguna mengeklik kanan, \textit{background service worker} meminta data itu setelah menu dipilih, mengirimkannya ke \textit{server}, dan menerima hasil analisis, lalu meminta \textit{content script} memasang \textit{badge}.
+
+\begin{figure}[H]
+  \centering
+  \makebox[\textwidth][c]{
+\begin{tikzpicture}[uml]
+  % posisi garis hidup
+  \def\xp{1.2} \def\xc{4.3} \def\xb{7.4} \def\xs{10.4} \def\xg{12.9}
+  \def\ybot{-16.0}
+  % kepala
+  \node[draw,minimum width=2.2cm,minimum height=0.9cm,align=center] at (\xp,0) {Pengguna};
+  \node[draw,minimum width=2.2cm,minimum height=0.9cm,align=center] at (\xc,0) {\textit{Content}\\\textit{Script}};
+  \node[draw,minimum width=2.4cm,minimum height=0.9cm,align=center] at (\xb,0) {\textit{Background}\\\textit{Service Worker}};
+  \node[draw,minimum width=2.2cm,minimum height=0.9cm,align=center] at (\xs,0) {\textit{Server}};
+  \node[draw,minimum width=2.2cm,minimum height=0.9cm,align=center] at (\xg,0) {Google};
+  % garis hidup
+  \foreach \x in {\xp,\xc,\xb,\xs,\xg} \draw[dashed] (\x,-0.45)--(\x,\ybot);
+  % batang aktivasi
+  \draw[fill=white] (\xc-0.1,-1.3) rectangle (\xc+0.1,-2.7);
+  \draw[fill=white] (\xc-0.1,-4.3) rectangle (\xc+0.1,-6.9);
+  \draw[fill=white] (\xc-0.1,-14.0) rectangle (\xc+0.1,-15.1);
+  \draw[fill=white] (\xb-0.1,-3.5) rectangle (\xb+0.1,-13.2);
+  \draw[fill=white] (\xs-0.1,-7.7) rectangle (\xs+0.1,-12.1);
+  \draw[fill=white] (\xg-0.1,-8.7) rectangle (\xg+0.1,-10.3);
+  % pesan
+  \draw[->] (\xp,-1.4)--node[ulbl,above] {klik kanan unggahan} (\xc-0.1,-1.4);
+  \draw[->] (\xc+0.1,-2.0) -- (\xc+0.7,-2.0) -- (\xc+0.7,-2.5) -- (\xc+0.1,-2.5);
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont] at (\xc+0.85,-2.25) {simpan data};
+  \draw[->] (\xp,-3.6)--node[ulbl,above,pos=0.6] {pilih menu pemeriksaan} (\xb-0.1,-3.6);
+  \draw[->] (\xb-0.1,-4.5)--node[ulbl,above] {minta data unggahan} (\xc+0.1,-4.5);
+  \draw[->,dashed] (\xc+0.1,-5.4)--node[ulbl,above] {data unggahan} (\xb-0.1,-5.4);
+  \draw[->] (\xc+0.1,-6.0) -- (\xc+0.7,-6.0) -- (\xc+0.7,-6.5) -- (\xc+0.1,-6.5);
+  \node[anchor=west,align=left,font=\fontsize{9}{10.5}\selectfont] at (\xc+0.85,-6.25) {badge\\memeriksa};
+  \draw[->] (\xb+0.1,-7.8)--node[ulbl,above] {kirim data (POST)} (\xs-0.1,-7.8);
+  \draw[->] (\xs+0.1,-8.8)--node[ulbl,above] {telusuri klaim} (\xg-0.1,-8.8);
+  \draw[->,dashed] (\xg-0.1,-10.2)--node[ulbl,above,align=center] {ringkasan,\\rujukan} (\xs+0.1,-10.2);
+  \draw[->] (\xs-0.1,-10.8) -- (\xs-0.7,-10.8) -- (\xs-0.7,-11.3) -- (\xs-0.1,-11.3);
+  \node[anchor=east,font=\fontsize{9}{10.5}\selectfont] at (\xs-0.85,-11.05) {tentukan status};
+  \draw[->,dashed] (\xs-0.1,-12.0)--node[ulbl,above] {hasil analisis} (\xb+0.1,-12.0);
+  \draw[->] (\xb+0.1,-12.4) -- (\xb+0.7,-12.4) -- (\xb+0.7,-12.9) -- (\xb+0.1,-12.9);
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont] at (\xb+0.85,-12.65) {simpan riwayat};
+  \draw[->] (\xb-0.1,-14.1)--node[ulbl,above] {pasang badge hasil} (\xc+0.1,-14.1);
+  \draw[->] (\xc-0.1,-15.0)--node[ulbl,above] {badge dan tooltip} (\xp,-15.0);
+\end{tikzpicture}
+}
+  \caption{\textit{Sequence diagram} pemeriksaan satu unggahan (SD-01)}
+  \label{fig:sequence}
+\end{figure}
+
+Gambar~\ref{fig:sdkonsol} (SD-02) menunjukkan urutan pesan UC-07. Urutan UC-08 hanya terdiri atas dua interaksi sederhana antara peneliti, konsol, dan \textit{server}, sehingga cukup digambarkan pada AD-03.
+
+\begin{figure}[H]
+  \centering
+  \makebox[\textwidth][c]{
+\begin{tikzpicture}[uml]
+  \def\xp{1.4} \def\xk{5.0} \def\xs{8.8} \def\xg{12.4}
+  \def\ybot{-10.8}
+  % kepala
+  \node[draw,minimum width=2.4cm,minimum height=0.9cm,align=center] at (\xp,0) {Peneliti};
+  \node[draw,minimum width=2.6cm,minimum height=0.9cm,align=center] at (\xk,0) {Konsol\\pengujian};
+  \node[draw,minimum width=2.4cm,minimum height=0.9cm,align=center] at (\xs,0) {\textit{Server}};
+  \node[draw,minimum width=2.4cm,minimum height=0.9cm,align=center] at (\xg,0) {Google};
+  \foreach \x in {\xp,\xk,\xs,\xg} \draw[dashed] (\x,-0.45)--(\x,\ybot);
+  % aktivasi
+  \draw[fill=white] (\xk-0.1,-1.3) rectangle (\xk+0.1,-9.3);
+  \draw[fill=white] (\xs-0.1,-2.7) rectangle (\xs+0.1,-8.3);
+  \draw[fill=white] (\xg-0.1,-3.7) rectangle (\xg+0.1,-5.3);
+  % pesan
+  \draw[->] (\xp,-1.4)--node[ulbl,above] {isi klaim, tekan analisis} (\xk-0.1,-1.4);
+  \draw[->] (\xk+0.1,-2.8)--node[ulbl,above] {kirim klaim (POST)} (\xs-0.1,-2.8);
+  \draw[->] (\xs+0.1,-3.8)--node[ulbl,above] {telusuri klaim} (\xg-0.1,-3.8);
+  \draw[->,dashed] (\xg-0.1,-5.2)--node[ulbl,above,align=center] {ringkasan,\\rujukan} (\xs+0.1,-5.2);
+  \draw[->] (\xs-0.1,-5.9) -- (\xs-0.7,-5.9) -- (\xs-0.7,-6.4) -- (\xs-0.1,-6.4);
+  \node[anchor=east,font=\fontsize{9}{10.5}\selectfont] at (\xs-0.85,-6.15) {tentukan status};
+  \draw[->] (\xs+0.1,-6.9) -- (\xs+0.7,-6.9) -- (\xs+0.7,-7.4) -- (\xs+0.1,-7.4);
+  \node[anchor=west,align=left,font=\fontsize{9}{10.5}\selectfont] at (\xs+0.85,-7.15) {catat\\riwayat};
+  \draw[->,dashed] (\xs-0.1,-8.2)--node[ulbl,above] {hasil analisis} (\xk+0.1,-8.2);
+  \draw[->] (\xk-0.1,-9.2)--node[ulbl,above] {status dan alasan} (\xp,-9.2);
+\end{tikzpicture}
+  }
+  \caption{\textit{Sequence diagram} menguji klaim pada konsol pengujian (SD-02)}
+  \label{fig:sdkonsol}
+\end{figure}
+
+\subsubsection{\textit{Class Diagram}}\label{sub:class}
+
+\textit{Class diagram} dipilih untuk menunjukkan struktur data yang dipertukarkan dan disimpan oleh sistem, bukan alurnya~[36]. Gambar~\ref{fig:class} memuat lima kelas data pada kode program: \texttt{ExtractedPost} untuk data unggahan, \texttt{AnalysisResult} untuk hasil pemeriksaan beserta daftar \texttt{FactCheckSource}, \texttt{HistoryRecord} untuk catatan riwayat pada ekstensi, dan \texttt{AnalysisLogRecord} untuk catatan pada \textit{server}.
+
+\begin{figure}[H]
+  \centering
+  \makebox[\textwidth][c]{
+\begin{tikzpicture}[uml]
+  \tikzset{attr/.style={anchor=west,font=\fontsize{9}{10.5}\selectfont,inner sep=0pt}}
+  % ExtractedPost (tengah atas)
+  \draw (4.3,0) rectangle (9.7,-2.7);
+  \draw (4.3,-0.65)--(9.7,-0.65);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (7.0,-0.33) {ExtractedPost};
+  \node[attr] at (4.45,-1.0) {text : string};
+  \node[attr] at (4.45,-1.45) {username : string};
+  \node[attr] at (4.45,-1.9) {postUrl : string};
+  \node[attr] at (4.45,-2.35) {timestamp : string};
+  % AnalysisResult (tengah)
+  \draw (4.3,-3.7) rectangle (9.7,-7.0);
+  \draw (4.3,-4.35)--(9.7,-4.35);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (7.0,-4.03) {AnalysisResult};
+  \node[attr] at (4.45,-4.7) {claim : string};
+  \node[attr] at (4.45,-5.15) {indikasiHoax : boolean};
+  \node[attr] at (4.45,-5.6) {alasan : string};
+  \node[attr] at (4.45,-6.05) {dasar : string};
+  \node[attr] at (4.45,-6.5) {factCheckSources : FactCheckSource[]};
+  % FactCheckSource (tengah bawah)
+  \draw (4.3,-8.4) rectangle (9.7,-11.55);
+  \draw (4.3,-9.05)--(9.7,-9.05);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (7.0,-8.73) {FactCheckSource};
+  \node[attr] at (4.45,-9.4) {publisher : string};
+  \node[attr] at (4.45,-9.85) {title : string};
+  \node[attr] at (4.45,-10.3) {verdict : string};
+  \node[attr] at (4.45,-10.75) {reviewDate : string};
+  \node[attr] at (4.45,-11.2) {sourceUrl : string};
+  % HistoryRecord (kiri)
+  \draw (0,-1.5) rectangle (3.7,-4.2);
+  \draw (0,-2.15)--(3.7,-2.15);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (1.85,-1.83) {HistoryRecord};
+  \node[attr] at (0.15,-2.5) {id : string};
+  \node[attr] at (0.15,-2.95) {post : ExtractedPost};
+  \node[attr] at (0.15,-3.4) {analysis : AnalysisResult};
+  \node[attr] at (0.15,-3.85) {analyzedAt : string};
+  % AnalysisLogRecord (kanan)
+  \draw (10.3,-1.0) rectangle (14.0,-4.7);
+  \draw (10.3,-1.65)--(14.0,-1.65);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (12.15,-1.33) {AnalysisLogRecord};
+  \node[attr] at (10.45,-2.0) {id : string};
+  \node[attr] at (10.45,-2.45) {timestamp : string};
+  \node[attr] at (10.45,-2.9) {post : ExtractedPost};
+  \node[attr] at (10.45,-3.35) {latencyMs : number};
+  \node[attr] at (10.45,-3.8) {result : AnalysisResult};
+  \node[attr] at (10.45,-4.25) {label : string};
+  % hubungan asosiasi dengan multiplisitas
+  \draw (3.7,-1.9)--(4.3,-1.9); \node[ulbl] at (3.95,-1.62) {1}; \node[ulbl] at (4.05,-2.15) {1};
+  \draw (3.7,-4.0)--(4.3,-4.0); \node[ulbl] at (3.95,-3.72) {1}; \node[ulbl] at (4.05,-4.25) {1};
+  \draw (9.7,-1.9)--(10.3,-1.9); \node[ulbl] at (10.05,-1.62) {1}; \node[ulbl] at (9.95,-2.15) {1};
+  \draw (9.7,-4.2)--(10.3,-4.2); \node[ulbl] at (10.05,-3.92) {1}; \node[ulbl] at (9.95,-4.45) {1};
+  % komposisi AnalysisResult - FactCheckSource
+  \draw (7.0,-7.0)--(7.0,-8.4);
+  \filldraw (7.0,-7.0)--(7.15,-7.3)--(7.0,-7.6)--(6.85,-7.3)--cycle;
+  \node[ulbl] at (7.35,-7.85) {0..*};
+\end{tikzpicture}
+}
+  \caption{\textit{Class diagram} struktur data sistem}
+  \label{fig:class}
+\end{figure}
+
+
+\subsection{Perancangan Sistem}
+
+\subsubsection{Arsitektur Sistem}
+
+Arsitektur sistem terdiri atas sisi klien berupa ekstensi Chrome, sisi \textit{server}, dan sumber penelusuran \textit{web}, sebagaimana telah digambarkan pada Gambar~\ref{fig:arsitektur}. Tugas dan teknologi setiap komponen dirangkum pada Tabel~\ref{tab:komponen}.
+
+\begin{table}[H]
+  \centering
+  \caption{Komponen sistem, tugas, dan teknologinya}
+  \label{tab:komponen}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{3.6cm}|R{5.9cm}|R{3.1cm}|}
+    \hline
+    \multicolumn{1}{|C{3.6cm}|}{\textbf{Komponen}} & \multicolumn{1}{C{5.9cm}|}{\textbf{Tugas}} & \multicolumn{1}{C{3.1cm}|}{\textbf{Teknologi}} \\ \hline
+    \textit{Content Script} & Membaca DOM unggahan serta memasang \textit{badge} dan \textit{tooltip} & TypeScript \\ \hline
+    \textit{Background Service Worker} & Mendaftarkan menu klik kanan, mengirim data ke \textit{server}, dan menyimpan riwayat & \textit{Manifest V3}~[7] \\ \hline
+    Antarmuka \textit{Popup} & Menampilkan statistik, riwayat, dan pengaturan tema & React~[8] \\ \hline
+    \textit{Server} REST API & Menerima unggahan dan membalas hasil dalam format JSON & Express.js~[5] \\ \hline
+    Modul penelusuran & Mengendalikan Chrome untuk membaca Google AI Overview dan menelusuri berita & Playwright~[6] \\ \hline
+    Modul penentu status & Menentukan status dan dasar penilaian dengan aturan & TypeScript \\ \hline
+    Penyimpanan \textit{server} & Menyimpan riwayat, label sebenarnya, dan data CSV & Berkas JSON \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\subsubsection{Alur Penelusuran dan Penentuan Status}
+
+Penelusuran dimulai saat \textit{server} menerima teks unggahan. Teks dinormalisasi dengan bentuk NFKC~[23], lalu diambil paling banyak 14 kata kunci untuk menyusun dua kueri pencarian: kalimat klaim yang diberi tambahan ``hoaks fakta'', dan rangkaian kata kunci yang diberi tambahan ``cek fakta''. Google Chrome yang dikendalikan Playwright membuka hasil pencarian untuk kueri tersebut, membaca ringkasan Google AI Overview beserta tautan rujukannya, lalu menelusuri tautan itu sampai alamat situs berita aslinya. Rujukan dari media sosial dan ensiklopedia dibuang, dan hanya rujukan yang memuat kata kunci klaim yang dipertahankan. Bila ringkasan tidak muncul atau rujukannya kurang dari tiga, \textit{server} menambah rujukan dari umpan Google News RSS dan membaca hasil pencarian biasa untuk mencari bantahan. Hasil penelusuran disimpan sementara selama 15 menit agar klaim yang sama tidak ditelusuri berulang.
+
+Status ditentukan oleh aturan berurutan yang diperiksa dari nomor 1 sampai 9 pada Tabel~\ref{tab:aturan}; aturan pertama yang terpenuhi menentukan hasil. Status ``Tidak terindikasi'' berarti sistem tidak menemukan tanda \textit{hoax} pada sumber yang ditelusuri, dan bukan pernyataan bahwa klaim itu benar, karena sistem ini bukan lembaga pemeriksa fakta resmi. Karena itu tampilan ekstensi tidak memakai kata ``terverifikasi''.
+
+\begin{table}[H]
+  \centering
+  \caption{Aturan penentuan status dan dasar penilaian}
+  \label{tab:aturan}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|C{0.9cm}|R{6.3cm}|R{2.6cm}|R{2.4cm}|}
+    \hline
+    \multicolumn{1}{|C{0.9cm}|}{\textbf{No.}} & \multicolumn{1}{C{6.3cm}|}{\textbf{Kondisi}} & \multicolumn{1}{C{2.6cm}|}{\textbf{Status}} & \multicolumn{1}{C{2.4cm}|}{\textbf{Dasar}} \\ \hline
+    1 & Ringkasan AI Overview yang valid memuat penanda menyesatkan, misalnya ``dibesar-besarkan'', ``belum terverifikasi'', ``tanpa konteks'', atau konteks keliru & \textit{Terindikasi hoax} & AI Overview \\ \hline
+    2 & Ringkasan valid dan paragraf pertamanya menyatakan fakta, misalnya ``adalah fakta'' atau ``bukan hoaks'', tanpa penanda nomor 1 & Tidak terindikasi & AI Overview \\ \hline
+    3 & Ringkasan valid memuat kata seperti \textit{hoax}, disinformasi, tidak benar, keliru, palsu, atau satir & \textit{Terindikasi hoax} & AI Overview \\ \hline
+    4 & Ringkasan valid tanpa penanda pada nomor 1 sampai 3 & Tidak terindikasi & AI Overview \\ \hline
+    5 & Tanpa ringkasan; unggahan cocok dengan salah satu kategori kata kunci pada Tabel~\ref{tab:kategori} & \textit{Terindikasi hoax} & Ciri teks \\ \hline
+    6 & Tanpa ringkasan; hasil pencarian memuat bantahan atau rujukan berlabel \textit{hoax} atau disinformasi & \textit{Terindikasi hoax} & Hasil pencarian \\ \hline
+    7 & Tanpa ringkasan dan tanpa nomor 5 atau 6; unggahan memiliki dua dari empat ciri pesan berantai & \textit{Terindikasi hoax} & Ciri teks \\ \hline
+    8 & Tanpa ringkasan dan tanpa nomor 5 sampai 7; ada rujukan berita terkait & Tidak terindikasi & Hasil pencarian \\ \hline
+    9 & Tidak ada ringkasan maupun rujukan & Tidak terindikasi & Ciri teks \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+Ringkasan AI Overview dianggap valid bila panjangnya sedikitnya 40 karakter dan bukan pesan bahwa ringkasan tidak tersedia. Empat ciri pesan berantai pada nomor 7 adalah penanda ``info valid'' atau ``info A1'', tanda seru atau tanda peringatan yang berlebihan, huruf kapital yang dominan, dan ajakan menyebarkan pesan. Lima kategori kata kunci pada nomor 5 disusun dari pola disinformasi berbahasa Indonesia yang sering muncul pada contoh unggahan selama pengembangan, dan dirangkum pada Tabel~\ref{tab:kategori}.
+
+\begin{table}[H]
+  \centering
+  \caption{Kategori kata kunci disinformasi}
+  \label{tab:kategori}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{4.6cm}|R{8.0cm}|}
+    \hline
+    \multicolumn{1}{|C{4.6cm}|}{\textbf{Kategori}} & \multicolumn{1}{C{8.0cm}|}{\textbf{Contoh kata kunci}} \\ \hline
+    Ketenagakerjaan dan upah & buruh, gaji naik, upah minimum, pesangon, tunjangan \\ \hline
+    Bantuan dana palsu & bansos, dana kaget, saldo gratis, kuota gratis, bantuan cair \\ \hline
+    Politik dan keamanan & kombinasi nama pejabat dengan frasa sensasional, misalnya ``ketar ketir'' dan ``panggil panglima'' \\ \hline
+    Pancingan penyebaran & sebelum dihapus, sebarkan, terbongkar, viralkan \\ \hline
+    Konspirasi dan pseudosains & bumi datar, chip vaksin, vaksin racun, elit global \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+Parameter dan konfigurasi yang dipakai pada penelusuran dan penentuan status dirangkum pada Tabel~\ref{tab:parameter}.
+
+\begin{table}[H]
+  \centering
+  \caption{Parameter dan konfigurasi sistem}
+  \label{tab:parameter}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{6.4cm}|R{2.6cm}|R{3.6cm}|}
+    \hline
+    \multicolumn{1}{|C{6.4cm}|}{\textbf{Parameter}} & \multicolumn{1}{C{2.6cm}|}{\textbf{Nilai}} & \multicolumn{1}{C{3.6cm}|}{\textbf{Satuan}} \\ \hline
+    Jumlah kata kunci klaim (paling banyak) & 14 & kata \\ \hline
+    Masa simpan hasil penelusuran & 15 & menit \\ \hline
+    Panjang ringkasan AI Overview (paling sedikit) & 40 & karakter \\ \hline
+    Rujukan minimum agar hasil AI Overview langsung dipakai & 3 & tautan \\ \hline
+    Rujukan yang ditampilkan (paling banyak) & 6 & tautan \\ \hline
+    Ciri pesan berantai agar terindikasi & 2 dari 4 & ciri \\ \hline
+    Batas waktu permintaan ekstensi ke \textit{server} & 70 & detik \\ \hline
+    Batas waktu tunggu \textit{badge} pemeriksaan & 75 & detik \\ \hline
+    Jeda penelusuran setelah CAPTCHA & 10 & menit \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\subsubsection{Perancangan Penyimpanan Data}\label{sub:simpan}
+
+Sistem tidak memakai basis data relasional, sehingga tidak ada \textit{entity relationship diagram}. Data disimpan pada lima tempat yang masing-masing berbentuk berkas atau penyimpanan sederhana dan dirangkum pada Tabel~\ref{tab:simpan}. Struktur isi tiap catatan sudah digambarkan pada Gambar~\ref{fig:class}.
+
+\begin{table}[H]
+  \centering
+  \caption{Tempat penyimpanan data}
+  \label{tab:simpan}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{3.4cm}|R{5.6cm}|R{3.6cm}|}
+    \hline
+    \multicolumn{1}{|C{3.4cm}|}{\textbf{Tempat}} & \multicolumn{1}{C{5.6cm}|}{\textbf{Isi}} & \multicolumn{1}{C{3.6cm}|}{\textbf{Format dan batas}} \\ \hline
+    Penyimpanan lokal \textit{browser} & Riwayat pemeriksaan pada ekstensi (\texttt{HistoryRecord}) dan pilihan tema terang atau gelap & JSON, tersimpan pada komputer pengguna \\ \hline
+    Berkas riwayat \textit{server} & Catatan setiap pemeriksaan (\texttt{AnalysisLogRecord}) beserta label sebenarnya & JSON, paling banyak 500 catatan terbaru \\ \hline
+    Berkas unduhan & Seluruh catatan riwayat \textit{server} untuk analisis & CSV dengan kolom ID, waktu, akun, teks, klaim, hasil, label, dasar, waktu proses, dan alasan \\ \hline
+    Profil Chrome penelusuran & Sesi dan \textit{cookie} Chrome yang dikendalikan Playwright & Folder profil pada \textit{server} \\ \hline
+    Memori \textit{server} & Hasil penelusuran sementara agar klaim yang sama tidak ditelusuri ulang & Hilang saat \textit{server} dihentikan, masa simpan 15 menit \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\subsubsection{Kontrak Data API}\label{sub:api}
+
+\textit{Server} menyediakan enam jalur komunikasi yang dirangkum pada Tabel~\ref{tab:endpoint}. Ekstensi hanya memakai jalur pertama, sedangkan jalur lainnya dipakai konsol pengujian pada \textit{server}.
+
+\begin{table}[H]
+  \centering
+  \caption{Jalur komunikasi \textit{server}}
+  \label{tab:endpoint}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{4.4cm}|R{3.3cm}|R{4.9cm}|}
+    \hline
+    \multicolumn{1}{|C{4.4cm}|}{\textbf{Metode dan jalur}} & \multicolumn{1}{C{3.3cm}|}{\textbf{Fungsi}} & \multicolumn{1}{C{4.9cm}|}{\textbf{Keterangan}} \\ \hline
+    POST \url{/api/analyze} & Memeriksa satu unggahan & Kode 200 bila berhasil, 400 bila teks kosong, 502 bila penelusuran gagal \\ \hline
+    GET \url{/api/history} & Mengambil riwayat & Paling banyak 50 catatan terbaru \\ \hline
+    GET \url{/api/stats} & Mengambil statistik & Jumlah hasil dan \textit{confusion matrix} \\ \hline
+    PATCH \url{/api/history/:id/label} & Menyimpan label sebenarnya & \texttt{HOAX}, \texttt{BUKAN\_HOAX}, atau kosong \\ \hline
+    DELETE \url{/api/history} & Menghapus riwayat & Mengosongkan catatan \textit{server} \\ \hline
+    GET \url{/api/export} & Mengunduh data & Berkas CSV \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+Permintaan ke jalur pemeriksaan berupa objek JSON berisi empat data unggahan, dan responsnya memuat hasil pemeriksaan. Struktur keduanya dirangkum pada Tabel~\ref{tab:kontrak}.
+
+\begin{table}[H]
+  \centering
+  \caption{Struktur permintaan dan respons pemeriksaan}
+  \label{tab:kontrak}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|R{3.4cm}|R{2.3cm}|R{6.9cm}|}
+    \hline
+    \multicolumn{1}{|C{3.4cm}|}{\textbf{Bidang}} & \multicolumn{1}{C{2.3cm}|}{\textbf{Tipe}} & \multicolumn{1}{C{6.9cm}|}{\textbf{Keterangan}} \\ \hline
+    \multicolumn{3}{|l|}{\textit{Permintaan}} \\ \hline
+    \texttt{text} & teks & Isi unggahan yang diperiksa (wajib) \\ \hline
+    \texttt{username} & teks & Nama akun pembuat unggahan \\ \hline
+    \texttt{postUrl} & teks & Tautan unggahan \\ \hline
+    \texttt{timestamp} & teks & Waktu unggah \\ \hline
+    \multicolumn{3}{|l|}{\textit{Respons}} \\ \hline
+    \texttt{claim} & teks & Ringkasan klaim yang diperiksa \\ \hline
+    \texttt{indikasiHoax} & boolean & Benar bila terindikasi \textit{hoax} \\ \hline
+    \texttt{alasan} & teks & Alasan penentuan status \\ \hline
+    \texttt{dasar} & teks & Dasar penilaian: AI Overview, hasil pencarian, atau ciri teks \\ \hline
+    \texttt{factCheck\allowbreak Sources} & daftar & Rujukan berisi penerbit, judul, label, tanggal, dan tautan \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\subsubsection{Perancangan Struktur Menu}\label{sub:menu}
+
+Struktur menu menunjukkan bagian apa saja yang dapat dibuka pengguna dan hubungannya. Setiap tampilan diberi kode agar mudah dirujuk, yaitu E-00 sampai E-05 untuk ekstensi dan K-01 sampai K-03 untuk konsol pengujian. Struktur menu sistem digambarkan pada Gambar~\ref{fig:menu} (SM-01).
+
+\begin{figure}[H]
+  \centering
+  \makebox[\textwidth][c]{
+\begin{tikzpicture}[uml,mbox/.style={draw,align=center,inner sep=3pt,minimum height=0.8cm}]
+  % akar
+  \node[mbox,minimum width=4.2cm] (root) at (7.0,0) {Threadibility};
+  % tingkat kedua
+  \node[mbox,text width=3.6cm] (n1) at (2.3,-2.0) {Menu klik kanan pada Threads (E-00)};
+  \node[mbox,text width=3.6cm] (n2) at (7.0,-2.0) {\textit{Popup} pada ikon ekstensi};
+  \node[mbox,text width=3.6cm] (n3) at (11.7,-2.0) {Konsol pengujian pada \textit{server}};
+  \draw (root.south)--(7.0,-0.95);
+  \draw (2.3,-0.95)--(11.7,-0.95);
+  \foreach \x in {2.3,7.0,11.7} \draw[->] (\x,-0.95)--(\x,-1.5);
+  % tingkat ketiga (daftar)
+  \node[mbox,text width=2.9cm,anchor=west] (a1) at (1.1,-4.0) {Periksa unggahan (E-01, E-02)};
+  \draw (n1.south west)++(0.35,0) coordinate (b1);
+  \draw (1.0,-2.55)--(1.0,-4.0); \draw[->] (1.0,-4.0)--(a1.west);
+  \node[mbox,text width=2.9cm,anchor=west] (b1) at (5.7,-3.9) {E-03 \textit{Dashboard}};
+  \node[mbox,text width=2.9cm,anchor=west] (b2) at (5.7,-5.2) {E-04 Riwayat};
+  \node[mbox,text width=2.9cm,anchor=west] (b3) at (5.7,-6.5) {E-05 Pengaturan};
+  \draw (5.6,-2.55)--(5.6,-6.5); \foreach \y in {-3.9,-5.2,-6.5} \draw[->] (5.6,\y)--(5.9,\y);
+  \node[mbox,text width=2.9cm,anchor=west] (c1) at (10.4,-3.9) {K-01 Uji satu klaim};
+  \node[mbox,text width=2.9cm,anchor=west] (c2) at (10.4,-5.2) {K-02 Riwayat dan dataset};
+  \node[mbox,text width=2.9cm,anchor=west] (c3) at (10.4,-6.5) {K-03 Evaluasi};
+  \draw (10.3,-2.55)--(10.3,-6.5); \foreach \y in {-3.9,-5.2,-6.5} \draw[->] (10.3,\y)--(10.6,\y);
+\end{tikzpicture}
+  }
+  \caption{Struktur menu sistem Threadibility (SM-01)}
+  \label{fig:menu}
+\end{figure}
+
+\subsubsection{Perancangan Antarmuka}\label{sub:antarmuka}
+
+Rancangan antarmuka berupa gambar kerangka (\textit{wireframe}) hitam-putih yang menunjukkan tata letak dan isi tiap tampilan. Tampilan sebenarnya hasil implementasi disajikan pada Bab 4. Ketiga kelompok tampilan dijelaskan berikut ini.
+
+\textit{Badge} dan \textit{tooltip} pada halaman Threads dirancang pada Gambar~\ref{fig:wbadge}:
+\begin{itemize}[leftmargin=0.8cm,itemsep=2pt,topsep=2pt]
+  \item E-01 \textit{Badge}: label kecil di samping nama akun dengan empat keadaan, yaitu ``Menganalisis...'', ``\textit{Terindikasi hoax}'', ``Tidak terindikasi'', dan ``Gagal, coba lagi''.
+  \item E-02 \textit{Tooltip}: kotak yang muncul saat \textit{badge} hasil ditunjuk, berisi judul, status, alasan, dasar penilaian, dan daftar rujukan beserta label tiap rujukan. Tautan rujukan membuka \textit{tab} baru.
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=390.7pt]{gambar/w_badge.png}
+  \caption{Rancangan antarmuka \textit{badge} dan \textit{tooltip} (E-01 dan E-02)}
+  \label{fig:wbadge}
+\end{figure}
+
+Tampilan \textit{popup} pada ikon ekstensi dirancang pada Gambar~\ref{fig:wpopup}:
+\begin{itemize}[leftmargin=0.8cm,itemsep=2pt,topsep=2pt]
+  \item E-03 \textit{Dashboard}: empat kotak statistik (total, terindikasi, tidak terindikasi, dan persentase terindikasi) dan daftar analisis terbaru.
+  \item E-04 Riwayat: daftar seluruh pemeriksaan. Satu catatan dapat dibuka untuk menampilkan alasan, dasar penilaian, rujukan, dan tautan ke unggahan asli.
+  \item E-05 Pengaturan: tombol untuk menghapus seluruh riwayat. Pilihan tema terang atau gelap berada pada bilah atas semua tampilan \textit{popup}, dan perpindahan antartampilan memakai bilah menu bawah.
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{gambar/w_popup.png}
+  \caption{Rancangan antarmuka \textit{popup} (E-03, E-04, dan E-05)}
+  \label{fig:wpopup}
+\end{figure}
+
+Konsol pengujian pada \textit{server} dirancang sebagai satu halaman dengan tiga panel pada Gambar~\ref{fig:wkonsol}:
+\begin{itemize}[leftmargin=0.8cm,itemsep=2pt,topsep=2pt]
+  \item K-01 Uji satu klaim: kolom teks klaim, nama akun, tautan, tombol analisis, dan kotak hasil.
+  \item K-02 Riwayat dan dataset: tombol unduh CSV dan bersihkan riwayat, ringkasan jumlah, serta tabel riwayat dengan pilihan label sebenarnya pada setiap baris.
+  \item K-03 Evaluasi: \textit{confusion matrix}, empat ukuran kinerja, dan tabel kinerja per dasar penilaian.
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{gambar/w_konsol.png}
+  \caption{Rancangan antarmuka konsol pengujian (K-01, K-02, dan K-03)}
+  \label{fig:wkonsol}
+\end{figure}
+
+Seluruh tampilan memakai gaya lembut bernuansa pastel dengan sudut membulat dan bayangan halus. Istilah ``terverifikasi'' tidak dipakai pada tampilan mana pun karena sistem bukan lembaga pemeriksa fakta resmi.
+
+\subsubsection{Perancangan Pesan}\label{sub:pesan}
+
+Perancangan pesan mendata teks yang ditampilkan kepada pengguna agar bahasanya seragam dan setiap galat punya penjelasan. Daftar pesan dirangkum pada Tabel~\ref{tab:pesan}.
+
+\begin{table}[H]
+  \centering
+  \caption{Perancangan pesan}
+  \label{tab:pesan}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{|C{1.2cm}|R{2.0cm}|R{6.5cm}|R{2.4cm}|}
+    \hline
+    \multicolumn{1}{|C{1.2cm}|}{\textbf{Kode}} & \multicolumn{1}{C{2.0cm}|}{\textbf{Jenis}} & \multicolumn{1}{C{6.5cm}|}{\textbf{Isi pesan}} & \multicolumn{1}{C{2.4cm}|}{\textbf{Muncul di}} \\ \hline
+    M-01 & Status & Menganalisis... & E-01 \\ \hline
+    M-02 & Status & \textit{Terindikasi hoax} & E-01, E-03, E-04 \\ \hline
+    M-03 & Status & Tidak terindikasi & E-01, E-03, E-04 \\ \hline
+    M-04 & Kesalahan & Gagal, coba lagi & E-01 \\ \hline
+    M-05 & Informasi & Tidak ditemukan indikasi \textit{hoax} & E-02 \\ \hline
+    M-06 & Kesalahan & Teks postingan Threads tidak boleh kosong. (balasan \textit{server} kode 400) & K-01 \\ \hline
+    M-07 & Kesalahan & Penelusuran gagal: Google meminta verifikasi (CAPTCHA) dari komputer \textit{server}. Selesaikan verifikasi di Chrome \textit{server} atau tunggu beberapa menit, lalu coba lagi. (balasan kode 502) & K-01; ekstensi menampilkan M-04 \\ \hline
+    M-08 & Kesalahan & Masukkan teks postingan yang akan diuji. & K-01 \\ \hline
+    M-09 & Informasi & Analisis selesai. & K-01 \\ \hline
+    M-10 & Informasi & Belum ada riwayat analisis & E-03, E-04 \\ \hline
+    M-11 & Konfirmasi & Apakah Anda yakin ingin menghapus seluruh riwayat analisis? & E-05 \\ \hline
+    M-12 & Konfirmasi & Hapus seluruh riwayat pengujian? & K-02 \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\subsubsection{Perancangan Jaringan Semantik}\label{sub:semantik}
+
+Jaringan semantik menggambarkan hubungan antartampilan dan tindakan yang memindahkan pengguna dari satu tampilan ke tampilan lain. Kotak bergaris putus-putus menunjukkan tujuan di luar sistem, yaitu \textit{tab} baru pada \textit{browser}. Gambar~\ref{fig:jsekstensi} (JS-01) menunjukkan perpindahan pada ekstensi: dari menu klik kanan menuju \textit{badge} dan \textit{tooltip} pada halaman Threads, serta antartab pada \textit{popup}.
+
+\begin{figure}[H]
+  \centering
+  \makebox[\textwidth][c]{
+\begin{tikzpicture}[uml,jbox/.style={draw,align=center,inner sep=3pt,minimum height=0.85cm,text width=3.1cm},ext/.style={draw,dashed,align=center,inner sep=3pt,minimum height=0.85cm,text width=3.1cm}]
+  % kolom kiri: halaman Threads
+  \node[jbox] (a) at (1.9,0) {E-00 Menu klik kanan};
+  \node[jbox] (b) at (1.9,-2.2) {E-01 \textit{Badge} memeriksa};
+  \node[jbox] (c) at (1.9,-4.4) {E-01 \textit{Badge} hasil};
+  \node[jbox] (d) at (1.9,-6.6) {E-02 \textit{Tooltip}};
+  \node[ext] (e) at (1.9,-8.8) {\textit{Tab} baru: situs rujukan};
+  \node[jbox] (f) at (6.0,-2.2) {E-01 \textit{Badge} gagal};
+  \draw[->] (a.south)--node[ulbl,right] {pilih menu} (b.north);
+  \draw[->] (b.south)--node[ulbl,right] {hasil diterima} (c.north);
+  \draw[->] (b.east)--node[ulbl,above] {galat} (f.west);
+  \draw[->] (c.south)--node[ulbl,right] {arahkan kursor} (d.north);
+  \draw[->] (d.south)--node[ulbl,right] {klik rujukan} (e.north);
+  % kolom kanan: popup
+  \node[jbox,text width=2.4cm] (ik) at (11.6,0) {Ikon ekstensi};
+  \node[jbox,text width=2.4cm] (p3) at (8.8,-3.2) {E-03 \textit{Dashboard}};
+  \node[jbox,text width=2.4cm] (p4) at (12.2,-3.2) {E-04 Riwayat};
+  \node[jbox,text width=2.4cm] (p5) at (10.5,-6.3) {E-05 Pengaturan};
+  \node[ext,text width=2.4cm] (ps) at (12.2,-8.8) {\textit{Tab} baru: postingan asli};
+  \draw[->] (ik.south) -- (11.6,-1.2) -| node[ulbl,pos=0.2,above] {buka} (p3.north);
+  \draw[<->] (p3.east)--node[ulbl,above] {tab} (p4.west);
+  \draw[<->] (p3.south) |- (p5.west);
+  \draw[<->] (p4.south) |- (p5.east);
+  \draw[->] (p4.south east) -- ++(0,-0.0) |- (ps.north);
+  \draw[->,dashed] (c.east)--node[ulbl,above,pos=0.5] {dicatat} (p3.west);
+\end{tikzpicture}
+  }
+  \caption{Jaringan semantik ekstensi Chrome (JS-01)}
+  \label{fig:jsekstensi}
+\end{figure}
+
+Gambar~\ref{fig:jskonsol} (JS-02) menunjukkan perpindahan pada konsol pengujian, dari pengujian satu klaim ke riwayat, evaluasi, dan unduhan data.
+
+\begin{figure}[H]
+  \centering
+  \makebox[\textwidth][c]{
+\begin{tikzpicture}[uml,jbox/.style={draw,align=center,inner sep=3pt,minimum height=0.9cm,text width=3.0cm},ext/.style={draw,dashed,align=center,inner sep=3pt,minimum height=0.9cm,text width=3.0cm}]
+  \node[jbox] (k1) at (1.8,0) {K-01 Uji satu klaim};
+  \node[jbox] (k2) at (7.0,0) {K-02 Riwayat dan dataset};
+  \node[jbox] (k3) at (12.2,0) {K-03 Evaluasi};
+  \node[ext] (csv) at (7.0,-2.6) {Berkas CSV};
+  \draw[->] (k1.east)--node[ulbl,above] {analisis klaim} (k2.west);
+  \draw[->] (k2.east)--node[ulbl,above] {beri label} (k3.west);
+  \draw[->] (k2.south)--node[ulbl,right] {unduh dataset} (csv.north);
+  \draw[->] (k2.north) -- ++(0,0.9) -| node[ulbl,pos=0.25,above] {bersihkan riwayat} (k2.north west);
+\end{tikzpicture}
+  }
+  \caption{Jaringan semantik konsol pengujian (JS-02)}
+  \label{fig:jskonsol}
+\end{figure}
+
+
+\section{Pengujian dan Evaluasi}\label{sec:evaluasi}
+
+\subsection{Pengujian \textit{Black-Box}}
+
+Pengujian \textit{black-box} memeriksa fungsi sistem dari sisi pengguna tanpa melihat kode program, dengan membandingkan keluaran sistem terhadap hasil yang diharapkan dari masukan tertentu~[29], [30]. Dua belas skenario pengujian disusun dari kebutuhan fungsional dan nonfungsional dan dirangkum pada Tabel~\ref{tab:blackbox}. Hasil pengujiannya dilaporkan pada Bab 4.
+
+\begin{table}[H]
+  \centering
+  \caption{Skenario pengujian \textit{black-box}}
+  \label{tab:blackbox}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{1pt}
+  \begin{tabular}{|C{1.3cm}|R{5.2cm}|R{6.1cm}|}
+    \hline
+    \multicolumn{1}{|C{1.3cm}|}{\textbf{Kode}} & \multicolumn{1}{C{5.2cm}|}{\textbf{Skenario}} & \multicolumn{1}{C{6.1cm}|}{\textbf{Hasil yang diharapkan}} \\ \hline
+    BB-01 & Mengeklik kanan pada unggahan Threads & Menu pemeriksaan muncul \\ \hline
+    BB-02 & Mengeklik kanan di luar unggahan lalu memilih menu & Tidak ada pemeriksaan yang berjalan \\ \hline
+    BB-03 & Memilih menu pada unggahan & \textit{Badge} pemeriksaan muncul \\ \hline
+    BB-04 & Memeriksa unggahan \textit{hoax} & \textit{Badge} ``\textit{Terindikasi hoax}'' dan \textit{tooltip} berisi alasan serta rujukan \\ \hline
+    BB-05 & Memeriksa unggahan berita biasa & \textit{Badge} ``Tidak terindikasi'' dan \textit{tooltip} ``Tidak ditemukan indikasi \textit{hoax}'' \\ \hline
+    BB-06 & Memeriksa unggahan saat \textit{server} mati & \textit{Badge} gagal dan tanda ERR pada ikon ekstensi \\ \hline
+    BB-07 & Memeriksa unggahan saat Google meminta verifikasi & \textit{Server} membalas kode 502 dan \textit{badge} gagal \\ \hline
+    BB-08 & Mengirim teks kosong ke jalur pemeriksaan & \textit{Server} membalas kode 400 \\ \hline
+    BB-09 & Membuka \textit{popup}, lalu menghapus riwayat & Statistik dan riwayat sesuai catatan, lalu kosong setelah dihapus \\ \hline
+    BB-10 & Mengganti tema terang dan gelap & \textit{Popup}, \textit{badge}, dan \textit{tooltip} berganti tema \\ \hline
+    BB-11 & Menekan tautan rujukan pada \textit{tooltip} & \textit{Tab} baru terbuka ke alamat sumber \\ \hline
+    BB-12 & Memberi label sebenarnya dan mengunduh CSV pada konsol & Label tersimpan, \textit{confusion matrix} diperbarui, dan CSV memuat kolom label \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+\subsection{Evaluasi dengan \textit{Confusion Matrix}}
+
+Ketepatan sistem diukur dengan \textit{confusion matrix}, yaitu tabel yang membandingkan hasil prediksi sistem dengan label sebenarnya~[31]. Kelas positif adalah \textit{hoax}, sehingga empat kategorinya pada penelitian ini diartikan pada Tabel~\ref{tab:cm}.
+
+\begin{table}[H]
+  \centering
+  \caption{Susunan \textit{confusion matrix} pada penelitian ini}
+  \label{tab:cm}
+  \begin{spacing}{1.0}
+  \normalsize
+  \setlength{\extrarowheight}{3pt}
+  \begin{tabular}{|C{4.2cm}|C{4.2cm}|C{4.2cm}|}
+    \hline
+    \multicolumn{1}{|C{4.2cm}|}{} & \multicolumn{1}{C{4.2cm}|}{\textbf{Sistem: terindikasi \textit{hoax}}} & \multicolumn{1}{C{4.2cm}|}{\textbf{Sistem: tidak terindikasi}} \\ \hline
+    \textbf{Sebenarnya \textit{hoax}} & \textit{True positive} (TP) & \textit{False negative} (FN) \\ \hline
+    \textbf{Sebenarnya bukan \textit{hoax}} & \textit{False positive} (FP) & \textit{True negative} (TN) \\ \hline
+  \end{tabular}
+  \end{spacing}
+\end{table}
+
+Dari keempat nilai itu dihitung empat ukuran berikut:
+\begin{equation}
+  \mathrm{Akurasi} = \frac{TP + TN}{TP + TN + FP + FN}
+\end{equation}
+\begin{equation}
+  \mathrm{Presisi} = \frac{TP}{TP + FP}
+\end{equation}
+\begin{equation}
+  \mathrm{Recall} = \frac{TP}{TP + FN}
+\end{equation}
+\begin{equation}
+  F1\text{-}score = \frac{2 \times \mathrm{Presisi} \times \mathrm{Recall}}{\mathrm{Presisi} + \mathrm{Recall}}
+\end{equation}
+
+Akurasi menyatakan bagian tebakan yang benar. Presisi menyatakan bagian klaim yang dinyatakan \textit{hoax} oleh sistem dan benar-benar \textit{hoax}, sedangkan \textit{recall} menyatakan bagian \textit{hoax} sebenarnya yang berhasil ditemukan sistem. \textit{F1-score} adalah rata-rata harmonik presisi dan \textit{recall}. Pengujian dijalankan dengan urutan berikut:
+\begin{enumerate}[leftmargin=0.8cm,itemsep=3pt,topsep=2pt]
+  \item Menetapkan label sebenarnya setiap klaim dari sumber pada Tabel~\ref{tab:datauji} sebelum sistem dijalankan.
+  \item Menjalankan klaim satu per satu melalui skrip ke jalur pemeriksaan dengan jeda 10 sampai 18 detik agar Google tidak meminta verifikasi.
+  \item Mencatat status, dasar penilaian, dan waktu proses setiap klaim.
+  \item Mengisi label sebenarnya pada konsol pengujian, yang menghitung \textit{confusion matrix} secara otomatis.
+\end{enumerate}
+
+\subsection{Pengukuran Waktu Proses}
+
+Waktu proses diukur oleh \textit{server} mulai dari permintaan diterima sampai hasil siap dikirim, lalu dilaporkan sebagai rata-rata, terendah, dan tertinggi. Angka ini dibahas bersama jawaban kuesioner tentang lamanya pemeriksaan manual (butir 1 dan 3) untuk menilai apakah sistem mempersingkat pemeriksaan.
+
+\subsection{Analisis per Dasar Penilaian}
+
+Hasil pemeriksaan dibagi menurut dasar penilaiannya, yaitu AI Overview, hasil pencarian, dan ciri teks, karena kekuatan buktinya berbeda. Akurasi, presisi, dan \textit{recall} dihitung terpisah untuk tiap dasar sehingga terlihat pada kondisi apa sistem dapat diandalkan dan pada kondisi apa kurang. Hasilnya dibahas pada Bab 4 sebagai salah satu faktor yang memengaruhi ketepatan sistem.
 
 % ==============================================================================
 % DAFTAR PUSTAKA (Format IEEE Berdasarkan Urutan Kemunculan Pertama - Pedoman Bab 5)

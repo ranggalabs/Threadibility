@@ -1,0 +1,52 @@
+\begin{tikzpicture}[uml,
+  tag/.style={draw,rounded corners=2pt,inner sep=2pt},
+  tl/.style={line width=1.3pt},
+  card/.style={draw,rounded corners=3pt}]
+  % tiga bingkai popup
+  \foreach \x/\kode in {0/E-03,4.7/E-04,9.4/E-05} {
+    \draw (\x,0) rectangle (\x+4.4,-10.4);
+    \node[tag] at (\x+2.2,0.45) {\kode};
+    \draw (\x,-0.9)--(\x+4.4,-0.9);
+    \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (\x+0.2,-0.45) {Threadibility};
+    \draw (\x+4.0,-0.45) circle (0.17);
+    \draw (\x,-9.5)--(\x+4.4,-9.5);
+    \draw (\x+1.47,-9.5)--(\x+1.47,-10.4); \draw (\x+2.93,-9.5)--(\x+2.93,-10.4);
+    \node at (\x+0.73,-9.95) {Dashboard};
+    \node at (\x+2.2,-9.95) {Riwayat};
+    \node at (\x+3.66,-9.95) {Pengaturan};
+  }
+  % E-03 Dashboard
+  \foreach \cx/\cy/\lb in {0.15/-1.1/{Total},2.3/-1.1/{\textit{Hoax}},0.15/-2.5/{Tidak\\terindikasi},2.3/-2.5/{Persen\\\textit{hoax}}} {
+    \node[card,minimum width=1.95cm,minimum height=1.25cm,anchor=north west,align=center] at (\cx,\cy) {\lb\\\textbf{0}};
+  }
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (0.2,-4.2) {Analisis Terbaru};
+  \foreach \y in {-4.6,-6.4} {
+    \draw[card] (0.15,\y) rectangle (4.25,\y-1.6);
+    \draw[rounded corners=6pt] (0.35,\y-0.2) rectangle (2.95,\y-0.7);
+    \node[anchor=west] at (0.4,\y-0.45) {\textit{Terindikasi hoax}};
+    \draw[tl] (0.35,\y-1.05)--(3.9,\y-1.05); \draw[tl] (0.35,\y-1.35)--(2.8,\y-1.35);
+  }
+  \begin{scope}[xshift=-0.1cm]
+  % E-04 Riwayat
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (5.0,-1.3) {Semua Riwayat Analisis};
+  \draw[card] (4.95,-1.7) rectangle (9.05,-6.3);
+  \draw[rounded corners=6pt] (5.15,-1.9) rectangle (7.75,-2.4); \node[anchor=west] at (5.2,-2.15) {\textit{Terindikasi hoax}};
+  \draw[tl] (5.15,-2.75)--(8.7,-2.75); \draw[tl] (5.15,-3.05)--(7.6,-3.05);
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (5.15,-3.6) {Alasan analisis};
+  \draw[tl] (5.15,-3.95)--(8.7,-3.95); \draw[tl] (5.15,-4.25)--(8.2,-4.25);
+  \node[anchor=west,align=left] at (5.15,-4.85) {Dasar penilaian:\\AI Overview};
+  \node[anchor=west] at (5.15,-5.85) {Rujukan cek fakta};
+  \foreach \y in {-6.5,-8.0} {
+    \draw[card] (4.95,\y) rectangle (9.05,\y-1.3);
+    \draw[rounded corners=6pt] (5.15,\y-0.15) rectangle (7.75,\y-0.6); \node[anchor=west] at (5.2,\y-0.38) {Tidak terindikasi};
+    \draw[tl] (5.15,\y-0.95)--(8.5,\y-0.95);
+  }
+  \end{scope}
+  \node[anchor=east] at (4.2,-8.5) {Lihat semua};
+  \begin{scope}[xshift=-0.2cm]
+  % E-05 Pengaturan
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (9.8,-1.3) {Pengaturan};
+  \node[anchor=west] at (9.8,-2.2) {Pembersihan data lokal:};
+  \node[card,minimum width=3.9cm,minimum height=0.8cm,anchor=north west] at (9.75,-2.6) {Hapus seluruh riwayat};
+  \end{scope}
+\end{tikzpicture}

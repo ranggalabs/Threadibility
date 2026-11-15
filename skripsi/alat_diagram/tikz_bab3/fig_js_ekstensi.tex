@@ -1,0 +1,26 @@
+\begin{tikzpicture}[uml,jbox/.style={draw,align=center,inner sep=3pt,minimum height=0.85cm,text width=3.1cm},ext/.style={draw,dashed,align=center,inner sep=3pt,minimum height=0.85cm,text width=3.1cm}]
+  % kolom kiri: halaman Threads
+  \node[jbox] (a) at (1.9,0) {E-00 Menu klik kanan};
+  \node[jbox] (b) at (1.9,-2.2) {E-01 \textit{Badge} memeriksa};
+  \node[jbox] (c) at (1.9,-4.4) {E-01 \textit{Badge} hasil};
+  \node[jbox] (d) at (1.9,-6.6) {E-02 \textit{Tooltip}};
+  \node[ext] (e) at (1.9,-8.8) {\textit{Tab} baru: situs rujukan};
+  \node[jbox] (f) at (6.0,-2.2) {E-01 \textit{Badge} gagal};
+  \draw[->] (a.south)--node[ulbl,right] {pilih menu} (b.north);
+  \draw[->] (b.south)--node[ulbl,right] {hasil diterima} (c.north);
+  \draw[->] (b.east)--node[ulbl,above] {galat} (f.west);
+  \draw[->] (c.south)--node[ulbl,right] {arahkan kursor} (d.north);
+  \draw[->] (d.south)--node[ulbl,right] {klik rujukan} (e.north);
+  % kolom kanan: popup
+  \node[jbox,text width=2.4cm] (ik) at (11.6,0) {Ikon ekstensi};
+  \node[jbox,text width=2.4cm] (p3) at (8.8,-3.2) {E-03 \textit{Dashboard}};
+  \node[jbox,text width=2.4cm] (p4) at (12.2,-3.2) {E-04 Riwayat};
+  \node[jbox,text width=2.4cm] (p5) at (10.5,-6.3) {E-05 Pengaturan};
+  \node[ext,text width=2.4cm] (ps) at (12.2,-8.8) {\textit{Tab} baru: postingan asli};
+  \draw[->] (ik.south) -- (11.6,-1.2) -| node[ulbl,pos=0.2,above] {buka} (p3.north);
+  \draw[<->] (p3.east)--node[ulbl,above] {tab} (p4.west);
+  \draw[<->] (p3.south) |- (p5.west);
+  \draw[<->] (p4.south) |- (p5.east);
+  \draw[->] (p4.south east) -- ++(0,-0.0) |- (ps.north);
+  \draw[->,dashed] (c.east)--node[ulbl,above,pos=0.5] {dicatat} (p3.west);
+\end{tikzpicture}

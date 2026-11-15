@@ -1,0 +1,30 @@
+\begin{tikzpicture}[uml]
+  % lajur
+  \draw (0,0) rectangle (14,-12.0);
+  \draw (7,0)--(7,-12.0);
+  \draw (0,-0.8)--(14,-0.8);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (3.5,-0.4) {Peneliti};
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries,align=center] at (10.5,-0.4) {Konsol dan server};
+  % simpul
+  \fill (3.5,-1.4) circle (0.2);
+  \node[act,text width=4.8cm] (p1) at (3.5,-2.6) {Memilih label sebenarnya pada satu baris riwayat};
+  \node[act,text width=4.8cm] (s1) at (10.5,-4.0) {Menyimpan label pada catatan server};
+  \node[act,text width=4.8cm] (s2) at (10.5,-5.5) {Menghitung ulang \textit{confusion matrix}};
+  \node[act,text width=4.8cm] (p2) at (3.5,-7.0) {Membaca akurasi, presisi, \textit{recall}, dan F1};
+  \node[dec,minimum width=3.4cm,minimum height=1.5cm] (d1) at (3.5,-8.7) {Unduh data?};
+  \node[act,text width=4.8cm] (p3) at (3.5,-10.3) {Menekan tombol unduh dataset CSV};
+  \node[act,text width=4.8cm] (s3) at (10.5,-10.3) {Menyusun dan mengirim berkas CSV};
+  % akhir
+  \draw (0.7,-8.7) circle (0.2); \fill (0.7,-8.7) circle (0.12);
+  \draw (10.5,-11.25) circle (0.2); \fill (10.5,-11.25) circle (0.12);
+  % alur
+  \draw[->] (3.5,-1.6)--(p1.north);
+  \draw[->] (p1.east) -| (s1.north);
+  \draw[->] (s1.south)--(s2.north);
+  \draw[->] (s2.west) -| (p2.north);
+  \draw[->] (p2.south)--(d1.north);
+  \draw[->] (d1.west)--node[ulbl,above] {tidak} (0.9,-8.7);
+  \draw[->] (d1.south)--node[ulbl,right] {ya} (p3.north);
+  \draw[->] (p3.east)--(s3.west);
+  \draw[->] (s3.south)--(10.5,-11.05);
+\end{tikzpicture}

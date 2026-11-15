@@ -1,0 +1,56 @@
+\begin{tikzpicture}[uml,
+  tag/.style={draw,rounded corners=2pt,inner sep=2pt},
+  tl/.style={line width=1.3pt},
+  btn/.style={draw,rounded corners=3pt,minimum height=0.65cm,inner sep=4pt,align=center}]
+  % bingkai halaman
+  \draw (0,0) rectangle (14,-17.6);
+  \draw (0,-1.0)--(14,-1.0);
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (0.3,-0.5) {Threadibility / Konsol Pengujian};
+  \node[anchor=east] at (13.7,-0.5) {Mesin penelusuran: Google AI Overview};
+  % panel K-01
+  \draw (0.3,-1.4) rectangle (13.7,-7.2);
+  \node[tag] at (13.0,-1.75) {K-01};
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (0.6,-1.8) {Uji satu klaim};
+  \draw (0.6,-2.2) rectangle (13.4,-3.4); \node[anchor=west] at (0.8,-2.45) {Teks postingan Threads yang diuji};
+  \draw (0.6,-3.6) rectangle (5.0,-4.2); \node[anchor=west] at (0.8,-3.9) {@username};
+  \draw (5.2,-3.6) rectangle (10.8,-4.2); \node[anchor=west] at (5.4,-3.9) {Tautan postingan};
+  \node[btn] at (12.3,-3.9) {Analisis klaim};
+  \draw (0.6,-4.5) rectangle (13.4,-6.9);
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (0.8,-4.8) {Hasil analisis};
+  \node[anchor=east] at (13.2,-4.8) {7 ms};
+  \draw[rounded corners=6pt] (0.8,-5.1) rectangle (3.9,-5.6); \node[anchor=west] at (0.9,-5.35) {\textit{Terindikasi hoax}};
+  \node[anchor=west] at (4.3,-5.35) {Klaim, alasan, dasar penilaian, dan rujukan};
+  \draw[tl] (0.8,-6.1)--(12.9,-6.1); \draw[tl] (0.8,-6.5)--(9.0,-6.5);
+  % panel K-02
+  \draw (0.3,-7.6) rectangle (13.7,-13.0);
+  \node[tag] at (13.0,-7.95) {K-02};
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (0.6,-8.0) {Riwayat pengujian dan dataset};
+  \node[btn,anchor=west] at (0.6,-8.8) {Unduh dataset CSV};
+  \node[btn,anchor=west] at (4.2,-8.8) {Bersihkan riwayat};
+  \foreach \x/\t in {0.6/Total diuji,3.9/Terindikasi hoax,7.2/Tidak terindikasi,10.5/Rata-rata waktu} {
+    \node[anchor=west] at (\x,-9.7) {\t};
+  }
+  \draw (0.6,-10.1) rectangle (13.4,-12.8);
+  \draw (0.6,-10.8)--(13.4,-10.8);
+  \foreach \x/\t in {0.7/Waktu,2.2/Penulis,3.9/Kutipan teks,6.9/Hasil,8.6/Dasar,10.2/Label,12.1/Proses} {
+    \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (\x,-10.45) {\t};
+  }
+  \foreach \y in {-11.4,-12.1} {
+    \draw[tl] (0.7,\y)--(1.9,\y); \draw[tl] (2.2,\y)--(3.5,\y); \draw[tl] (3.9,\y)--(6.4,\y);
+    \draw[tl] (6.9,\y)--(8.1,\y); \draw[tl] (8.6,\y)--(9.7,\y); \draw (10.2,\y-0.2) rectangle (11.7,\y+0.2); \draw[tl] (12.1,\y)--(13.0,\y);
+  }
+  % panel K-03
+  \draw (0.3,-13.4) rectangle (13.7,-17.3);
+  \node[tag] at (13.0,-13.75) {K-03};
+  \node[anchor=west,font=\fontsize{9}{10.5}\selectfont\bfseries] at (0.6,-13.8) {Evaluasi (\textit{Confusion Matrix})};
+  \node[anchor=west] at (0.6,-14.4) {Baris: label sebenarnya, kolom: hasil sistem};
+  \draw (0.6,-14.8) rectangle (5.8,-17.0);
+  \draw (0.6,-15.5)--(5.8,-15.5); \draw (0.6,-16.25)--(5.8,-16.25); \draw (2.4,-14.8)--(2.4,-17.0); \draw (4.1,-14.8)--(4.1,-17.0);
+  \node at (3.25,-15.15) {\textit{Hoax}}; \node at (4.95,-15.15) {Bukan};
+  \node at (1.5,-15.88) {\textit{Hoax}}; \node at (1.5,-16.63) {Bukan};
+  \node at (3.25,-15.88) {TP}; \node at (4.95,-15.88) {FN}; \node at (3.25,-16.63) {FP}; \node at (4.95,-16.63) {TN};
+  \foreach \x/\t in {6.4/Akurasi,8.1/Presisi,9.8/\textit{Recall},11.5/F1} {
+    \node[draw,minimum width=1.6cm,minimum height=1.2cm,anchor=north west,align=center] at (\x,-14.8) {\t\\\textbf{-}};
+  }
+  \node[anchor=west] at (6.4,-16.6) {Kinerja per dasar penilaian};
+\end{tikzpicture}

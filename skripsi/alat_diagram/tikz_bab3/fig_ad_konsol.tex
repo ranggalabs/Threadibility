@@ -1,0 +1,36 @@
+\begin{tikzpicture}[uml]
+  % lajur
+  \draw (0,0) rectangle (14,-15.2);
+  \draw (5.0,0)--(5.0,-15.2);
+  \draw (9.6,0)--(9.6,-15.2);
+  \draw (0,-0.8)--(14,-0.8);
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries,align=center] at (2.5,-0.4) {Peneliti dan konsol};
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (7.3,-0.4) {Server};
+  \node[font=\fontsize{9}{10.5}\selectfont\bfseries] at (11.8,-0.4) {Google};
+  % simpul
+  \fill (1.6,-1.4) circle (0.2);
+  \node[act,text width=3.6cm] (p1) at (2.5,-2.7) {Mengisi teks klaim dan menekan tombol analisis};
+  \node[act,text width=3.6cm] (p2) at (2.5,-4.3) {Mengirim klaim ke server};
+  \node[act,text width=3.4cm] (s1) at (7.3,-5.8) {Menyusun kueri dan menelusuri Google};
+  \node[act,text width=3.6cm] (g1) at (11.8,-7.3) {Menampilkan AI Overview dan hasil pencarian};
+  \node[dec,minimum width=3.4cm,minimum height=1.5cm] (d1) at (7.3,-9.0) {Google meminta\\verifikasi?};
+  \node[act,text width=3.4cm] (er) at (2.5,-9.0) {Konsol menampilkan pesan gagal};
+  \node[act,text width=3.4cm] (s2) at (7.3,-10.9) {Menentukan status dan dasar penilaian};
+  \node[act,text width=3.4cm] (s3) at (7.3,-12.3) {Mencatat hasil pada riwayat server};
+  \node[act,text width=3.6cm] (p3) at (2.5,-13.2) {Konsol menampilkan status, alasan, dan rujukan};
+  % akhir
+  \draw (2.5,-10.2) circle (0.2); \fill (2.5,-10.2) circle (0.12);
+  \draw (2.5,-14.5) circle (0.2); \fill (2.5,-14.5) circle (0.12);
+  % alur
+  \draw[->] (1.6,-1.6)--(1.6,-2.2);
+  \draw[->] (p1.south)--(p2.north);
+  \draw[->] (p2.east) -| (s1.north);
+  \draw[->] (s1.east) -| (g1.north);
+  \draw[->] (g1.west) -| (d1.north);
+  \draw[->] (d1.west)--node[ulbl,above] {ya} (er.east);
+  \draw[->] (er.south)--(2.5,-10.0);
+  \draw[->] (d1.south)--node[ulbl,right] {tidak} (s2.north);
+  \draw[->] (s2.south)--(s3.north);
+  \draw[->] (s3.west) -| (p3.north);
+  \draw[->] (p3.south)--(2.5,-14.3);
+\end{tikzpicture}

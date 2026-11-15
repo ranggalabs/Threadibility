@@ -1,0 +1,10 @@
+\begin{tikzpicture}[uml,jbox/.style={draw,align=center,inner sep=3pt,minimum height=0.9cm,text width=3.0cm},ext/.style={draw,dashed,align=center,inner sep=3pt,minimum height=0.9cm,text width=3.0cm}]
+  \node[jbox] (k1) at (1.8,0) {K-01 Uji satu klaim};
+  \node[jbox] (k2) at (7.0,0) {K-02 Riwayat dan dataset};
+  \node[jbox] (k3) at (12.2,0) {K-03 Evaluasi};
+  \node[ext] (csv) at (7.0,-2.6) {Berkas CSV};
+  \draw[->] (k1.east)--node[ulbl,above] {analisis klaim} (k2.west);
+  \draw[->] (k2.east)--node[ulbl,above] {beri label} (k3.west);
+  \draw[->] (k2.south)--node[ulbl,right] {unduh dataset} (csv.north);
+  \draw[->] (k2.north) -- ++(0,0.9) -| node[ulbl,pos=0.25,above] {bersihkan riwayat} (k2.north west);
+\end{tikzpicture}

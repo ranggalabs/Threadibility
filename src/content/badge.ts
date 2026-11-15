@@ -96,6 +96,12 @@ export function injectErrorBadge(container: HTMLElement, errorText = 'Gagal, cob
   }, 3000)
 }
 
+const DASAR_LABEL: Record<string, string> = {
+  ai_overview: 'ringkasan Google AI Overview',
+  pencarian: 'hasil pencarian Google dan berita',
+  ciri_teks: 'ciri teks unggahan (belum ada rujukan pendukung)'
+}
+
 function escapeHtml(s: string): string {
   return s
     .replace(/&/g, '&amp;')
@@ -166,6 +172,7 @@ export function injectBadge(container: HTMLElement, analysis: AnalysisResult) {
         <strong>${isHoax ? 'Terindikasi hoax' : 'Tidak ditemukan indikasi hoax'}</strong>
       </div>
       <p class="tb-tooltip-reason">${escapeHtml(analysis.alasan)}</p>
+      ${analysis.dasar ? `<p class="tb-tooltip-basis">Dasar penilaian: ${escapeHtml(DASAR_LABEL[analysis.dasar] || '')}</p>` : ''}
       ${sourcesHtml}
     </div>
   `

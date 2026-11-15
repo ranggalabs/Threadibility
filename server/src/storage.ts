@@ -61,7 +61,12 @@ export function getAggregateStats() {
     hoax,
     notFlagged: total - hoax,
     avgLatencyMs,
-    confusion: getConfusionMatrix()
+    confusion: getConfusionMatrix(),
+    confusionPerDasar: {
+      ai_overview: getConfusionMatrix('ai_overview'),
+      pencarian: getConfusionMatrix('pencarian'),
+      ciri_teks: getConfusionMatrix('ciri_teks')
+    }
   };
 }
 
@@ -79,8 +84,8 @@ export function setLabel(id: string, label: 'HOAX' | 'BUKAN_HOAX' | null): boole
  * TP: label hoaks, sistem hoaks. FP: label bukan hoaks, sistem hoaks.
  * TN: label bukan hoaks, sistem bukan hoaks. FN: label hoaks, sistem bukan hoaks.
  */
-export function getConfusionMatrix() {
-  const labeled = analysisHistory.filter((r) => r.label);
+export function getConfusionMatrix(dasar?: 'ai_overview' | 'pencarian' | 'ciri_teks') {
+  const labeled = analysisHistory.filter((r) => r.label && (!dasar || r.result.dasar === dasar));
   let tp = 0, fp = 0, tn = 0, fn = 0;
   for (const r of labeled) {
     const pred = r.result.indikasiHoax;
@@ -112,6 +117,7 @@ export function generateCsvExport(): string {
     'Claim',
     'Hasil',
     'LabelSebenarnya',
+    'Dasar',
     'LatencyMs',
     'Alasan'
   ];
@@ -130,6 +136,7 @@ export function generateCsvExport(): string {
     escapeCsv(r.result.claim),
     r.result.indikasiHoax ? 'TERINDIKASI_HOAX' : 'TIDAK_TERINDIKASI',
     r.label ?? '',
+    r.result.dasar ?? '',
     r.latencyMs,
     escapeCsv(r.result.alasan)
   ]);

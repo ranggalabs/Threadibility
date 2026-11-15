@@ -10,6 +10,7 @@ export interface AnalysisResult {
   claim: string;
   indikasiHoax: boolean;
   alasan: string;
+  dasar?: 'ai_overview' | 'pencarian' | 'ciri_teks';
   factCheckSources: FactCheckSource[];
 }
 

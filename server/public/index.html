@@ -85,6 +85,10 @@
               <span class="section-heading">Alasan:</span>
               <p class="reason-body" id="resReason">-</p>
             </div>
+            <div class="result-section">
+              <span class="section-heading">Dasar penilaian:</span>
+              <p class="claim-body" id="resBasis">-</p>
+            </div>
             <div id="resSources" class="sources-container"></div>
           </div>
         </div>
@@ -130,13 +134,14 @@
               <th>Penulis</th>
               <th>Kutipan teks</th>
               <th>Hasil</th>
+              <th>Dasar penilaian</th>
               <th>Label sebenarnya</th>
               <th>Waktu proses</th>
             </tr>
           </thead>
           <tbody id="historyTableBody">
             <tr>
-              <td colspan="6" class="table-empty">Belum ada data pengujian yang tercatat.</td>
+              <td colspan="7" class="table-empty">Belum ada data pengujian yang tercatat.</td>
             </tr>
           </tbody>
         </table>
@@ -167,6 +172,16 @@
         <div class="summary-item"><span class="summary-value" id="cmPre">-</span><span class="summary-label">Presisi</span></div>
         <div class="summary-item"><span class="summary-value" id="cmRec">-</span><span class="summary-label">Recall</span></div>
         <div class="summary-item"><span class="summary-value" id="cmF1">-</span><span class="summary-label">F1-score</span></div>
+      </div>
+      <div class="table-container" style="margin-top: 16px;">
+        <table class="data-table">
+          <thead>
+            <tr><th>Dasar penilaian</th><th>Data berlabel</th><th>Akurasi</th><th>Presisi</th><th>Recall</th><th>F1-score</th></tr>
+          </thead>
+          <tbody id="cmDasarBody">
+            <tr><td colspan="6" class="table-empty">Belum ada data berlabel.</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
   </main>
